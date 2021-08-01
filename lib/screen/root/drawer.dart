@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/screen/root/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import './category_provider.dart';
+import '../thread_list/thread_list_provider.dart';
 
 class _AppDrawerSideBar extends StatelessWidget {
   const _AppDrawerSideBar({Key? key}) : super(key: key);

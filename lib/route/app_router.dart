@@ -1,13 +1,11 @@
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/model/category.dart';
 import 'package:lihkg_flutter/screen/root/dummy_page.dart';
 import 'package:lihkg_flutter/screen/root/main_page.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_page.dart';
 import 'package:lihkg_flutter/screen/thread_list/thread_list_page.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/split_layout.dart';
-import '../main.dart';
 import '../model/thread_category.dart';
 
 abstract class PageState {
@@ -139,19 +137,17 @@ class AppRouterDelegate extends RouterDelegate<PageState>
 
   @override
   Widget build(BuildContext context) {
-    return AppContentProvider(
-      child: AppRouter(
-        delegate: this,
-        child: AdaptiveLayoutNotifier(
-          onSizeChange: (size) {
-            _layoutSize = size;
-            notifyListeners();
-          },
-          child: Navigator(
-            key: navigatorKey,
-            pages: _buildPages(_layoutSize),
-            onPopPage: pop,
-          ),
+    return AppRouter(
+      delegate: this,
+      child: AdaptiveLayoutNotifier(
+        onSizeChange: (size) {
+          _layoutSize = size;
+          notifyListeners();
+        },
+        child: Navigator(
+          key: navigatorKey,
+          pages: _buildPages(_layoutSize),
+          onPopPage: pop,
         ),
       ),
     );

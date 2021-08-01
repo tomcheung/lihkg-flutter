@@ -16,33 +16,31 @@ class LiHKGApp extends StatefulWidget {
 
 class _LiHKGAppState extends State<LiHKGApp> {
   AppRouterDelegate _routerDelegate = AppRouterDelegate();
+  CategoryProvider _categoryProvider = CategoryProvider();
   LihkgRouteInformationParser _routeInformationParser =
       LihkgRouteInformationParser();
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp.router(
-      routeInformationParser: _routeInformationParser,
-      routerDelegate: _routerDelegate,
-      theme: LiHkgAppTheme.light,
-    );
+  void initState() {
+    super.initState();
+    _categoryProvider.getSystemProperty();
   }
-}
 
-class AppContentProvider extends StatelessWidget {
-  final Widget child;
-
-  const AppContentProvider({Key? key, required this.child}) : super(key: key);
+  @override
+  void dispose() {
+    _categoryProvider.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(
-          create: (context) => CategoryProvider()..getSystemProperty(),
-        ),
-      ],
-      child: child,
+    return ChangeNotifierProvider.value(
+      value: _categoryProvider,
+      child: MaterialApp.router(
+        routeInformationParser: _routeInformationParser,
+        routerDelegate: _routerDelegate,
+        theme: LiHkgAppTheme.light,
+      ),
     );
   }
 }
