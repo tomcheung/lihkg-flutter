@@ -1,25 +1,42 @@
-
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/services.dart';
 import 'package:lihkg_flutter/lihkg_webservices.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/model/thread_content.dart';
+import 'package:lihkg_flutter/util/loading_status_mixin.dart';
 
-class ThreadContentProvider extends ChangeNotifier {
-  ThreadCategoryItem? _category;
+class ThreadContentProvider extends ChangeNotifier with LoadingStatusMixin {
+  ThreadCategoryItem? _categoryItem;
+  int _lastPage = 1;
+  bool ended = false;
   List<ThreadContentResponseItemData> _itemData = [];
-  bool _isLoading = false;
 
   List<ThreadContentResponseItemData> get itemData => _itemData;
-  bool get isLoading => _isLoading;
-  ThreadCategoryItem? get category => _category;
+
+  ThreadCategoryItem? get category => _categoryItem;
+
+  Future<void> loadNextPage() async {
+    final threadId = _categoryItem?.threadId;
+    if (threadId != null && !isLoading && !ended) {
+      await fetchRequest(() async {
+        final response = await LihkgWebServices()
+            .getThreadContent(threadId: threadId, page: _lastPage + 1);
+        _itemData.addAll(response.itemData);
+        ended = response.itemData.isEmpty;
+        _lastPage += 1;
+      });
+    }
+  }
 
   Future<void> loadThreadContent(ThreadCategoryItem item) async {
-    _category = item;
-    _isLoading = true;
-    final response = await LihkgWebServices().getThreadContent(threadId: item.threadId);
-    notifyListeners();
-    _itemData = response.itemData;
-    _isLoading = false;
-    notifyListeners();
+    _categoryItem = item;
+    _lastPage = 1;
+    _itemData = [];
+    ended = false;
+    await fetchRequest(() async {
+      final response = await LihkgWebServices()
+          .getThreadContent(threadId: item.threadId, page: 1);
+      _itemData = response.itemData;
+    });
   }
 }

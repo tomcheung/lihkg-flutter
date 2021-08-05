@@ -8,6 +8,17 @@ import 'model/thread_content.dart';
 
 enum PostOrder { ReplyTime, Score }
 
+extension PostOrderExtension on PostOrder {
+  String get apiValue {
+    switch (this) {
+      case PostOrder.Score:
+        return 'score';
+      case PostOrder.ReplyTime:
+        return 'reply_time';
+    }
+  }
+}
+
 class LihkgWebServices {
   static const String serverAPIRoot =
       LihkgWebServices.serverRoot + "/api_v2/";
@@ -44,7 +55,7 @@ class LihkgWebServices {
     PostOrder order = PostOrder.Score,
   }) async {
     final url = Uri.parse(serverAPIRoot +
-        "thread/$threadId/page/$page?order=$order");
+        "thread/$threadId/page/$page?order=${order.apiValue}");
     var response = await http.get(url, headers: _header);
     var jsonResponse = jsonDecode(response.body);
 

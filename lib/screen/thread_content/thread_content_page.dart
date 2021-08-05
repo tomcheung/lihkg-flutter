@@ -43,7 +43,7 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
     super.dispose();
     _threadContentProvider.dispose();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -51,18 +51,22 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
         value: _threadContentProvider,
         builder: (context, child) {
           final provider = context.watch<ThreadContentProvider>();
-          var threadId = provider.category?.threadId;
+          var items = provider.itemData;
 
-          if (provider.isLoading) {
+          if (provider.isLoading && items.isEmpty) {
             return Center(
               child: const CircularProgressIndicator(),
             );
           } else {
             return ListView.builder(
-              itemBuilder: (context, index) =>
-                  ThreadContentItem(data: provider.itemData[index]),
-              itemCount: provider.itemData.length,
-              key: threadId != null ? ObjectKey(threadId) : null,
+              itemBuilder: (context, index) {
+                if (index + 1 >= items.length) {
+                  provider.loadNextPage();
+                }
+                return ThreadContentItem(data: items[index]);
+              },
+              itemCount: items.length,
+              cacheExtent: 100,
             );
           }
         },
