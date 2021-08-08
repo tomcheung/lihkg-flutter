@@ -18,5 +18,4 @@ class DynamicStringSerialiser implements JsonConverter<String?, dynamic> {
   toJson(String? object) {
     return object;
   }
-
 }

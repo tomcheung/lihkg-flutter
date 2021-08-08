@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
+import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
+import 'package:lihkg_flutter/util/extension.dart';
 
 class ThreadListItem extends StatelessWidget {
   final ThreadCategoryItem item;
@@ -8,7 +11,12 @@ class ThreadListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fontStyle = Theme.of(context).textTheme.subtitle1;
+    final theme = Theme.of(context);
+    final subtitleStyle = theme.textTheme.subtitle2;
+    final fontStyle = theme.textTheme.subtitle1;
+    final netLikeCount = item.likeCount - item.dislikeCount;
+    final likeIcon = netLikeCount > 0 ? Icons.thumb_up_alt : Icons.thumb_down;
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 32),
       child: Column(
@@ -23,9 +31,21 @@ class ThreadListItem extends StatelessWidget {
               ),
               const SizedBox(width: 8),
               Text(
-                '2 小時前',
-                style: const TextStyle(color: Colors.grey, fontSize: 10),
+                item.lastReplyTime.dateAgoString(),
+                style: subtitleStyle,
               ),
+              const Spacer(),
+              IconWithText(
+                text: netLikeCount.toString(),
+                iconData: likeIcon,
+                textFirst: true,
+              ),
+              const SizedBox(width: 8),
+              IconWithText(
+                text: item.noOfReply,
+                iconData: Icons.chat_bubble,
+                textFirst: true,
+              )
             ],
           ),
           const SizedBox(height: 8),

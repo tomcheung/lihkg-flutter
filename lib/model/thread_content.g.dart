@@ -25,7 +25,8 @@ ThreadContentResponse _$ThreadContentResponseFromJson(
     maxReplyLikeCount: json['max_reply_like_count'] as String,
     maxReplyDislikeCount: json['max_reply_dislike_count'] as String,
     createTime: json['create_time'] as int,
-    lastReplyTime: json['last_reply_time'] as int,
+    lastReplyTime: const DateTimeStringSerialiser()
+        .fromJson(json['last_reply_time'] as int),
     status: const DynamicStringSerialiser().fromJson(json['status']),
     isAdu: json['is_adu'] as bool,
     lastReplyUserId: json['last_reply_user_id'] as String,
@@ -65,7 +66,8 @@ Map<String, dynamic> _$ThreadContentResponseToJson(
       'max_reply_like_count': instance.maxReplyLikeCount,
       'max_reply_dislike_count': instance.maxReplyDislikeCount,
       'create_time': instance.createTime,
-      'last_reply_time': instance.lastReplyTime,
+      'last_reply_time':
+          const DateTimeStringSerialiser().toJson(instance.lastReplyTime),
       'status': const DynamicStringSerialiser().toJson(instance.status),
       'is_adu': instance.isAdu,
       'last_reply_user_id': instance.lastReplyUserId,
@@ -127,7 +129,8 @@ ThreadContentResponseItemData _$ThreadContentResponseItemDataFromJson(
     noOfQuote: json['no_of_quote'] as String?,
     remark: json['remark'],
     status: const DynamicStringSerialiser().fromJson(json['status']),
-    replyTime: json['reply_time'] as int?,
+    replyTime:
+        const DateTimeStringSerialiser().fromJson(json['reply_time'] as int),
     msgNum: json['msg_num'] as String,
     msg: json['msg'] as String,
     isMinimizedKeywords: json['is_minimized_keywords'] as bool?,
@@ -152,7 +155,7 @@ Map<String, dynamic> _$ThreadContentResponseItemDataToJson(
       'no_of_quote': instance.noOfQuote,
       'remark': instance.remark,
       'status': const DynamicStringSerialiser().toJson(instance.status),
-      'reply_time': instance.replyTime,
+      'reply_time': const DateTimeStringSerialiser().toJson(instance.replyTime),
       'msg_num': instance.msgNum,
       'msg': instance.msg,
       'is_minimized_keywords': instance.isMinimizedKeywords,

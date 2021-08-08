@@ -38,7 +38,8 @@ ThreadCategoryItem _$ThreadCategoryItemFromJson(Map<String, dynamic> json) {
     maxReplyLikeCount: json['max_reply_like_count'] as String,
     maxReplyDislikeCount: json['max_reply_dislike_count'] as String,
     createTime: json['create_time'] as int,
-    lastReplyTime: json['last_reply_time'] as int,
+    lastReplyTime: const DateTimeStringSerialiser()
+        .fromJson(json['last_reply_time'] as int),
     status: json['status'] as String,
     isAdu: json['is_adu'] as bool,
     lastReplyUserId: json['last_reply_user_id'] as String,
@@ -72,7 +73,8 @@ Map<String, dynamic> _$ThreadCategoryItemToJson(ThreadCategoryItem instance) =>
       'max_reply_like_count': instance.maxReplyLikeCount,
       'max_reply_dislike_count': instance.maxReplyDislikeCount,
       'create_time': instance.createTime,
-      'last_reply_time': instance.lastReplyTime,
+      'last_reply_time':
+          const DateTimeStringSerialiser().toJson(instance.lastReplyTime),
       'status': instance.status,
       'is_adu': instance.isAdu,
       'last_reply_user_id': instance.lastReplyUserId,

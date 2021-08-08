@@ -52,7 +52,7 @@ class LihkgWebServices {
   Future<ThreadContentResponse> getThreadContent({
     required String threadId,
     int page = 1,
-    PostOrder order = PostOrder.Score,
+    PostOrder order = PostOrder.ReplyTime,
   }) async {
     final url = Uri.parse(serverAPIRoot +
         "thread/$threadId/page/$page?order=${order.apiValue}");

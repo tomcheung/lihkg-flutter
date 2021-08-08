@@ -9,6 +9,10 @@ class LiHkgAppTheme {
     appBarTheme: AppBarTheme(
       backgroundColor: Colors.white
     ),
+    // textTheme: Typography.material2018().white.merge(TextThe),
+    textTheme: TextTheme(
+      subtitle2: TextStyle(color: Colors.grey.shade400, fontSize: 11, fontWeight: FontWeight.w400),
+    ),
     dividerColor: Colors.grey.shade200,
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(

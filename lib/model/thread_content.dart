@@ -1,6 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lihkg_flutter/model/user.dart';
-import 'package:lihkg_flutter/util/dynamic_string_serialiser.dart';
+import 'package:lihkg_flutter/util/serialiser.dart';
 
 import 'category.dart';
 import 'gender.dart';
@@ -25,7 +25,8 @@ class ThreadContentResponse {
   String maxReplyLikeCount;
   String maxReplyDislikeCount;
   int createTime;
-  int lastReplyTime;
+  @DateTimeStringSerialiser()
+  DateTime lastReplyTime;
   @DynamicStringSerialiser()
   String? status;
   bool isAdu;
@@ -96,7 +97,8 @@ class ThreadContentResponseItemData {
   dynamic remark;
   @DynamicStringSerialiser()
   String? status;
-  int? replyTime;
+  @DateTimeStringSerialiser()
+  DateTime replyTime;
   String msgNum;
   String msg;
   bool? isMinimizedKeywords;
@@ -118,7 +120,7 @@ class ThreadContentResponseItemData {
     this.noOfQuote,
     this.remark,
     this.status,
-    this.replyTime,
+    required this.replyTime,
     required this.msgNum,
     required this.msg,
     this.isMinimizedKeywords,

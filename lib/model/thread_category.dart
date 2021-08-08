@@ -1,5 +1,6 @@
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lihkg_flutter/model/user.dart';
+import 'package:lihkg_flutter/util/serialiser.dart';
 
 import 'category.dart';
 
@@ -38,7 +39,8 @@ class ThreadCategoryItem {
   String maxReplyLikeCount;
   String maxReplyDislikeCount;
   int createTime;
-  int lastReplyTime;
+  @DateTimeStringSerialiser()
+  DateTime lastReplyTime;
   String status;
   bool isAdu;
 
