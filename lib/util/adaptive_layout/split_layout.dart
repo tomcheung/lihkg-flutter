@@ -24,7 +24,7 @@ class SplitLayout extends StatelessWidget {
           color: theme.dividerColor,
         ),
         Expanded(
-          child: right,
+          child: ClipRect(child: right),
         )
       ],
     );

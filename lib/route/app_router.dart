@@ -79,7 +79,6 @@ class LihkgRootPageState extends PageState {
           if (selectedCategoryItem != null)
             MaterialPage(
               child: Scaffold(
-                appBar: AppBar(),
                 body: ThreadContentPage(categoryItem: selectedCategoryItem),
               ),
             ),
@@ -90,11 +89,12 @@ class LihkgRootPageState extends PageState {
 
 class AppRouter extends InheritedWidget {
   final AppRouterDelegate _delegate;
-
+  LayoutSize layoutSize;
   AppRouter({
     Key? key,
     required Widget child,
     required AppRouterDelegate delegate,
+    required this.layoutSize
   })  : _delegate = delegate,
         super(child: child);
 
@@ -139,6 +139,7 @@ class AppRouterDelegate extends RouterDelegate<PageState>
   Widget build(BuildContext context) {
     return AppRouter(
       delegate: this,
+      layoutSize: _layoutSize,
       child: AdaptiveLayoutNotifier(
         onSizeChange: (size) {
           _layoutSize = size;

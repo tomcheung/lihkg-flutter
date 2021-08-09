@@ -7,9 +7,9 @@ class LiHkgAppTheme {
     cardColor: Colors.white,
     iconTheme: IconThemeData(color: Colors.black),
     appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white
+      backgroundColor: Colors.white,
+      titleTextStyle: TextStyle(fontWeight: FontWeight.normal, fontSize: 18, color: Colors.black)
     ),
-    // textTheme: Typography.material2018().white.merge(TextThe),
     textTheme: TextTheme(
       subtitle2: TextStyle(color: Colors.grey.shade400, fontSize: 11, fontWeight: FontWeight.w400),
     ),

@@ -1,10 +1,45 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/route/app_router.dart';
 import 'package:lihkg_flutter/screen/root/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
 import 'thread_list_item.dart';
+
+class LihkgDrawerIconButton extends StatelessWidget {
+  final VoidCallback onPressed;
+
+  LihkgDrawerIconButton(this.onPressed);
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Container(
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Transform(
+              child: const Align(
+                alignment: Alignment.centerLeft,
+                widthFactor: 0.5,
+                child: const Icon(Icons.menu),
+              ),
+              transform: Matrix4.translationValues(-35, 0, 0),
+            ),
+            SvgPicture.asset(
+              'assets/lihkg_logo.svg',
+              height: 24,
+              width: 24,
+            )
+          ],
+        ),
+      ),
+      onPressed: onPressed,
+      tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
+    );
+  }
+}
 
 class ThreadListPage extends StatefulWidget {
   const ThreadListPage({Key? key}) : super(key: key);
@@ -15,6 +50,7 @@ class ThreadListPage extends StatefulWidget {
 
 class _ThreadListPageState extends State<ThreadListPage> {
   ThreadListProvider _threadListProvider = ThreadListProvider();
+
   VoidCallback _handleItemPress(
     BuildContext context,
     ThreadCategoryItem item,
@@ -29,33 +65,53 @@ class _ThreadListPageState extends State<ThreadListPage> {
     super.dispose();
   }
 
+  void _handleDrawerButton() {
+    final scaffold = Scaffold.of(context);
+    scaffold.openDrawer();
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = context.watch<CategoryProvider>();
     final backgroundColor = Theme.of(context).cardColor;
 
+    _buildSeparator(BuildContext context, int index) {
+      return const Divider();
+    }
+
     _threadListProvider.getThreadList(categoryProvider.selectedCategory);
-    return Container(
-      color: backgroundColor,
-      child: ChangeNotifierProvider.value(
-        value: _threadListProvider,
-        builder: (context, child) {
-          final categoryItems = context.watch<ThreadListProvider>().categoryItems;
-          return ListView.separated(
-            key: ObjectKey(categoryProvider.selectedCategory?.catId),
-            itemBuilder: (context, index) {
-              if (index == categoryItems.length - 1) {
-                _threadListProvider.loadMore();
-              }
-              return TextButton(
-                child: ThreadListItem(item: categoryItems[index], key: ObjectKey(categoryItems[index]),),
-                onPressed: _handleItemPress(context, categoryItems[index]),
-              );
-            },
-            separatorBuilder: (context, index) => const Divider(),
-            itemCount: categoryItems.length,
-          );
-        },
+    return Scaffold(
+      appBar: AppBar(
+        backwardsCompatibility: false,
+        leading: LihkgDrawerIconButton(_handleDrawerButton),
+        title: Text(categoryProvider.selectedCategory?.name ?? ''),
+      ),
+      body: Container(
+        color: backgroundColor,
+        child: ChangeNotifierProvider.value(
+          value: _threadListProvider,
+          builder: (context, child) {
+            final categoryItems =
+                context.watch<ThreadListProvider>().categoryItems;
+            return ListView.separated(
+              key: ObjectKey(categoryProvider.selectedCategory?.catId),
+              itemBuilder: (context, index) {
+                if (index == categoryItems.length - 1) {
+                  _threadListProvider.loadMore();
+                }
+                return TextButton(
+                  child: ThreadListItem(
+                    item: categoryItems[index],
+                    key: ObjectKey(categoryItems[index]),
+                  ),
+                  onPressed: _handleItemPress(context, categoryItems[index]),
+                );
+              },
+              separatorBuilder: _buildSeparator,
+              itemCount: categoryItems.length,
+            );
+          },
+        ),
       ),
     );
   }
