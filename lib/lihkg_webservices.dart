@@ -24,11 +24,11 @@ class LihkgWebServices {
       LihkgWebServices.serverRoot + "/api_v2/";
   static const String serverRoot = "https://lihkg.com";
   static const Map<String, String> _header = {
-    'User-Agent': 'LIHKG/16.0.4 Android/9.0.0 Google/Pixel XL',
-    'X-LI-DEVICE': 'Google/Pixel XL',
-    'X-LI-DEVICE-TYPE': 'android',
-    'referer': 'https://lihkg.com/category/5',
-    'orginal': serverRoot
+    'User-Agent': 'LIHKG/3.10 iOS/14.5 iPhone/iPhone13,4',
+    'X-LI-DEVICE': '38735b3df9084f658a4fe7d8ab70bd1567c41035',
+    'Accept': '*/*',
+    'X-LI-DEVICE-TYPE': 'iPhone13,4',
+    'Host': 'lihkg.com'
   };
 
   Future<SystemProperty> getSystemProperty() async {
@@ -40,7 +40,7 @@ class LihkgWebServices {
   }
 
   Future<ThreadCategory> getThreadCategory(
-      {required String catId, int page = 1, int count = 60}) async {
+      {required String catId, int page = 1, int count = 30}) async {
     final url = Uri.parse(serverAPIRoot +
         "thread/category?cat_id=$catId&page=$page&count=$count&type=now");
     var response = await http.get(url, headers: _header);
