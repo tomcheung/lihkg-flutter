@@ -18,7 +18,7 @@ class IconWithText extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final subtitleStyle = theme.textTheme.subtitle2;
-    final color = this.color ?? subtitleStyle?.color;
+    final color = this.color ?? theme.colorScheme.onSurface.withOpacity(0.3);
 
     var items = [
       Icon(iconData, color: color, size: 11,),

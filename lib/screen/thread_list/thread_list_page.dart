@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:lihkg_flutter/route/app_router.dart';
+import 'package:lihkg_flutter/core/app_router.dart';
 import 'package:lihkg_flutter/screen/root/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
@@ -14,7 +14,9 @@ class LihkgDrawerIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return IconButton(
+      color: theme.primaryIconTheme.color,
       icon: Container(
         child: Stack(
           alignment: Alignment.center,
@@ -23,7 +25,7 @@ class LihkgDrawerIconButton extends StatelessWidget {
               child: const Align(
                 alignment: Alignment.centerLeft,
                 widthFactor: 0.5,
-                child: const Icon(Icons.menu),
+                child: Icon(Icons.menu),
               ),
               transform: Matrix4.translationValues(-35, 0, 0),
             ),

@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/route/app_router.dart';
+import 'package:lihkg_flutter/core/app_router.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:provider/provider.dart';
 import 'thread_content_item.dart';

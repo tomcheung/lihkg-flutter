@@ -47,7 +47,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: theme.backgroundColor,
+            color: theme.colorScheme.onSurface.withOpacity(0.1),
             borderRadius: BorderRadius.circular(4),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),

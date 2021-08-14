@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'app_theme.dart';
-import 'route/app_router.dart';
+import 'core/app_theme.dart';
+import 'core/app_router.dart';
 import 'screen/root/category_provider.dart';
 
 void main() {
@@ -15,6 +15,7 @@ class LiHKGApp extends StatefulWidget {
 }
 
 class _LiHKGAppState extends State<LiHKGApp> {
+  AppThemeData _appThemeData = AppThemeData.light;
   AppRouterDelegate _routerDelegate = AppRouterDelegate();
   CategoryProvider _categoryProvider = CategoryProvider();
   LihkgRouteInformationParser _routeInformationParser =
@@ -32,14 +33,24 @@ class _LiHKGAppState extends State<LiHKGApp> {
     super.dispose();
   }
 
+  _updateTheme(AppThemeData newThemeData) {
+    setState(() {
+      _appThemeData = newThemeData;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider.value(
       value: _categoryProvider,
-      child: MaterialApp.router(
-        routeInformationParser: _routeInformationParser,
-        routerDelegate: _routerDelegate,
-        theme: LiHkgAppTheme.light,
+      child: AppTheme(
+        theme: _appThemeData,
+        onThemeUpdated: _updateTheme,
+        child: MaterialApp.router(
+          routeInformationParser: _routeInformationParser,
+          routerDelegate: _routerDelegate,
+          theme: _appThemeData.materialThemeData,
+        ),
       ),
     );
   }
