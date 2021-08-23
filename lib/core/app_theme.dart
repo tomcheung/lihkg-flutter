@@ -20,11 +20,14 @@ class AppThemeData {
         iconTheme: IconThemeData(color: Colors.black54),
         primaryIconTheme: IconThemeData(color: Colors.black),
         appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white,
-            titleTextStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 18,
-                color: Colors.black)),
+          foregroundColor: Colors.black,
+          backgroundColor: Colors.white,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 18,
+            color: Colors.black,
+          ),
+        ),
         textTheme: TextTheme(
           subtitle2: TextStyle(
               color: Colors.grey.shade400,
@@ -53,11 +56,13 @@ class AppThemeData {
         iconTheme: IconThemeData(color: Colors.white54),
         primaryIconTheme: IconThemeData(color: Colors.white70),
         appBarTheme: AppBarTheme(
-            backgroundColor: Colors.white10,
-            titleTextStyle: TextStyle(
-                fontWeight: FontWeight.normal,
-                fontSize: 18,
-                color: Colors.amber)),
+          backgroundColor: Colors.white10,
+          titleTextStyle: TextStyle(
+            fontWeight: FontWeight.normal,
+            fontSize: 18,
+            color: Colors.white,
+          ),
+        ),
         dividerColor: Color(0x80898787),
         textTheme: TextTheme(
             subtitle2: TextStyle(
