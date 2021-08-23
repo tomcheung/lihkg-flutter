@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_html/style.dart';
+import 'package:lihkg_flutter/screen/thread_content/thread_html_content.dart';
 import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
-import 'package:lihkg_flutter/util/content_renderer.dart';
 import '../../model/thread_content.dart';
 import '../../util/extensions/date_util.dart';
 
@@ -72,12 +72,37 @@ class _ThreadContentItemFooter extends StatelessWidget {
   }
 }
 
-class ThreadContentItem extends StatelessWidget {
-  static final Map<ImageSourceMatcher, ImageRender> imageRenderers = {
-    lihkgEmojiUriMatcher(): lihkgEmojiImageRender(),
-    networkSourceMatcher(): networkImageRender(),
-  };
+class ThreadQuoteContent extends StatelessWidget {
+  final Quote quote;
 
+  ThreadQuoteContent({required this.quote});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final textColor =
+        theme.textTheme.bodyText1?.color?.withOpacity(0.5) ?? Colors.black45;
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          border: Border(
+            left: BorderSide(color: theme.dividerColor, width: 3),
+          ),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8, top: 4, bottom: 4),
+          child: ThreadHtmlContent(
+            quote.msg,
+            defaultTextStyle: Style(color: textColor),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class ThreadContentItem extends StatelessWidget {
   final ThreadContentResponseItemData data;
   final int index;
 
@@ -87,20 +112,17 @@ class ThreadContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final quote = data.quote;
     return Container(
       color: theme.cardColor,
       margin: const EdgeInsets.only(bottom: 12),
       padding: const EdgeInsets.all(12),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _ThreadContentItemHeader(data, index: index),
-          Html(
-            data: data.msg,
-            onImageError: (e, _) {
-              print('Fail to load image $e');
-            },
-            customImageRenders: imageRenderers,
-          ),
+          if (quote != null) ThreadQuoteContent(quote: quote),
+          ThreadHtmlContent(data.msg),
           const SizedBox(height: 8),
           _ThreadContentItemFooter(data)
         ],
