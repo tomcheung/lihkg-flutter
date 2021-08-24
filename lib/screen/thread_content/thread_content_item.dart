@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
+import 'package:lihkg_flutter/dialog/quote/quote_dialog.dart';
 import 'package:lihkg_flutter/model/post.dart';
+import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_html_content.dart';
 import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
 import '../../util/extensions/date_util.dart';
 
 class _ThreadContentItemHeader extends StatelessWidget {
-  final Post data;
+  final ThreadContentItemData data;
   final int index;
 
   const _ThreadContentItemHeader(
@@ -36,21 +38,34 @@ class _ThreadContentItemHeader extends StatelessWidget {
 }
 
 class _ThreadContentItemFooter extends StatelessWidget {
-  final Post data;
+  final ThreadContentItemData data;
 
   _ThreadContentItemFooter(this.data);
+
+  Future<void> _showQuoteDialog(
+      BuildContext context, ThreadContentItemData post) async {
+    if (post is Post) {
+      await showDialog(
+        context: context,
+        builder: (BuildContext context) => QuoteDialog(post: post as Post),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final backgroundColor = theme.colorScheme.onSurface.withOpacity(0.08);
+
     return Row(
       children: [
         Container(
+          height: 34,
           decoration: BoxDecoration(
-            color: theme.colorScheme.onSurface.withOpacity(0.1),
+            color: backgroundColor,
             borderRadius: BorderRadius.circular(4),
           ),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -67,13 +82,27 @@ class _ThreadContentItemFooter extends StatelessWidget {
             ],
           ),
         ),
+        if (data.noOfQuote > 0)
+          Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: TextButton(
+              style: TextButton.styleFrom(backgroundColor: backgroundColor, padding: EdgeInsets.symmetric(horizontal: 8), minimumSize: Size(45, 34)),
+              onPressed: () {
+                _showQuoteDialog(context, data);
+              },
+              child: IconWithText(
+                text: data.noOfQuote.toString(),
+                iconData: Icons.chat_bubble_rounded,
+              ),
+            ),
+          )
       ],
     );
   }
 }
 
 class ThreadQuoteContent extends StatelessWidget {
-  final Quote quote;
+  final PostQuote quote;
 
   ThreadQuoteContent({required this.quote});
 
@@ -103,7 +132,7 @@ class ThreadQuoteContent extends StatelessWidget {
 }
 
 class ThreadContentItem extends StatelessWidget {
-  final Post data;
+  final ThreadContentItemData data;
   final int index;
 
   const ThreadContentItem({Key? key, required this.data, required this.index})

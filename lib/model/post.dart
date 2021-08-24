@@ -1,15 +1,17 @@
 
 import 'package:json_annotation/json_annotation.dart';
 import 'package:lihkg_flutter/model/user.dart';
+import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/util/serialiser/datetime_serialiser.dart';
 import 'package:lihkg_flutter/util/serialiser/dynamic_string_serialiser.dart';
+import 'package:lihkg_flutter/util/serialiser/string_to_int_serialiser.dart';
 
 import 'gender.dart';
 
 part 'post.g.dart';
 
 @JsonSerializable()
-class Post {
+class Post implements ThreadContentItemData {
   String postId;
   String? quotePostId;
   String threadId;
@@ -18,7 +20,8 @@ class Post {
   String likeCount;
   String dislikeCount;
   String? voteScore;
-  String? noOfQuote;
+  @StringToIntSerialiser()
+  int noOfQuote;
   // dynamic remark;
   @DynamicStringSerialiser()
   String? status;
@@ -31,7 +34,7 @@ class Post {
   User user;
   bool? displayVote;
   bool? lowQuality;
-  Quote? quote;
+  PostQuote? quote;
 
   Post({
     required this.postId,
@@ -42,7 +45,7 @@ class Post {
     required this.likeCount,
     required this.dislikeCount,
     this.voteScore,
-    this.noOfQuote,
+    required this.noOfQuote,
     // this.remark,
     this.status,
     required this.replyTime,
@@ -61,7 +64,7 @@ class Post {
 }
 
 @JsonSerializable()
-class Quote {
+class PostQuote {
   String postId;
   // QuotePostId quotePostId;
   String threadId;
@@ -83,7 +86,7 @@ class Quote {
   bool displayVote;
   bool lowQuality;
 
-  Quote({
+  PostQuote({
     required this.postId,
     // this.quotePostId,
     required this.threadId,
@@ -105,6 +108,6 @@ class Quote {
     required this.lowQuality,
   });
 
-  factory Quote.fromJson(Map<String, dynamic> json) =>
-      _$QuoteFromJson(json);
+  factory PostQuote.fromJson(Map<String, dynamic> json) =>
+      _$PostQuoteFromJson(json);
 }

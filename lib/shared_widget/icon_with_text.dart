@@ -21,8 +21,8 @@ class IconWithText extends StatelessWidget {
     final color = this.color ?? theme.colorScheme.onSurface.withOpacity(0.3);
 
     var items = [
-      Icon(iconData, color: color, size: 11,),
-      const SizedBox(width: 2),
+      Icon(iconData, color: color, size: 12),
+      const SizedBox(width: 4),
       Text(text, style: subtitleStyle),
     ];
 

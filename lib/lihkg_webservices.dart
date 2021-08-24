@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
+import 'model/quote.dart';
 import 'model/system_property.dart';
 import 'model/thread_content.dart';
 
@@ -86,5 +87,14 @@ class LihkgWebServices {
     var response = await _dio.get("$serverAPIRoot/thread/$threadId/page/$page",
         queryParameters: {'order': order.apiValue});
     return ThreadContentResponse.fromJson(response.data['response']);
+  }
+
+  Future<QuoteResponse> getQuote({
+    required String threadId,
+    required String postId,
+    int page = 1,
+  }) async {
+    var response = await _dio.get('$serverAPIRoot/thread/$threadId/$postId/quotes/page/$page');
+    return QuoteResponse.fromJson(response.data['response']);
   }
 }
