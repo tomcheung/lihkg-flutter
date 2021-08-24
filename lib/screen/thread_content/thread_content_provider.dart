@@ -1,17 +1,16 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/services.dart';
 import 'package:lihkg_flutter/lihkg_webservices.dart';
+import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:lihkg_flutter/model/thread_content.dart';
 import 'package:lihkg_flutter/util/loading_status_mixin.dart';
 
 class ThreadContentProvider extends ChangeNotifier with LoadingStatusMixin {
   ThreadCategoryItem? _categoryItem;
   int _lastPage = 1;
   bool ended = false;
-  List<ThreadContentResponseItemData> _itemData = [];
+  List<Post> _itemData = [];
 
-  List<ThreadContentResponseItemData> get itemData => _itemData;
+  List<Post> get itemData => _itemData;
 
   ThreadCategoryItem? get category => _categoryItem;
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
+import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_html_content.dart';
 import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
-import '../../model/thread_content.dart';
 import '../../util/extensions/date_util.dart';
 
 class _ThreadContentItemHeader extends StatelessWidget {
-  final ThreadContentResponseItemData data;
+  final Post data;
   final int index;
 
   const _ThreadContentItemHeader(
@@ -36,7 +36,7 @@ class _ThreadContentItemHeader extends StatelessWidget {
 }
 
 class _ThreadContentItemFooter extends StatelessWidget {
-  final ThreadContentResponseItemData data;
+  final Post data;
 
   _ThreadContentItemFooter(this.data);
 
@@ -103,7 +103,7 @@ class ThreadQuoteContent extends StatelessWidget {
 }
 
 class ThreadContentItem extends StatelessWidget {
-  final ThreadContentResponseItemData data;
+  final Post data;
   final int index;
 
   const ThreadContentItem({Key? key, required this.data, required this.index})
