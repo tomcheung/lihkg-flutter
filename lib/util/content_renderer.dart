@@ -12,5 +12,5 @@ ImageRender lihkgEmojiImageRender() => (context, attributes, element) {
         return null;
       }
       final fullPath = LihkgWebServices.serverRoot + src;
-      return Image.network(fullPath, width: 24, filterQuality: FilterQuality.none);
+      return RepaintBoundary(child: SizedBox(width: 32, height: 24 ,child: Image.network(fullPath, filterQuality: FilterQuality.none)));
     };
