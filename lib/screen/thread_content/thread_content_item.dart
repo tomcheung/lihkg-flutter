@@ -55,16 +55,18 @@ class _ThreadContentItemFooter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final backgroundColor = theme.colorScheme.onSurface.withOpacity(0.08);
+    final backgroundColor = theme.colorScheme.onSurface.withOpacity(0.05);
+    final decoration = BoxDecoration(
+      color: backgroundColor,
+      border: Border.all(color: backgroundColor.withOpacity(0.1)),
+      borderRadius: BorderRadius.circular(4),
+    );
 
     return Row(
       children: [
         Container(
           height: 34,
-          decoration: BoxDecoration(
-            color: backgroundColor,
-            borderRadius: BorderRadius.circular(4),
-          ),
+          decoration: decoration,
           padding: const EdgeInsets.symmetric(horizontal: 12),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -83,10 +85,14 @@ class _ThreadContentItemFooter extends StatelessWidget {
           ),
         ),
         if (data.noOfQuote > 0)
-          Padding(
-            padding: const EdgeInsets.only(left: 8),
+          Container(
+            decoration: decoration,
+            height: 34,
+            margin: const EdgeInsets.only(left: 8),
             child: TextButton(
-              style: TextButton.styleFrom(backgroundColor: backgroundColor, padding: EdgeInsets.symmetric(horizontal: 8), minimumSize: Size(45, 34)),
+              style: TextButton.styleFrom(
+                  padding: EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: Size(50, 34)),
               onPressed: () {
                 _showQuoteDialog(context, data);
               },
