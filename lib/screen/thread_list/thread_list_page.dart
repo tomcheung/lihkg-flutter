@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:lihkg_flutter/core/app_router.dart';
+import 'package:lihkg_flutter/core/route/app_router.dart';
 import 'package:lihkg_flutter/screen/root/category_provider.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';

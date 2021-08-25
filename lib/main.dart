@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'core/app_theme.dart';
-import 'core/app_router.dart';
+import 'core/route/app_router.dart';
 import 'screen/root/category_provider.dart';
 
 void main() {
