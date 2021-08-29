@@ -67,6 +67,16 @@ class _ThreadListPageState extends State<ThreadListPage> {
     super.dispose();
   }
 
+  @override
+  void initState() {
+    super.initState();
+    CategoryProvider categoryProvider = context.read();
+    if (categoryProvider.categories.isNotEmpty) {
+      final firstCategory = categoryProvider.categories.first;
+      categoryProvider.selectedCategory = firstCategory;
+    }
+  }
+
   void _handleDrawerButton() {
     final scaffold = Scaffold.of(context);
     scaffold.openDrawer();

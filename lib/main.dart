@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/screen/root/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import 'core/app_theme.dart';
@@ -46,10 +47,19 @@ class _LiHKGAppState extends State<LiHKGApp> {
       child: AppTheme(
         theme: _appThemeData,
         onThemeUpdated: _updateTheme,
-        child: MaterialApp.router(
-          routeInformationParser: _routeInformationParser,
-          routerDelegate: _routerDelegate,
-          theme: _appThemeData.materialThemeData,
+        child: Consumer<CategoryProvider>(
+          builder: (context, categoryProvider, child) {
+            if (categoryProvider.categories.isEmpty) {
+              return SplashScreen();
+            } else {
+              return child ?? Container();
+            }
+          },
+          child: MaterialApp.router(
+            routeInformationParser: _routeInformationParser,
+            routerDelegate: _routerDelegate,
+            theme: _appThemeData.materialThemeData,
+          ),
         ),
       ),
     );
