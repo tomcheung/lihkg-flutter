@@ -25,27 +25,33 @@ class ThreadListItem extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                item.userNickname,
-                style: const TextStyle(color: Colors.blueAccent, fontSize: 13),
+              Expanded(
+                child: Text(
+                  item.userNickname,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    color: Colors.blueAccent,
+                    fontSize: 13,
+                  ),
+                ),
               ),
-              const SizedBox(width: 8),
-              Text(
-                item.lastReplyTime.dateAgoString(),
-                style: subtitleStyle,
-              ),
-              const Spacer(),
+              const SizedBox(width: 12),
               IconWithText(
                 text: netLikeCount.toString(),
                 iconData: likeIcon,
                 textFirst: true,
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: 4),
               IconWithText(
                 text: item.noOfReply,
                 iconData: Icons.chat_bubble,
                 textFirst: true,
-              )
+              ),
+              const SizedBox(width: 12),
+              Text(
+                item.lastReplyTime.dateAgoString(),
+                style: subtitleStyle,
+              ),
             ],
           ),
           const SizedBox(height: 8),
