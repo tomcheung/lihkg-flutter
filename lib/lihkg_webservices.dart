@@ -1,11 +1,10 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' hide Category;
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
+import 'model/category.dart';
 import 'model/quote.dart';
 import 'model/system_property.dart';
 import 'model/thread_content.dart';
@@ -66,11 +65,10 @@ class LihkgWebServices {
     return SystemProperty.fromJson(response.data['response']);
   }
 
-  Future<ThreadCategory> getThreadCategory(
-      {required String catId, int page = 1, int count = 30}) async {
-    var response = await _dio.get("$serverAPIRoot/thread/category",
+  Future<ThreadCategory> getThreadList(Category category, {int page = 1, int count = 30}) async {
+    var response = await _dio.get(category.url.toString(),
         queryParameters: {
-          'cat_id': catId,
+          'cat_id': category.catId,
           'page': page,
           'count': count,
           'type': 'now'

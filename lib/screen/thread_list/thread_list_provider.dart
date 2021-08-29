@@ -23,7 +23,7 @@ class ThreadListProvider extends ChangeNotifier with LoadingStatusMixin {
       notifyListeners();
     } else if (category.catId != _currentCategory?.catId) {
       fetchRequest(() async {
-        final response = await LihkgWebServices().getThreadCategory(catId: category.catId, page: 1);
+        final response = await LihkgWebServices().getThreadList(category, page: 1);
         _lastPage = 1;
         _categoryItems = response.items;
         _currentCategory = category;
@@ -33,14 +33,14 @@ class ThreadListProvider extends ChangeNotifier with LoadingStatusMixin {
   }
 
   loadMore() async {
-    final catId = _currentCategory?.catId;
-    if (catId == null) {
+    final category = _currentCategory;
+    if (category == null) {
       return;
     }
 
     fetchRequest(() async {
       final nextPage = _lastPage + 1;
-      final response = await LihkgWebServices().getThreadCategory(catId: catId, page: nextPage);
+      final response = await LihkgWebServices().getThreadList(category, page: nextPage);
       _lastPage = nextPage;
       _categoryItems.addAll(response.items);
       notifyListeners();
