@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart' hide Category;
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:cookie_jar/cookie_jar.dart';
 
-import 'model/category.dart';
-import 'model/quote.dart';
-import 'model/system_property.dart';
-import 'model/thread_content.dart';
+import '../model/category.dart';
+import '../model/quote.dart';
+import '../model/system_property.dart';
+import '../model/thread_content.dart';
 
 enum PostOrder { ReplyTime, Score }
 
@@ -34,30 +34,49 @@ class LihkgHeaderInterceptor extends Interceptor {
   }
 }
 
+class LihkgWebServicesConfig {
+  final String serverRoot;
+
+  const LihkgWebServicesConfig({required this.serverRoot});
+
+  static const defaultConfig =
+      LihkgWebServicesConfig(serverRoot: 'https://lihkg.com');
+  static const localHost =
+      LihkgWebServicesConfig(serverRoot: 'http://localhost:8080');
+}
+
 class LihkgWebServices {
-  static const String serverAPIRoot = LihkgWebServices.serverRoot + "/api_v2";
-  static const String serverRoot = "https://lihkg.com";
-  static const Map<String, String> _header = {
-    'User-Agent': 'LIHKG/3.10 iOS/14.5 iPhone/iPhone13,4',
-    'X-LI-DEVICE': '38735b3df9084f658a4fe7d8ab70bd1567c41035',
-    'Accept': '*/*',
-    'X-LI-DEVICE-TYPE': 'iPhone13,4',
-    'Host': 'lihkg.com'
-  };
+  final LihkgWebServicesConfig config;
+  final String serverAPIRoot;
 
-  static late Dio _dio = _getDio();
+  late final Dio _dio;
 
-  static Dio _getDio() {
+  LihkgWebServices(this.config)
+      : this.serverAPIRoot = config.serverRoot + '/api_v2' {
+    final header = {
+      'User-Agent': 'LIHKG/3.10 iOS/14.5 iPhone/iPhone13,4',
+      'X-LI-DEVICE': '38735b3df9084f658a4fe7d8ab70bd1567c41035',
+      'Accept': '*/*',
+      'X-LI-DEVICE-TYPE': 'iPhone13,4',
+      'Host': 'lihkg.com'
+    };
+
+    if (kIsWeb) {
+      header.remove('User-Agent');
+      header.remove('Host');
+    }
+
     var dio = Dio();
     var cookieJar = CookieJar();
-    dio.interceptors.add(LihkgHeaderInterceptor(_header));
+    dio.interceptors.add(LihkgHeaderInterceptor(header));
     dio.interceptors.add(CookieManager(cookieJar));
 
     if (kDebugMode) {
       dio.interceptors
           .add(LogInterceptor(requestBody: true, responseBody: false));
     }
-    return dio;
+
+    _dio = dio;
   }
 
   Future<SystemProperty> getSystemProperty() async {
@@ -65,14 +84,17 @@ class LihkgWebServices {
     return SystemProperty.fromJson(response.data['response']);
   }
 
-  Future<ThreadCategory> getThreadList(Category category, {int page = 1, int count = 30}) async {
-    var response = await _dio.get(category.url.toString(),
-        queryParameters: {
-          'cat_id': category.catId,
-          'page': page,
-          'count': count,
-          'type': 'now'
-        });
+  Future<ThreadCategory> getThreadList(Category category,
+      {int page = 1, int count = 30}) async {
+    var uri = Uri.parse(config.serverRoot);
+    uri = uri.replace(path: category.url?.path, queryParameters: {
+      'cat_id': category.catId,
+      'page': page.toString(),
+      'count': count.toString(),
+      'type': 'now'
+    });
+
+    final response = await _dio.getUri(uri);
 
     return ThreadCategory.fromJson(response.data['response']);
   }
@@ -82,8 +104,10 @@ class LihkgWebServices {
     int page = 1,
     PostOrder order = PostOrder.ReplyTime,
   }) async {
-    var response = await _dio.get("$serverAPIRoot/thread/$threadId/page/$page",
-        queryParameters: {'order': order.apiValue});
+    final response = await _dio.get(
+      '$serverAPIRoot/thread/$threadId/page/$page',
+      queryParameters: {'order': order.apiValue},
+    );
     return ThreadContentResponse.fromJson(response.data['response']);
   }
 
@@ -92,7 +116,8 @@ class LihkgWebServices {
     required String postId,
     int page = 1,
   }) async {
-    var response = await _dio.get('$serverAPIRoot/thread/$threadId/$postId/quotes/page/$page');
+    var response = await _dio
+        .get('$serverAPIRoot/thread/$threadId/$postId/quotes/page/$page');
     return QuoteResponse.fromJson(response.data['response']);
   }
 }

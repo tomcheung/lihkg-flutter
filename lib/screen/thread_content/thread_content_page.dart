@@ -18,11 +18,12 @@ class ThreadContentPage extends StatefulWidget {
 }
 
 class _ThreadContentPageState extends State<ThreadContentPage> {
-  final _threadContentProvider = ThreadContentProvider();
+  late ThreadContentProvider _threadContentProvider;
 
   @override
   void initState() {
     super.initState();
+    _threadContentProvider = ThreadContentProvider(context);
     _loadContent();
   }
 

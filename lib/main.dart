@@ -1,4 +1,7 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/core/app_provider.dart';
+import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/screen/root/splash_page.dart';
 import 'package:provider/provider.dart';
 
@@ -18,21 +21,8 @@ class LiHKGApp extends StatefulWidget {
 class _LiHKGAppState extends State<LiHKGApp> {
   AppThemeData _appThemeData = AppThemeData.light;
   AppRouterDelegate _routerDelegate = AppRouterDelegate();
-  CategoryProvider _categoryProvider = CategoryProvider();
   LihkgRouteInformationParser _routeInformationParser =
       LihkgRouteInformationParser();
-
-  @override
-  void initState() {
-    super.initState();
-    _categoryProvider.getSystemProperty();
-  }
-
-  @override
-  void dispose() {
-    _categoryProvider.dispose();
-    super.dispose();
-  }
 
   _updateTheme(AppThemeData newThemeData) {
     setState(() {
@@ -42,23 +32,36 @@ class _LiHKGAppState extends State<LiHKGApp> {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _categoryProvider,
-      child: AppTheme(
-        theme: _appThemeData,
-        onThemeUpdated: _updateTheme,
-        child: Consumer<CategoryProvider>(
-          builder: (context, categoryProvider, child) {
-            if (categoryProvider.categories.isEmpty) {
-              return SplashScreen();
-            } else {
-              return child ?? Container();
-            }
-          },
-          child: MaterialApp.router(
-            routeInformationParser: _routeInformationParser,
-            routerDelegate: _routerDelegate,
-            theme: _appThemeData.materialThemeData,
+    return Provider(
+      create: (context) {
+        if (kIsWeb) {
+          return AppProvider(
+              webServicesConfig: LihkgWebServicesConfig.localHost);
+        } else {
+          return AppProvider(
+              webServicesConfig: LihkgWebServicesConfig.defaultConfig);
+        }
+      },
+      child: ChangeNotifierProvider(
+        create: (context) {
+          return CategoryProvider(context)..getSystemProperty();
+        },
+        child: AppTheme(
+          theme: _appThemeData,
+          onThemeUpdated: _updateTheme,
+          child: Consumer<CategoryProvider>(
+            builder: (context, categoryProvider, child) {
+              if (categoryProvider.categories.isEmpty) {
+                return SplashScreen();
+              } else {
+                return child ?? Container();
+              }
+            },
+            child: MaterialApp.router(
+              routeInformationParser: _routeInformationParser,
+              routerDelegate: _routerDelegate,
+              theme: _appThemeData.materialThemeData,
+            ),
           ),
         ),
       ),

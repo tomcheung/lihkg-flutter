@@ -21,7 +21,7 @@ class _QuoteDialogState extends State<QuoteDialog> {
   @override
   void initState() {
     super.initState();
-    _provider = QuoteProvider();
+    _provider = QuoteProvider(context);
     _provider.loadQuote(widget.post);
   }
 

@@ -51,7 +51,7 @@ class ThreadListPage extends StatefulWidget {
 }
 
 class _ThreadListPageState extends State<ThreadListPage> {
-  ThreadListProvider _threadListProvider = ThreadListProvider();
+  late ThreadListProvider _threadListProvider;
 
   VoidCallback _handleItemPress(
     BuildContext context,
@@ -70,6 +70,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
   @override
   void initState() {
     super.initState();
+    _threadListProvider = ThreadListProvider(context);
     CategoryProvider categoryProvider = context.read();
     if (categoryProvider.categories.isNotEmpty) {
       final firstCategory = categoryProvider.categories.first;

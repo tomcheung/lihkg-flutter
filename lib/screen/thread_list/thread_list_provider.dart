@@ -1,15 +1,17 @@
-import 'package:flutter/cupertino.dart';
-import 'package:lihkg_flutter/lihkg_webservices.dart';
+import 'package:flutter/widgets.dart';
+import 'package:lihkg_flutter/core/api_provider.dart';
 import 'package:lihkg_flutter/model/category.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/util/loading_status_mixin.dart';
 
-class ThreadListProvider extends ChangeNotifier with LoadingStatusMixin {
+class ThreadListProvider extends ApiProvider with LoadingStatusMixin {
   Category? _currentCategory;
   int _lastPage = 0;
 
   List<ThreadCategoryItem> _categoryItems = [];
   List<ThreadCategoryItem> get categoryItems => _categoryItems;
+
+  ThreadListProvider(BuildContext context) : super(context);
 
   _reset() {
     _currentCategory = null;
@@ -23,7 +25,7 @@ class ThreadListProvider extends ChangeNotifier with LoadingStatusMixin {
       notifyListeners();
     } else if (category.catId != _currentCategory?.catId) {
       fetchRequest(() async {
-        final response = await LihkgWebServices().getThreadList(category, page: 1);
+        final response = await webServices.getThreadList(category, page: 1);
         _lastPage = 1;
         _categoryItems = response.items;
         _currentCategory = category;
@@ -40,7 +42,7 @@ class ThreadListProvider extends ChangeNotifier with LoadingStatusMixin {
 
     fetchRequest(() async {
       final nextPage = _lastPage + 1;
-      final response = await LihkgWebServices().getThreadList(category, page: nextPage);
+      final response = await webServices.getThreadList(category, page: nextPage);
       _lastPage = nextPage;
       _categoryItems.addAll(response.items);
       notifyListeners();

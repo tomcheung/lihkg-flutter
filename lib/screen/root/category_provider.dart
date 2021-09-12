@@ -1,8 +1,8 @@
-import 'package:flutter/foundation.dart' hide Category;
+import 'package:flutter/widgets.dart';
+import 'package:lihkg_flutter/core/api_provider.dart';
 import '../../model/category.dart';
-import '../../lihkg_webservices.dart';
 
-class CategoryProvider extends ChangeNotifier {
+class CategoryProvider extends ApiProvider {
   List<Category> categories = [];
   Category? _selectedCategory;
 
@@ -12,8 +12,10 @@ class CategoryProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  CategoryProvider(BuildContext context) : super(context);
+
   Future<void> getSystemProperty() async {
-    final response = await LihkgWebServices().getSystemProperty();
+    final response = await webServices.getSystemProperty();
     categories = response.categoryList;
     notifyListeners();
   }

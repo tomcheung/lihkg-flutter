@@ -10,19 +10,18 @@ abstract class LoadingStatusMixin {
     }
 
     try {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        isLoading = true;
-        notifyListeners();
-      });
+      isLoading = true;
+      await Future.delayed(Duration(milliseconds: 10));
+      notifyListeners();
+
       await fn();
     } catch (e, stacktrace) {
       print('fetch data fail $e $stacktrace}');
       throw e;
     } finally {
-      WidgetsBinding.instance?.addPostFrameCallback((_) {
-        isLoading = false;
-        notifyListeners();
-      });
+      isLoading = false;
+      await Future.delayed(Duration(milliseconds: 10));
+      notifyListeners();
     }
   }
 
