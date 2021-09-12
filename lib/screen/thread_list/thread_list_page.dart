@@ -115,7 +115,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
                 return TextButton(
                   child: ThreadListItem(
                     item: categoryItems[index],
-                    key: ObjectKey(categoryItems[index]),
+                    key: ObjectKey(categoryItems[index].threadId),
                   ),
                   onPressed: _handleItemPress(context, categoryItems[index]),
                 );

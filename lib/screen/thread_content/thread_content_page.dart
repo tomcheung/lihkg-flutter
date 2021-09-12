@@ -74,7 +74,7 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
                 if (index + 1 >= items.length) {
                   provider.loadNextPage();
                 }
-                return ThreadContentItem(index: index + 1, data: items[index]);
+                return ThreadContentItem(index: index + 1, data: items[index], key: ObjectKey(items[index].postId),);
               },
               itemCount: items.length,
               cacheExtent: 100,
