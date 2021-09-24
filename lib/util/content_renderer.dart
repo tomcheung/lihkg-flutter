@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/core/app_provider.dart';
-import 'package:provider/provider.dart';
+import 'package:lihkg_flutter/screen/thread_content/cached_size_image.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 
 ImageSourceMatcher lihkgEmojiUriMatcher() => (attributes, element) =>
     (attributes['src']?.startsWith('/') ?? false) &&
@@ -16,9 +14,20 @@ ImageRender lihkgEmojiImageRender() => (context, attributes, element) {
       final serverRoot = 'https://cdn.lihkg.com';
       final fullPath = serverRoot + src;
       return RepaintBoundary(
-          child: SizedBox(
-              width: 32,
-              height: 24,
-              child:
-                  Image.network(fullPath, filterQuality: FilterQuality.none)));
+        child: SizedBox(
+          width: 32,
+          height: 24,
+          child: Image.network(fullPath, filterQuality: FilterQuality.none),
+        ),
+      );
+    };
+
+ImageRender lihkgImageRender() => (context, attributes, element) {
+      final src = attributes['src'];
+
+      if (src == null) {
+        return Container();
+      }
+      // precacheImage(NetworkImage(src), context.buildContext);
+      return CachedSizeImage(imageProvider: NetworkImage(src));
     };

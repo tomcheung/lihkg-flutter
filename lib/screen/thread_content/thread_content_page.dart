@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/route/app_router.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:provider/provider.dart';
+import 'image_size_cache_provider.dart';
 import 'thread_content_item.dart';
 import '../../model/thread_category.dart';
 import './thread_content_provider.dart';
@@ -58,29 +59,35 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
         title: Text(widget.categoryItem?.title ?? ''),
         centerTitle: false,
       ),
-      body: ChangeNotifierProvider.value(
-        value: _threadContentProvider,
-        builder: (context, child) {
-          final provider = context.watch<ThreadContentProvider>();
-          var items = provider.itemData;
+      body: Provider(
+        create: (ctx) => ImageSizeCacheProvider(),
+        child: ChangeNotifierProvider.value(
+          value: _threadContentProvider,
+          builder: (context, child) {
+            final provider = context.watch<ThreadContentProvider>();
+            var items = provider.itemData;
 
-          if (provider.isLoading && items.isEmpty) {
-            return Center(
-              child: const CircularProgressIndicator(),
-            );
-          } else {
-            return ListView.builder(
-              itemBuilder: (context, index) {
-                if (index + 1 >= items.length) {
-                  provider.loadNextPage();
-                }
-                return ThreadContentItem(index: index + 1, data: items[index], key: ObjectKey(items[index].postId),);
-              },
-              itemCount: items.length,
-              cacheExtent: 100,
-            );
-          }
-        },
+            if (provider.isLoading && items.isEmpty) {
+              return Center(
+                child: const CircularProgressIndicator(),
+              );
+            } else {
+              return ListView.builder(
+                itemBuilder: (context, index) {
+                  if (index + 1 >= items.length) {
+                    provider.loadNextPage();
+                  }
+                  return ThreadContentItem(
+                    index: index + 1,
+                    data: items[index],
+                    key: ObjectKey(items[index].postId),
+                  );
+                },
+                itemCount: items.length,
+              );
+            }
+          },
+        ),
       ),
     );
   }

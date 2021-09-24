@@ -5,7 +5,7 @@ import 'package:lihkg_flutter/util/content_renderer.dart';
 class ThreadHtmlContent extends StatelessWidget {
   static final Map<ImageSourceMatcher, ImageRender> imageRenderers = {
     lihkgEmojiUriMatcher(): lihkgEmojiImageRender(),
-    networkSourceMatcher(): networkImageRender(),
+    networkSourceMatcher(): lihkgImageRender(),
   };
 
   final String html;
