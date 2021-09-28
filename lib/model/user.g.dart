@@ -6,33 +6,18 @@ part of 'user.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-User _$UserFromJson(Map<String, dynamic> json) {
-  return User(
-    userId: json['user_id'] as String,
-    nickname: json['nickname'] as String,
-    level: json['level'] as String,
-    gender: _$enumDecode(_$GenderEnumMap, json['gender']),
-    status: json['status'] as String,
-    createTime: json['create_time'] as int,
-    isFollowing: json['is_following'] as bool,
-    isBlocked: json['is_blocked'] as bool,
-    isDisappear: json['is_disappear'] as bool,
-    isNewbie: json['is_newbie'] as bool,
-  );
-}
-
-Map<String, dynamic> _$UserToJson(User instance) => <String, dynamic>{
-      'user_id': instance.userId,
-      'nickname': instance.nickname,
-      'level': instance.level,
-      'gender': _$GenderEnumMap[instance.gender],
-      'status': instance.status,
-      'create_time': instance.createTime,
-      'is_following': instance.isFollowing,
-      'is_blocked': instance.isBlocked,
-      'is_disappear': instance.isDisappear,
-      'is_newbie': instance.isNewbie,
-    };
+User _$UserFromJson(Map<String, dynamic> json) => User(
+      userId: json['user_id'] as String,
+      nickname: json['nickname'] as String,
+      level: json['level'] as String,
+      gender: _$enumDecode(_$GenderEnumMap, json['gender']),
+      status: json['status'] as String,
+      createTime: json['create_time'] as int,
+      isFollowing: json['is_following'] as bool,
+      isBlocked: json['is_blocked'] as bool,
+      isDisappear: json['is_disappear'] as bool,
+      isNewbie: json['is_newbie'] as bool,
+    );
 
 K _$enumDecode<K, V>(
   Map<K, V> enumValues,
