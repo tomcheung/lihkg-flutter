@@ -52,7 +52,7 @@ class ThreadListPage extends StatefulWidget {
 
 class _ThreadListPageState extends State<ThreadListPage> {
   late ThreadListProvider _threadListProvider;
-
+  ScrollController _scrollController = ScrollController();
   VoidCallback _handleItemPress(
     BuildContext context,
     ThreadCategoryItem item,
@@ -95,7 +95,6 @@ class _ThreadListPageState extends State<ThreadListPage> {
     _threadListProvider.getThreadList(categoryProvider.selectedCategory);
     return Scaffold(
       appBar: AppBar(
-        backwardsCompatibility: false,
         leading: LihkgDrawerIconButton(_handleDrawerButton),
         title: Text(categoryProvider.selectedCategory?.name ?? ''),
       ),
@@ -107,6 +106,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
             final categoryItems =
                 context.watch<ThreadListProvider>().categoryItems;
             return ListView.separated(
+              controller: _scrollController,
               key: ObjectKey(categoryProvider.selectedCategory?.catId),
               itemBuilder: (context, index) {
                 if (index == categoryItems.length - 1) {

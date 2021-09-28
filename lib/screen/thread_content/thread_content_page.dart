@@ -20,6 +20,7 @@ class ThreadContentPage extends StatefulWidget {
 
 class _ThreadContentPageState extends State<ThreadContentPage> {
   late ThreadContentProvider _threadContentProvider;
+  ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -54,7 +55,6 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
     final router = AppRouter.of(context);
     return Scaffold(
       appBar: AppBar(
-        backwardsCompatibility: false,
         automaticallyImplyLeading: router.layoutSize == LayoutSize.Compact,
         title: Text(widget.categoryItem?.title ?? ''),
         centerTitle: false,
@@ -73,6 +73,7 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
               );
             } else {
               return ListView.builder(
+                controller: _scrollController,
                 itemBuilder: (context, index) {
                   if (index + 1 >= items.length) {
                     provider.loadNextPage();
