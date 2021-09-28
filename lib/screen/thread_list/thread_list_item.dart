@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_html/shims/dart_ui_real.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
 import 'package:lihkg_flutter/util/extension.dart';

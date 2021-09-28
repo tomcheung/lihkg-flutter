@@ -75,5 +75,5 @@ class Quote implements ThreadContentItemData  {
       _$QuoteFromJson(json);
 
   @override
-  PostQuote? quote = null;
+  PostQuote? quote;
 }

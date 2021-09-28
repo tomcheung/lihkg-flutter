@@ -47,7 +47,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
     if (post is Post) {
       await showDialog(
         context: context,
-        builder: (BuildContext context) => QuoteDialog(post: post as Post),
+        builder: (BuildContext context) => QuoteDialog(post: post),
       );
     }
   }

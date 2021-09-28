@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/route/app_router.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';

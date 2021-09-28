@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/route/page_state/page_state.dart';
-import 'package:lihkg_flutter/model/category.dart';
 import 'package:lihkg_flutter/screen/root/dummy_page.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 
 abstract class LoadingStatusMixin {
   bool isLoading = false;
