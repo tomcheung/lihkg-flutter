@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/core/route/app_router.dart';
-import 'package:lihkg_flutter/screen/root/category_provider.dart';
+import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
 import 'thread_list_item.dart';
@@ -71,7 +71,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
   void initState() {
     super.initState();
     _threadListProvider = ThreadListProvider(context);
-    CategoryProvider categoryProvider = context.read();
+    AppConfigProvider categoryProvider = context.read();
     if (categoryProvider.categories.isNotEmpty) {
       final firstCategory = categoryProvider.categories.first;
       categoryProvider.selectedCategory = firstCategory;
@@ -85,7 +85,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
 
   @override
   Widget build(BuildContext context) {
-    final categoryProvider = context.watch<CategoryProvider>();
+    final categoryProvider = context.watch<AppConfigProvider>();
     final backgroundColor = Theme.of(context).cardColor;
 
     _buildSeparator(BuildContext context, int index) {

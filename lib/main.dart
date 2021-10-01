@@ -7,29 +7,13 @@ import 'package:provider/provider.dart';
 
 import 'core/app_theme.dart';
 import 'core/route/app_router.dart';
-import 'screen/root/category_provider.dart';
+import 'screen/root/app_config_provider.dart';
 
 void main() {
-  runApp(LiHKGApp());
+  runApp(LiHKGAppLoader());
 }
 
-class LiHKGApp extends StatefulWidget {
-  @override
-  _LiHKGAppState createState() => _LiHKGAppState();
-}
-
-class _LiHKGAppState extends State<LiHKGApp> {
-  AppThemeData _appThemeData = AppThemeData.light;
-  AppRouterDelegate _routerDelegate = AppRouterDelegate();
-  LihkgRouteInformationParser _routeInformationParser =
-      LihkgRouteInformationParser();
-
-  _updateTheme(AppThemeData newThemeData) {
-    setState(() {
-      _appThemeData = newThemeData;
-    });
-  }
-
+class LiHKGAppLoader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -42,28 +26,62 @@ class _LiHKGAppState extends State<LiHKGApp> {
               webServicesConfig: LihkgWebServicesConfig.defaultConfig);
         }
       },
-      child: ChangeNotifierProvider(
-        create: (context) {
-          return CategoryProvider(context)..getSystemProperty();
+      child: LiHKGApp(),
+    );
+  }
+}
+
+class LiHKGApp extends StatefulWidget {
+  @override
+  _LiHKGAppState createState() => _LiHKGAppState();
+}
+
+class _LiHKGAppState extends State<LiHKGApp> {
+  AppRouterDelegate _routerDelegate = AppRouterDelegate();
+  late AppConfigProvider _appConfigProvider;
+  LihkgRouteInformationParser _routeInformationParser =
+      LihkgRouteInformationParser();
+
+  _updateTheme(AppThemeData newThemeData) {
+    setState(() {
+      _appConfigProvider.setTheme(newThemeData);
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _appConfigProvider = AppConfigProvider(context)..init();
+  }
+
+  @override
+  void dispose() {
+    _appConfigProvider.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider.value(
+      value: _appConfigProvider,
+      child: Consumer<AppConfigProvider>(
+        builder: (context, provider, child) {
+          if (provider.isInit) {
+            return AppTheme(
+              theme: provider.userPreference.appTheme,
+              onThemeUpdated: _updateTheme,
+              child: Builder(
+                builder: (context) => MaterialApp.router(
+                  routeInformationParser: _routeInformationParser,
+                  routerDelegate: _routerDelegate,
+                  theme: AppTheme.of(context).materialThemeData,
+                ),
+              ),
+            );
+          } else {
+            return SplashScreen();
+          }
         },
-        child: AppTheme(
-          theme: _appThemeData,
-          onThemeUpdated: _updateTheme,
-          child: Consumer<CategoryProvider>(
-            builder: (context, categoryProvider, child) {
-              if (categoryProvider.categories.isEmpty) {
-                return SplashScreen();
-              } else {
-                return child ?? Container();
-              }
-            },
-            child: MaterialApp.router(
-              routeInformationParser: _routeInformationParser,
-              routerDelegate: _routerDelegate,
-              theme: _appThemeData.materialThemeData,
-            ),
-          ),
-        ),
       ),
     );
   }

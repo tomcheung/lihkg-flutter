@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
-import 'package:lihkg_flutter/screen/root/category_provider.dart';
+import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -78,7 +78,7 @@ class AppDrawer extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(vertical: _iconPadding),
-                child: Consumer<CategoryProvider>(
+                child: Consumer<AppConfigProvider>(
                   builder: (context, categoryProvider, child) =>
                       GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
