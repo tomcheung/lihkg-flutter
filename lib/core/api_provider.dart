@@ -6,5 +6,5 @@ import './app_provider.dart';
 abstract class ApiProvider extends ChangeNotifier {
   final LihkgWebServices webServices;
 
-  ApiProvider(BuildContext context) : this.webServices = context.read<AppProvider>().webServices;
+  ApiProvider(BuildContext context) : webServices = context.read<AppProvider>().webServices;
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class ImageSizeCacheProvider {
-  Map<String, Size> _cachedSize = Map();
+  final Map<String, Size> _cachedSize = {};
 
   void updateSize(String imageKey, Size size) {
     _cachedSize[imageKey] = size;

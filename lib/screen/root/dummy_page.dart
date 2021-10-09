@@ -9,11 +9,9 @@ class DummyPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(),
-      drawer: AppDrawer(),
-      body: Container(
-        child: Center(
-          child: Text(message),
-        ),
+      drawer: const AppDrawer(),
+      body: Center(
+        child: Text(message),
       ),
     );
   }

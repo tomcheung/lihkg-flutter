@@ -10,7 +10,7 @@ import 'package:provider/provider.dart';
 class QuoteDialog extends StatefulWidget {
   final Post post;
 
-  QuoteDialog({required this.post});
+  const QuoteDialog({Key? key, required this.post}): super(key: key);
 
   @override
   _QuoteDialogState createState() => _QuoteDialogState();
@@ -55,7 +55,7 @@ class _QuoteDialogState extends State<QuoteDialog> {
             case LayoutSize.Large:
               return Dialog(
                 child: ConstrainedBox(
-                  constraints: BoxConstraints(maxWidth: 600, minWidth: 400),
+                  constraints: const BoxConstraints(maxWidth: 600, minWidth: 400),
                   child: child,
                 ),
               );
@@ -102,7 +102,7 @@ class _QuoteDialogState extends State<QuoteDialog> {
                           color: theme.dividerColor,
                           alignment: Alignment.center,
                           padding: const EdgeInsets.symmetric(vertical: 12),
-                          child: Text('被引用回覆'),
+                          child: const Text('被引用回覆'),
                         );
                       } else {
                         return Divider(color: theme.dividerColor);

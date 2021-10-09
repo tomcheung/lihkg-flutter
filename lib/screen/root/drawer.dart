@@ -34,7 +34,7 @@ class _AppDrawerSideBar extends StatelessWidget {
                 height: AppDrawer._iconSize,
                 width: AppDrawer._iconSize,
               ),
-              Spacer(),
+              const Spacer(),
               IconButton(
                 color: iconColor,
                 icon: Icon(
@@ -47,7 +47,7 @@ class _AppDrawerSideBar extends StatelessWidget {
                   _toggleTheme(context);
                 },
               ),
-              SizedBox(height: AppDrawer._iconPadding),
+              const SizedBox(height: AppDrawer._iconPadding),
               Icon(
                 Icons.settings,
                 size: AppDrawer._iconSize,
@@ -81,7 +81,7 @@ class AppDrawer extends StatelessWidget {
                 child: Consumer<AppConfigProvider>(
                   builder: (context, categoryProvider, child) =>
                       GridView.builder(
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
                       childAspectRatio: 2,
                     ),

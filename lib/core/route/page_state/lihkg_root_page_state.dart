@@ -35,7 +35,7 @@ class LihkgRootPageState extends PageState {
           MaterialPage(
             child: MainPage(
               child: SplitLayout(
-                left: ThreadListPage(),
+                left: const ThreadListPage(),
                 right: ThreadContentPage(categoryItem: selectedCategoryItem),
               ),
             ),
@@ -44,7 +44,7 @@ class LihkgRootPageState extends PageState {
 
       case LayoutSize.Compact:
         return [
-          MaterialPage(
+          const MaterialPage(
             child: MainPage(
               child: ThreadListPage(),
             ),

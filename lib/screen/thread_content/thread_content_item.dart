@@ -26,9 +26,9 @@ class _ThreadContentItemHeader extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
       child: Row(
         children: [
-          Text('#$index', style: TextStyle(color: theme.accentColor)),
+          Text('#$index', style: TextStyle(color: theme.colorScheme.secondary)),
           const SizedBox(width: 8),
-          Text(data.userNickname, style: TextStyle(color: Colors.blue)),
+          Text(data.userNickname, style: const TextStyle(color: Colors.blue)),
           const SizedBox(width: 8),
           Text('• $dateString', style: theme.textTheme.subtitle2),
         ],
@@ -40,7 +40,7 @@ class _ThreadContentItemHeader extends StatelessWidget {
 class _ThreadContentItemFooter extends StatelessWidget {
   final ThreadContentItemData data;
 
-  _ThreadContentItemFooter(this.data);
+  const _ThreadContentItemFooter(this.data);
 
   Future<void> _showQuoteDialog(
       BuildContext context, ThreadContentItemData post) async {
@@ -91,8 +91,8 @@ class _ThreadContentItemFooter extends StatelessWidget {
             margin: const EdgeInsets.only(left: 8),
             child: TextButton(
               style: TextButton.styleFrom(
-                  padding: EdgeInsets.symmetric(horizontal: 8),
-                  minimumSize: Size(50, 34)),
+                  padding: const EdgeInsets.symmetric(horizontal: 8),
+                  minimumSize: const Size(50, 34)),
               onPressed: () {
                 _showQuoteDialog(context, data);
               },
@@ -110,7 +110,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
 class ThreadQuoteContent extends StatelessWidget {
   final PostQuote quote;
 
-  ThreadQuoteContent({required this.quote});
+  const ThreadQuoteContent({Key? key, required this.quote}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

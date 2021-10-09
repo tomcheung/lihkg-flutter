@@ -18,7 +18,7 @@ class ThreadContentPage extends StatefulWidget {
 
 class _ThreadContentPageState extends State<ThreadContentPage> {
   late ThreadContentProvider _threadContentProvider;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
@@ -66,8 +66,8 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
             var items = provider.itemData;
 
             if (provider.isLoading && items.isEmpty) {
-              return Center(
-                child: const CircularProgressIndicator(),
+              return const Center(
+                child: CircularProgressIndicator(),
               );
             } else {
               return ListView.builder(

@@ -12,14 +12,14 @@ class AppThemeData {
   static final AppThemeData light = AppThemeData(
       name: 'light',
       materialThemeData: ThemeData(
-        colorScheme: ColorScheme.light(
+        colorScheme: const ColorScheme.light(
           primary: Colors.amber,
         ),
-        backgroundColor: Color(0xFFECEDED),
+        backgroundColor: const Color(0xFFECEDED),
         cardColor: Colors.white,
-        iconTheme: IconThemeData(color: Colors.black54),
-        primaryIconTheme: IconThemeData(color: Colors.black),
-        appBarTheme: AppBarTheme(
+        iconTheme: const IconThemeData(color: Colors.black54),
+        primaryIconTheme: const IconThemeData(color: Colors.black),
+        appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
           titleTextStyle: TextStyle(
@@ -38,7 +38,7 @@ class AppThemeData {
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             primary: Colors.black,
-            textStyle: TextStyle(fontSize: 16),
+            textStyle: const TextStyle(fontSize: 16),
           ),
         ),
       ));
@@ -46,16 +46,16 @@ class AppThemeData {
   static final AppThemeData dark = AppThemeData(
       name: 'dark',
       materialThemeData: ThemeData(
-        colorScheme: ColorScheme.dark(
+        colorScheme: const ColorScheme.dark(
           primary: Colors.amber,
         ),
         primarySwatch: Colors.amber,
         backgroundColor: Colors.black,
         scaffoldBackgroundColor: Colors.grey.shade900,
-        cardColor: Color(0x805C5C5C),
-        iconTheme: IconThemeData(color: Colors.white54),
-        primaryIconTheme: IconThemeData(color: Colors.white70),
-        appBarTheme: AppBarTheme(
+        cardColor: const Color(0x805C5C5C),
+        iconTheme: const IconThemeData(color: Colors.white54),
+        primaryIconTheme: const IconThemeData(color: Colors.white70),
+        appBarTheme: const AppBarTheme(
           backgroundColor: Colors.white10,
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.normal,
@@ -63,16 +63,16 @@ class AppThemeData {
             color: Colors.white,
           ),
         ),
-        dividerColor: Color(0x80898787),
+        dividerColor: const Color(0x80898787),
         textTheme: TextTheme(
             subtitle2: TextStyle(
                 color: Colors.grey.shade400,
                 fontSize: 11,
                 fontWeight: FontWeight.w500),
-            bodyText1: TextStyle(color: Colors.white10)),
+            bodyText1: const TextStyle(color: Colors.white10)),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            textStyle: TextStyle(fontSize: 16),
+            textStyle: const TextStyle(fontSize: 16),
           ),
         ),
       ));
@@ -83,11 +83,12 @@ class AppTheme extends InheritedWidget {
   final Function(AppThemeData themeData) _onThemeUpdated;
 
   const AppTheme({
+    Key? key,
     required this.theme,
     required Widget child,
     required Function(AppThemeData themeData) onThemeUpdated,
   })  : _onThemeUpdated = onThemeUpdated,
-        super(child: child);
+        super(child: child, key: key);
 
   void setTheme(AppThemeData appTheme) {
     _onThemeUpdated(appTheme);
@@ -96,7 +97,7 @@ class AppTheme extends InheritedWidget {
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
     if (oldWidget is AppTheme) {
-      return oldWidget.theme.name != this.theme.name;
+      return oldWidget.theme.name != theme.name;
     } else {
       return false;
     }

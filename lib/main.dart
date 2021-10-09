@@ -10,10 +10,13 @@ import 'core/route/app_router.dart';
 import 'screen/root/app_config_provider.dart';
 
 void main() {
-  runApp(LiHKGAppLoader());
+  runApp(const LiHKGAppLoader());
 }
 
 class LiHKGAppLoader extends StatelessWidget {
+
+  const LiHKGAppLoader({Key? key}): super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Provider(
@@ -26,20 +29,23 @@ class LiHKGAppLoader extends StatelessWidget {
               webServicesConfig: LihkgWebServicesConfig.defaultConfig);
         }
       },
-      child: LiHKGApp(),
+      child: const LiHKGApp(),
     );
   }
 }
 
+@immutable
 class LiHKGApp extends StatefulWidget {
   @override
   _LiHKGAppState createState() => _LiHKGAppState();
+
+  const LiHKGApp({Key? key}): super(key: key);
 }
 
 class _LiHKGAppState extends State<LiHKGApp> {
-  AppRouterDelegate _routerDelegate = AppRouterDelegate();
+  final AppRouterDelegate _routerDelegate = AppRouterDelegate();
   late AppConfigProvider _appConfigProvider;
-  LihkgRouteInformationParser _routeInformationParser =
+  final LihkgRouteInformationParser _routeInformationParser =
       LihkgRouteInformationParser();
 
   _updateTheme(AppThemeData newThemeData) {
@@ -79,7 +85,7 @@ class _LiHKGAppState extends State<LiHKGApp> {
               ),
             );
           } else {
-            return SplashScreen();
+            return const SplashScreen();
           }
         },
       ),

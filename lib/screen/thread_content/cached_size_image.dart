@@ -32,7 +32,7 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
 
   void _getImage() {
     final oldImageStream = _imageStream;
-    _imageStream = widget.imageProvider.resolve(new ImageConfiguration());
+    _imageStream = widget.imageProvider.resolve(const ImageConfiguration());
     if (_imageStream?.key != oldImageStream?.key) {
       final listener = ImageStreamListener(_updateImage);
       _imageStream?.removeListener(listener);
@@ -89,7 +89,7 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
 
         if (size == null) {
           return const Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: EdgeInsets.all(16.0),
             child: SizedBox(
               width: 30,
               height: 30,

@@ -17,7 +17,7 @@ class SplitLayout extends StatelessWidget {
       children: [
         SizedBox(
           width: 300,
-          child: this.left,
+          child: left,
         ),
         Container(
           width: 1,

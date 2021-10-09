@@ -11,7 +11,7 @@ extension DateExtension on DateTime {
     } else if (dateDiff.inDays < 365) {
       return "${dateDiff.inDays} 日前";
     } else {
-      return this.toString();
+      return toString();
     }
 
   }

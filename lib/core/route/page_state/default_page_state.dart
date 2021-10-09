@@ -4,6 +4,7 @@ import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import '../app_router.dart';
 
 class DefaultPageState extends PageState {
+  @override
   final String name;
   final Widget Function() builder;
   final Widget _body;

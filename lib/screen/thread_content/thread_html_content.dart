@@ -10,7 +10,7 @@ class ThreadHtmlContent extends StatelessWidget {
 
   final String html;
   final Style? defaultTextStyle;
-  ThreadHtmlContent(this.html, {this.defaultTextStyle});
+  const ThreadHtmlContent(this.html, {this.defaultTextStyle, Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {

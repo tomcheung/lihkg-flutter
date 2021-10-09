@@ -10,16 +10,16 @@ abstract class LoadingStatusMixin {
 
     try {
       isLoading = true;
-      await Future.delayed(Duration(milliseconds: 10));
+      await Future.delayed(const Duration(milliseconds: 10));
       notifyListeners();
 
       await fn();
     } catch (e, stacktrace) {
       print('fetch data fail $e $stacktrace}');
-      throw e;
+      rethrow;
     } finally {
       isLoading = false;
-      await Future.delayed(Duration(milliseconds: 10));
+      await Future.delayed(const Duration(milliseconds: 10));
       notifyListeners();
     }
   }

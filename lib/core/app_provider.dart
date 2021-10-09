@@ -4,5 +4,5 @@ class AppProvider {
   LihkgWebServices webServices;
 
   AppProvider({required LihkgWebServicesConfig webServicesConfig}):
-        this.webServices = LihkgWebServices(webServicesConfig);
+        webServices = LihkgWebServices(webServicesConfig);
 }

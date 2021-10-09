@@ -10,32 +10,30 @@ import 'thread_list_item.dart';
 class LihkgDrawerIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  LihkgDrawerIconButton(this.onPressed);
+  const LihkgDrawerIconButton(this.onPressed, {Key? key}): super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return IconButton(
       color: theme.primaryIconTheme.color,
-      icon: Container(
-        child: Stack(
-          alignment: Alignment.center,
-          children: [
-            Transform(
-              child: const Align(
-                alignment: Alignment.centerLeft,
-                widthFactor: 0.5,
-                child: Icon(Icons.menu),
-              ),
-              transform: Matrix4.translationValues(-35, 0, 0),
+      icon: Stack(
+        alignment: Alignment.center,
+        children: [
+          Transform(
+            child: const Align(
+              alignment: Alignment.centerLeft,
+              widthFactor: 0.5,
+              child: Icon(Icons.menu),
             ),
-            SvgPicture.asset(
-              'assets/lihkg_logo.svg',
-              height: 24,
-              width: 24,
-            )
-          ],
-        ),
+            transform: Matrix4.translationValues(-35, 0, 0),
+          ),
+          SvgPicture.asset(
+            'assets/lihkg_logo.svg',
+            height: 24,
+            width: 24,
+          )
+        ],
       ),
       onPressed: onPressed,
       tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
@@ -52,7 +50,7 @@ class ThreadListPage extends StatefulWidget {
 
 class _ThreadListPageState extends State<ThreadListPage> {
   late ThreadListProvider _threadListProvider;
-  ScrollController _scrollController = ScrollController();
+  final ScrollController _scrollController = ScrollController();
   VoidCallback _handleItemPress(
     BuildContext context,
     ThreadCategoryItem item,

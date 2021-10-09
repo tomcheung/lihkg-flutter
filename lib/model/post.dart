@@ -15,25 +15,32 @@ class Post implements ThreadContentItemData {
   String postId;
   String? quotePostId;
   String threadId;
+  @override
   String userNickname;
   Gender userGender;
+  @override
   String likeCount;
+  @override
   String dislikeCount;
   String? voteScore;
+  @override
   @StringToIntSerialiser()
   int noOfQuote;
   // dynamic remark;
   @DynamicStringSerialiser()
   String? status;
+  @override
   @DateTimeStringSerialiser()
   DateTime replyTime;
   String msgNum;
+  @override
   String msg;
   bool? isMinimizedKeywords;
   int page;
   User user;
   bool? displayVote;
   bool? lowQuality;
+  @override
   PostQuote? quote;
 
   Post({

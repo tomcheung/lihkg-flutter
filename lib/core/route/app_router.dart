@@ -18,13 +18,13 @@ class AppRouter extends InheritedWidget {
   final AppRouterDelegate _delegate;
   final LayoutSize layoutSize;
 
-  AppRouter(
+  const AppRouter(
       {Key? key,
       required Widget child,
       required AppRouterDelegate delegate,
       required this.layoutSize})
       : _delegate = delegate,
-        super(child: child);
+        super(child: child, key: key);
 
   @override
   bool updateShouldNotify(covariant InheritedWidget oldWidget) {
@@ -32,7 +32,7 @@ class AppRouter extends InheritedWidget {
   }
 
   void showThreadContent(ThreadCategoryItem categoryItem) {
-    this._delegate.pushOrUpdateLast(LihkgRootPageState(categoryItem));
+    _delegate.pushOrUpdateLast(LihkgRootPageState(categoryItem));
   }
 
   static AppRouter of(BuildContext context) {
@@ -45,6 +45,7 @@ class AppRouter extends InheritedWidget {
 
 class AppRouterDelegate extends RouterDelegate<PageState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageState> {
+  @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
   LayoutSize _layoutSize = LayoutSize.Large;
   List<PageState> _pageState = [];
@@ -52,7 +53,7 @@ class AppRouterDelegate extends RouterDelegate<PageState>
   List<Page> _buildPages(LayoutSize size) {
     if (_pageState.isEmpty) {
       return List.unmodifiable(
-          [MaterialPage(child: DummyPage(message: "Init..."))]);
+          [const MaterialPage(child: DummyPage(message: "Init..."))]);
     }
     return List.unmodifiable(_pageState.expand((s) => s.buildPage(size)));
   }
@@ -144,7 +145,7 @@ class LihkgRouteInformationParser extends RouteInformationParser<PageState> {
       default:
         return DefaultPageState(
           name: 'notFound',
-          builder: () => DummyPage(message: 'Not found'),
+          builder: () => const DummyPage(message: 'Not found'),
         );
     }
   }

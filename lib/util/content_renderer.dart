@@ -11,7 +11,7 @@ ImageRender lihkgEmojiImageRender() => (context, attributes, element) {
       if (src == null) {
         return null;
       }
-      final serverRoot = 'https://cdn.lihkg.com';
+      const serverRoot = 'https://cdn.lihkg.com';
       final fullPath = serverRoot + src;
       return RepaintBoundary(
         child: SizedBox(
