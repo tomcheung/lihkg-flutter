@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/core/route/app_router.dart';
+import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:provider/provider.dart';
 import 'image_size_cache_provider.dart';
@@ -50,10 +50,10 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final router = AppRouter.of(context);
+    final layoutSize = context.watch<LihkgRootNavigatorProvider>().layoutSize;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: router.layoutSize == LayoutSize.Compact,
+        automaticallyImplyLeading: layoutSize == LayoutSize.Compact,
         title: Text(widget.categoryItem?.title ?? ''),
         centerTitle: false,
       ),

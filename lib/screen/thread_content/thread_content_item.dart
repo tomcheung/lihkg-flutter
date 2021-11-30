@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
-import 'package:lihkg_flutter/dialog/quote/quote_dialog.dart';
+import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_html_content.dart';
@@ -47,7 +47,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
     if (post is Post) {
       await showDialog(
         context: context,
-        builder: (BuildContext context) => QuoteDialog(post: post),
+        builder: (BuildContext context) => QuoteNavigator(initialPost: post),
       );
     }
   }
@@ -110,7 +110,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
 class ThreadQuoteContent extends StatelessWidget {
   final PostQuote quote;
 
-  const ThreadQuoteContent({Key? key, required this.quote}): super(key: key);
+  const ThreadQuoteContent({Key? key, required this.quote}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

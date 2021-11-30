@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:lihkg_flutter/core/route/app_router.dart';
+import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
@@ -10,7 +9,7 @@ import 'thread_list_item.dart';
 class LihkgDrawerIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
-  const LihkgDrawerIconButton(this.onPressed, {Key? key}): super(key: key);
+  const LihkgDrawerIconButton(this.onPressed, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -51,13 +50,6 @@ class ThreadListPage extends StatefulWidget {
 class _ThreadListPageState extends State<ThreadListPage> {
   late ThreadListProvider _threadListProvider;
   final ScrollController _scrollController = ScrollController();
-  VoidCallback _handleItemPress(
-    BuildContext context,
-    ThreadCategoryItem item,
-  ) =>
-      () {
-        AppRouter.of(context).showThreadContent(item);
-      };
 
   @override
   void dispose() {
@@ -107,16 +99,20 @@ class _ThreadListPageState extends State<ThreadListPage> {
               controller: _scrollController,
               key: ObjectKey(categoryProvider.selectedCategory?.catId),
               itemBuilder: (context, index) {
+                final item = categoryItems[index];
                 if (index == categoryItems.length - 1) {
                   _threadListProvider.loadMore();
                 }
                 return TextButton(
-                  child: ThreadListItem(
-                    item: categoryItems[index],
-                    key: ObjectKey(categoryItems[index].threadId),
-                  ),
-                  onPressed: _handleItemPress(context, categoryItems[index]),
-                );
+                    child: ThreadListItem(
+                      item: item,
+                      key: ObjectKey(item.threadId),
+                    ),
+                    onPressed: () {
+                      context
+                          .read<LihkgRootNavigatorProvider>()
+                          .showThreadContent(item);
+                    });
               },
               separatorBuilder: _buildSeparator,
               itemCount: categoryItems.length,

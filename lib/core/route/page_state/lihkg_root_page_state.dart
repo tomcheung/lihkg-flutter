@@ -5,7 +5,8 @@ import 'package:lihkg_flutter/screen/thread_content/thread_content_page.dart';
 import 'package:lihkg_flutter/screen/thread_list/thread_list_page.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/split_layout.dart';
-import '../app_router.dart';
+
+import 'page_state.dart';
 
 class LihkgRootPageState extends PageState {
   ThreadCategoryItem? selectedCategoryItem;

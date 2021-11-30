@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
-
-import '../app_router.dart';
+import '../../../util/adaptive_layout/layout_adapter.dart';
+import 'page_state.dart';
 
 class DefaultPageState extends PageState {
   @override
   final String name;
-  final Widget Function() builder;
-  final Widget _body;
+  final Widget content;
 
-  DefaultPageState({required this.name, required this.builder})
-      : _body = builder();
+  DefaultPageState({required this.name, required this.content});
 
   @override
   List<Page> buildPage(LayoutSize size) {
-    return [MaterialPage(child: _body)];
+    return [MaterialPage(child: content)];
   }
 
   @override

@@ -2,11 +2,11 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/app_provider.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
+import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/splash_page.dart';
 import 'package:provider/provider.dart';
 
 import 'core/app_theme.dart';
-import 'core/route/app_router.dart';
 import 'screen/root/app_config_provider.dart';
 
 void main() {
@@ -43,10 +43,10 @@ class LiHKGApp extends StatefulWidget {
 }
 
 class _LiHKGAppState extends State<LiHKGApp> {
-  final AppRouterDelegate _routerDelegate = AppRouterDelegate();
+  // final AppRouterDelegate _routerDelegate = AppRouterDelegate();
   late AppConfigProvider _appConfigProvider;
-  final LihkgRouteInformationParser _routeInformationParser =
-      LihkgRouteInformationParser();
+  // final LihkgRouteInformationParser _routeInformationParser =
+  //     LihkgRouteInformationParser();
 
   _updateTheme(AppThemeData newThemeData) {
     setState(() {
@@ -76,13 +76,7 @@ class _LiHKGAppState extends State<LiHKGApp> {
             return AppTheme(
               theme: provider.userPreference.appTheme,
               onThemeUpdated: _updateTheme,
-              child: Builder(
-                builder: (context) => MaterialApp.router(
-                  routeInformationParser: _routeInformationParser,
-                  routerDelegate: _routerDelegate,
-                  theme: AppTheme.of(context).materialThemeData,
-                ),
-              ),
+              child: LihkgRootNavigator(),
             );
           } else {
             return const SplashScreen();
