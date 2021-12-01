@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
+import 'package:lihkg_flutter/model/quote.dart';
+import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
@@ -42,12 +45,18 @@ class _ThreadContentItemFooter extends StatelessWidget {
 
   const _ThreadContentItemFooter(this.data);
 
-  Future<void> _showQuoteDialog(
-      BuildContext context, ThreadContentItemData post) async {
-    if (post is Post) {
+  Future<void> _openQuote(
+      BuildContext context, ThreadContentItemData data) async {
+    if (context.findAncestorWidgetOfExactType<QuoteDialog>() != null) {
+      final quoteNavigator = context.read<QuoteNavigatorProvider>();
+      if (quoteNavigator.initialPost == data) {
+        return;
+      }
+      quoteNavigator.showQuote(data);
+    } else if (data is Post) {
       await showDialog(
         context: context,
-        builder: (BuildContext context) => QuoteNavigator(initialPost: post),
+        builder: (BuildContext context) => QuoteDialog(initialPost: data),
       );
     }
   }
@@ -94,7 +103,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 8),
                   minimumSize: const Size(50, 34)),
               onPressed: () {
-                _showQuoteDialog(context, data);
+                _openQuote(context, data);
               },
               child: IconWithText(
                 text: data.noOfQuote.toString(),

@@ -1,6 +1,8 @@
 import 'package:lihkg_flutter/model/post.dart';
 
 abstract class ThreadContentItemData {
+  abstract String postId;
+  abstract String threadId;
   abstract String msg;
   abstract String likeCount;
   abstract String dislikeCount;

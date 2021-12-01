@@ -14,7 +14,7 @@ abstract class AppNavigator<NavigatorProvider extends AppNavigatorProvider>
   @override
   State<StatefulWidget> createState() => _NavigatorState<NavigatorProvider>();
 
-  NavigatorProvider createProvider();
+  NavigatorProvider createProvider(BuildContext context);
 }
 
 abstract class AppNavigatorProvider {
@@ -57,7 +57,7 @@ class _NavigatorState<NavigatorProvider extends AppNavigatorProvider> extends St
 
   @override
   void initState() {
-    _provider = widget.createProvider();
+    _provider = widget.createProvider(context);
     _routeInformationParser = LihkgRouteInformationParser(_provider.initialPageState);
     super.initState();
   }

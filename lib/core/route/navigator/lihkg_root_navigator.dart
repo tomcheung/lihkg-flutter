@@ -7,7 +7,7 @@ class LihkgRootNavigator extends AppNavigator<LihkgRootNavigatorProvider> {
   LihkgRootNavigator({Key? key}) : super(key: key);
 
   @override
-  LihkgRootNavigatorProvider createProvider() => LihkgRootNavigatorProvider();
+  LihkgRootNavigatorProvider createProvider(context) => LihkgRootNavigatorProvider();
 }
 
 class LihkgRootNavigatorProvider extends AppNavigatorProvider {
