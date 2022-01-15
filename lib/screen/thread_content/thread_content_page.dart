@@ -4,6 +4,7 @@ import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:provider/provider.dart';
 import 'image_size_cache_provider.dart';
 import 'thread_content_item.dart';
+import 'thread_content_skeleton.dart';
 import '../../model/thread_category.dart';
 import './thread_content_provider.dart';
 
@@ -63,11 +64,11 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
           value: _threadContentProvider,
           builder: (context, child) {
             final provider = context.watch<ThreadContentProvider>();
-            var items = provider.itemData;
+            final items = provider.itemData;
 
             if (provider.isLoading && items.isEmpty) {
-              return const Center(
-                child: CircularProgressIndicator(),
+              return ListView(
+                children: List.filled(12, const ThreadContentSkeleton()),
               );
             } else {
               return ListView.builder(

@@ -51,14 +51,16 @@ class LihkgRouteInformationParser extends RouteInformationParser<PageState> {
   }
 }
 
-class _NavigatorState<NavigatorProvider extends AppNavigatorProvider> extends State<AppNavigator<NavigatorProvider>> {
+class _NavigatorState<NavigatorProvider extends AppNavigatorProvider>
+    extends State<AppNavigator<NavigatorProvider>> {
   late LihkgRouteInformationParser _routeInformationParser;
   late NavigatorProvider _provider;
 
   @override
   void initState() {
     _provider = widget.createProvider(context);
-    _routeInformationParser = LihkgRouteInformationParser(_provider.initialPageState);
+    _routeInformationParser =
+        LihkgRouteInformationParser(_provider.initialPageState);
     super.initState();
   }
 
@@ -87,8 +89,7 @@ class NavigatorRouterDelegate extends RouterDelegate<PageState>
 
   List<Page> _buildPages(LayoutSize size) {
     if (_pageState.isEmpty) {
-      return List.unmodifiable(
-          [const MaterialPage(child: DummyPage(message: "Init..."))]);
+      return initialPageState.buildPage(size);
     }
     return List.unmodifiable(_pageState.expand((s) => s.buildPage(size)));
   }

@@ -24,6 +24,7 @@ class ThreadListProvider extends ApiProvider with LoadingStatusMixin {
       _reset();
       notifyListeners();
     } else if (category.catId != _currentCategory?.catId) {
+      _categoryItems = [];
       fetchRequest(() async {
         final response = await webServices.getThreadList(category, page: 1);
         _lastPage = 1;

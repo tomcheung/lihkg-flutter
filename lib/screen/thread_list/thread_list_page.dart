@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
+import 'thread_list_item_skeleton.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
 import 'thread_list_item.dart';
@@ -73,14 +74,14 @@ class _ThreadListPageState extends State<ThreadListPage> {
     scaffold.openDrawer();
   }
 
+  Widget _buildSeparator(BuildContext context, int index) {
+    return const Divider();
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = context.watch<AppConfigProvider>();
     final backgroundColor = Theme.of(context).cardColor;
-
-    _buildSeparator(BuildContext context, int index) {
-      return const Divider();
-    }
 
     _threadListProvider.getThreadList(categoryProvider.selectedCategory);
     return Scaffold(
@@ -93,8 +94,17 @@ class _ThreadListPageState extends State<ThreadListPage> {
         child: ChangeNotifierProvider.value(
           value: _threadListProvider,
           builder: (context, child) {
-            final categoryItems =
-                context.watch<ThreadListProvider>().categoryItems;
+            final provider = context.watch<ThreadListProvider>();
+            final categoryItems = provider.categoryItems;
+
+            if (provider.isLoading && categoryItems.isEmpty) {
+              return ListView.separated(
+                separatorBuilder: _buildSeparator,
+                itemBuilder: (context, index) => const ThreadListItemSkeleton(),
+                itemCount: 40,
+              );
+            }
+
             return ListView.separated(
               controller: _scrollController,
               key: ObjectKey(categoryProvider.selectedCategory?.catId),
