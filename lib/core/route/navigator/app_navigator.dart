@@ -146,7 +146,7 @@ class NavigatorRouterDelegate extends RouterDelegate<PageState>
   }
 
   pushOrUpdateLast(PageState pageState) {
-    if (_pageState.last.runtimeType == pageState.runtimeType) {
+    if (_pageState.isNotEmpty && _pageState.last.runtimeType == pageState.runtimeType) {
       replaceLast(pageState);
     } else {
       push(pageState);
