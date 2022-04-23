@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/app_provider.dart';
@@ -9,7 +11,16 @@ import 'package:provider/provider.dart';
 import 'core/app_theme.dart';
 import 'screen/root/app_config_provider.dart';
 
+class LiHKGHttpOverrides extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context){
+    return super.createHttpClient(context)
+      ..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
+  }
+}
+
 void main() {
+  HttpOverrides.global = LiHKGHttpOverrides();
   runApp(const LiHKGAppLoader());
 }
 
