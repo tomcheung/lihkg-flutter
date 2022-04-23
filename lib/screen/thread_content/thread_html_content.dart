@@ -3,9 +3,9 @@ import 'package:flutter_html/flutter_html.dart';
 import 'package:lihkg_flutter/util/content_renderer.dart';
 
 class ThreadHtmlContent extends StatelessWidget {
-  static final Map<ImageSourceMatcher, ImageRender> imageRenderers = {
-    lihkgEmojiUriMatcher(): lihkgEmojiImageRender(),
-    networkSourceMatcher(): lihkgImageRender(),
+  static final Map<CustomRenderMatcher, CustomRender> customRenders = {
+    lihkgEmojiUriMatcher(): lihkgEmojiImageRender,
+    networkSourceMatcher(): lihkgImageRender,
   };
 
   final String html;
@@ -23,7 +23,7 @@ class ThreadHtmlContent extends StatelessWidget {
       style: (wildcardTextStyle != null) ? {
         "*": wildcardTextStyle
       } : {},
-      customImageRenders: imageRenderers,
+      customRenders: customRenders,
     );
   }
 }
