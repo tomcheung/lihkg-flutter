@@ -26,7 +26,7 @@ class _AdaptiveLayoutNotifierState extends State<AdaptiveLayoutNotifier> {
       final newSize = getLayoutSize(constraints);
 
       if (lastSize != newSize) {
-        WidgetsBinding.instance?.addPostFrameCallback((timeStamp) {
+        WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
           widget.onSizeChange(newSize);
         });
 

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:lihkg_flutter/util/content_renderer.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ThreadHtmlContent extends StatelessWidget {
   static final Map<CustomRenderMatcher, CustomRender> customRenders = {
@@ -24,6 +25,13 @@ class ThreadHtmlContent extends StatelessWidget {
         "*": wildcardTextStyle
       } : {},
       customRenders: customRenders,
+      onLinkTap: (url, context, attributes, element) async {
+        if (url == null) {
+          return;
+        }
+        final uri = Uri.parse(url);
+        if (!await launchUrl(uri)) throw 'Could not launch $uri';
+      },
     );
   }
 }
