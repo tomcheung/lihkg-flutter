@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
-import 'package:lihkg_flutter/model/quote.dart';
+import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
 import 'package:provider/provider.dart';
 import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
@@ -8,7 +8,8 @@ import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_html_content.dart';
 import 'package:lihkg_flutter/shared_widget/icon_with_text.dart';
-import '../../util/extensions/date_util.dart';
+import 'package:lihkg_flutter/util/extensions/date_util.dart';
+import 'thread_content_provider.dart';
 
 class _ThreadContentItemHeader extends StatelessWidget {
   final ThreadContentItemData data;
@@ -170,6 +171,51 @@ class ThreadContentItem extends StatelessWidget {
           const SizedBox(height: 8),
           _ThreadContentItemFooter(data)
         ],
+      ),
+    );
+  }
+}
+
+class ThreadContentPageIndicator extends StatelessWidget {
+  final int page;
+
+  const ThreadContentPageIndicator({super.key, required this.page});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 24,  bottom: 12),
+      child: Center(
+        child: Text('第$page頁'),
+      ),
+    );
+  }
+}
+
+class ThreadContentPageDrawer extends StatelessWidget {
+  final ThreadCategoryItem categoryItem;
+  const ThreadContentPageDrawer({Key? key, required this.categoryItem}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Drawer(
+      width: 120,
+      backgroundColor: theme.backgroundColor.withAlpha(80),
+      child: ListView(
+        children: List.generate(
+          categoryItem.totalPage,
+              (index) => ListTile(
+            textColor: theme.textTheme.bodyMedium?.color,
+            title: Text('第${(index + 1)}頁', textAlign: TextAlign.center),
+            onTap: () {
+              ThreadContentProvider provider = context.read();
+              provider.loadThreadContent(categoryItem, initialPage: index + 1);
+              Scaffold.of(context).closeEndDrawer();
+            },
+          ),
+        ),
       ),
     );
   }

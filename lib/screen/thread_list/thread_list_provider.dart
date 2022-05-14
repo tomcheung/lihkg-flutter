@@ -30,7 +30,6 @@ class ThreadListProvider extends ApiProvider with LoadingStatusMixin {
         _lastPage = 1;
         _categoryItems = response.items;
         _currentCategory = category;
-        notifyListeners();
       });
     }
   }
