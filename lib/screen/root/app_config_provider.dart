@@ -25,6 +25,12 @@ class AppConfigProvider extends ApiProvider {
     await getSystemProperty();
     await loadUserPreference();
     _isInit = true;
+
+    if (categories.isNotEmpty) {
+      final firstCategory = categories.first;
+      _selectedCategory = firstCategory;
+    }
+
     notifyListeners();
   }
 

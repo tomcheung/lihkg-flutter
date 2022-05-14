@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
+import '../../model/category.dart';
 import 'thread_list_item_skeleton.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
@@ -41,14 +42,42 @@ class LihkgDrawerIconButton extends StatelessWidget {
   }
 }
 
-class ThreadListPage extends StatefulWidget {
+class ThreadListPage extends StatelessWidget {
   const ThreadListPage({Key? key}) : super(key: key);
 
   @override
-  _ThreadListPageState createState() => _ThreadListPageState();
+  Widget build(BuildContext context) {
+    final backgroundColor = Theme.of(context).cardColor;
+    final selectedCategory =
+        context.watch<AppConfigProvider>().selectedCategory;
+
+    return Scaffold(
+      appBar: AppBar(
+        leading: LihkgDrawerIconButton(() {
+          Scaffold.of(context).openDrawer();
+        }),
+        title: Text(selectedCategory?.name ?? ''),
+      ),
+      body: Container(
+        color: backgroundColor,
+        child: selectedCategory != null
+            ? ThreadListPageContent(category: selectedCategory)
+            : null,
+      ),
+    );
+  }
 }
 
-class _ThreadListPageState extends State<ThreadListPage> {
+class ThreadListPageContent extends StatefulWidget {
+  final Category category;
+
+  const ThreadListPageContent({super.key, required this.category});
+
+  @override
+  _ThreadListPageContentState createState() => _ThreadListPageContentState();
+}
+
+class _ThreadListPageContentState extends State<ThreadListPageContent> {
   late ThreadListProvider _threadListProvider;
   final ScrollController _scrollController = ScrollController();
 
@@ -62,16 +91,7 @@ class _ThreadListPageState extends State<ThreadListPage> {
   void initState() {
     super.initState();
     _threadListProvider = ThreadListProvider(context);
-    AppConfigProvider categoryProvider = context.read();
-    if (categoryProvider.categories.isNotEmpty) {
-      final firstCategory = categoryProvider.categories.first;
-      categoryProvider.selectedCategory = firstCategory;
-    }
-  }
-
-  void _handleDrawerButton() {
-    final scaffold = Scaffold.of(context);
-    scaffold.openDrawer();
+    _threadListProvider.getThreadList(widget.category);
   }
 
   Widget _buildSeparator(BuildContext context, int index) {
@@ -79,57 +99,54 @@ class _ThreadListPageState extends State<ThreadListPage> {
   }
 
   @override
+  void didUpdateWidget(ThreadListPageContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.category.catId != widget.category.catId) {
+      _threadListProvider.getThreadList(widget.category);
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final categoryProvider = context.watch<AppConfigProvider>();
-    final backgroundColor = Theme.of(context).cardColor;
+    final selectedCategory = widget.category;
 
-    _threadListProvider.getThreadList(categoryProvider.selectedCategory);
-    return Scaffold(
-      appBar: AppBar(
-        leading: LihkgDrawerIconButton(_handleDrawerButton),
-        title: Text(categoryProvider.selectedCategory?.name ?? ''),
-      ),
-      body: Container(
-        color: backgroundColor,
-        child: ChangeNotifierProvider.value(
-          value: _threadListProvider,
-          builder: (context, child) {
-            final provider = context.watch<ThreadListProvider>();
-            final categoryItems = provider.categoryItems;
+    return ChangeNotifierProvider.value(
+      value: _threadListProvider,
+      builder: (context, child) {
+        final provider = context.watch<ThreadListProvider>();
+        final categoryItems = provider.categoryItems;
 
-            if (provider.isLoading && categoryItems.isEmpty) {
-              return ListView.separated(
-                separatorBuilder: _buildSeparator,
-                itemBuilder: (context, index) => const ThreadListItemSkeleton(),
-                itemCount: 40,
-              );
+        if (provider.isLoading && categoryItems.isEmpty) {
+          return ListView.separated(
+            separatorBuilder: _buildSeparator,
+            itemBuilder: (context, index) => const ThreadListItemSkeleton(),
+            itemCount: 40,
+          );
+        }
+
+        return ListView.separated(
+          controller: _scrollController,
+          key: ObjectKey(selectedCategory.catId),
+          itemBuilder: (context, index) {
+            final item = categoryItems[index];
+            if (index == categoryItems.length - 1) {
+              _threadListProvider.loadMore();
             }
-
-            return ListView.separated(
-              controller: _scrollController,
-              key: ObjectKey(categoryProvider.selectedCategory?.catId),
-              itemBuilder: (context, index) {
-                final item = categoryItems[index];
-                if (index == categoryItems.length - 1) {
-                  _threadListProvider.loadMore();
-                }
-                return TextButton(
-                    child: ThreadListItem(
-                      item: item,
-                      key: ObjectKey(item.threadId),
-                    ),
-                    onPressed: () {
-                      context
-                          .read<LihkgRootNavigatorProvider>()
-                          .showThreadContent(item);
-                    });
-              },
-              separatorBuilder: _buildSeparator,
-              itemCount: categoryItems.length,
-            );
+            return TextButton(
+                child: ThreadListItem(
+                  item: item,
+                  key: ObjectKey(item.threadId),
+                ),
+                onPressed: () {
+                  context
+                      .read<LihkgRootNavigatorProvider>()
+                      .showThreadContent(item);
+                });
           },
-        ),
-      ),
+          separatorBuilder: _buildSeparator,
+          itemCount: categoryItems.length,
+        );
+      },
     );
   }
 }
