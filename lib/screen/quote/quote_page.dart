@@ -33,7 +33,10 @@ class _QuotePageState extends State<QuotePage> {
   void didUpdateWidget(covariant QuotePage oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.targetQuote.threadId != widget.targetQuote.threadId) {
-      _provider.loadQuote(widget.targetQuote.threadId, widget.targetQuote.postId);
+      _provider.loadQuote(
+        widget.targetQuote.threadId,
+        widget.targetQuote.postId,
+      );
     }
   }
 
@@ -50,46 +53,51 @@ class _QuotePageState extends State<QuotePage> {
     return Provider(
       create: (context) => ImageSizeCacheProvider(),
       child: Builder(builder: (context) {
-        return Scaffold(
-          appBar: AppBar(
-            actions: [
-              IconButton(
-                icon: const Icon(Icons.close),
-                onPressed: _closeDialog,
-              )
-            ],
-            elevation: 0.6,
-          ),
-          body: ListenableProvider.value(
-            value: _provider,
-            builder: (context, child) {
-              final provider = context.watch<QuoteProvider>();
-              List<ThreadContentItemData> contents =
-                  [widget.targetQuote] + provider.quotes;
+        return MediaQuery.removePadding(
+          context: context,
+          removeTop: true,
+          child: Scaffold(
+            appBar: AppBar(
+              title: const Text('回覆'),
+              actions: [
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: _closeDialog,
+                )
+              ],
+              elevation: 0.6,
+            ),
+            body: ListenableProvider.value(
+              value: _provider,
+              builder: (context, child) {
+                final provider = context.watch<QuoteProvider>();
+                List<ThreadContentItemData> contents =
+                    [widget.targetQuote] + provider.quotes;
 
-              return ListView.separated(
-                itemBuilder: (ctx, index) {
-                  final content = contents[index];
-                  return ThreadContentItem(
-                    data: content,
-                    index: index,
-                  );
-                },
-                separatorBuilder: (ctx, index) {
-                  if (index == 0) {
-                    return Container(
-                      color: theme.dividerColor,
-                      alignment: Alignment.center,
-                      padding: const EdgeInsets.symmetric(vertical: 12),
-                      child: const Text('被引用回覆'),
+                return ListView.separated(
+                  itemBuilder: (ctx, index) {
+                    final content = contents[index];
+                    return ThreadContentItem(
+                      data: content,
+                      index: index + 1,
                     );
-                  } else {
-                    return Divider(color: theme.dividerColor);
-                  }
-                },
-                itemCount: contents.length,
-              );
-            },
+                  },
+                  separatorBuilder: (ctx, index) {
+                    if (index == 0) {
+                      return Container(
+                        color: theme.dividerColor,
+                        alignment: Alignment.center,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: const Text('被引用回覆'),
+                      );
+                    } else {
+                      return Divider(color: theme.dividerColor);
+                    }
+                  },
+                  itemCount: contents.length,
+                );
+              },
+            ),
           ),
         );
       }),

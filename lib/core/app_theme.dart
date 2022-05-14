@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class AppThemeData {
   final String name;
@@ -12,6 +13,7 @@ class AppThemeData {
   static final AppThemeData light = AppThemeData(
       name: 'light',
       materialThemeData: ThemeData(
+        brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
           primary: Colors.amber,
         ),
@@ -46,6 +48,7 @@ class AppThemeData {
   static final AppThemeData dark = AppThemeData(
       name: 'dark',
       materialThemeData: ThemeData(
+        brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(
           primary: Colors.amber,
         ),
@@ -56,6 +59,7 @@ class AppThemeData {
         iconTheme: const IconThemeData(color: Colors.white54),
         primaryIconTheme: const IconThemeData(color: Colors.white70),
         appBarTheme: const AppBarTheme(
+          systemOverlayStyle: SystemUiOverlayStyle.light,
           backgroundColor: Colors.white10,
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.normal,
