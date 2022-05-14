@@ -1,6 +1,5 @@
 import 'package:flutter/widgets.dart';
 import 'package:lihkg_flutter/core/api_provider.dart';
-import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/model/quote.dart';
 import 'package:lihkg_flutter/util/loading_status_mixin.dart';
 

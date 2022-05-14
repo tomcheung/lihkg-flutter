@@ -31,7 +31,7 @@ class LihkgRootPageState extends PageState {
   @override
   List<Page> buildPage(LayoutSize size) {
     switch (size) {
-      case LayoutSize.Large:
+      case LayoutSize.large:
         return [
           MaterialPage(
             child: MainPage(
@@ -43,7 +43,7 @@ class LihkgRootPageState extends PageState {
           )
         ];
 
-      case LayoutSize.Compact:
+      case LayoutSize.compact:
         return [
           const MaterialPage(
             child: MainPage(

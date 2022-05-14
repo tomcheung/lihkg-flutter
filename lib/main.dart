@@ -87,7 +87,7 @@ class _LiHKGAppState extends State<LiHKGApp> {
             return AppTheme(
               theme: provider.userPreference.appTheme,
               onThemeUpdated: _updateTheme,
-              child: LihkgRootNavigator(),
+              child: const LihkgRootNavigator(),
             );
           } else {
             return const SplashScreen();

@@ -12,7 +12,7 @@ import 'thread_content_skeleton.dart';
 class ThreadContentPage extends StatefulWidget {
   final ThreadCategoryItem? categoryItem;
 
-  const ThreadContentPage({Key? key, this.categoryItem}) : super(key: key);
+  const ThreadContentPage({super.key, this.categoryItem});
 
   @override
   _ThreadContentPageState createState() => _ThreadContentPageState();

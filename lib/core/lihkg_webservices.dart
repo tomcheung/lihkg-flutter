@@ -9,14 +9,14 @@ import '../model/quote.dart';
 import '../model/system_property.dart';
 import '../model/thread_content.dart';
 
-enum PostOrder { ReplyTime, Score }
+enum PostOrder { replyTime, score }
 
 extension PostOrderExtension on PostOrder {
   String get apiValue {
     switch (this) {
-      case PostOrder.Score:
+      case PostOrder.score:
         return 'score';
-      case PostOrder.ReplyTime:
+      case PostOrder.replyTime:
         return 'reply_time';
     }
   }
@@ -102,7 +102,7 @@ class LihkgWebServices {
   Future<ThreadContentResponse> getThreadContent({
     required String threadId,
     int page = 1,
-    PostOrder order = PostOrder.ReplyTime,
+    PostOrder order = PostOrder.replyTime,
   }) async {
     final response = await _dio.get(
       '$serverAPIRoot/thread/$threadId/page/$page',

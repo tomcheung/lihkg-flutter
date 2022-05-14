@@ -25,8 +25,10 @@ class QuoteResponse{
 
 @JsonSerializable()
 class Quote implements ThreadContentItemData  {
+  @override
   String postId;
   String quotePostId;
+  @override
   String threadId;
   @override
   String userNickname;

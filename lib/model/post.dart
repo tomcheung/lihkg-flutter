@@ -12,8 +12,10 @@ part 'post.g.dart';
 
 @JsonSerializable()
 class Post implements ThreadContentItemData {
+  @override
   String postId;
   String? quotePostId;
+  @override
   String threadId;
   @override
   String userNickname;

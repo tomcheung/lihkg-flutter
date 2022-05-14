@@ -7,10 +7,10 @@ class UserPreference {
 
   set appTheme(AppThemeData appTheme) {
     _appTheme = appTheme;
-    _saveStringPref(ThemeNameKey, appTheme.name);
+    _saveStringPref(themeNameKey, appTheme.name);
   }
 
-  static const ThemeNameKey = "themeName";
+  static const themeNameKey = "themeName";
 
   UserPreference({required AppThemeData appTheme}):
         _appTheme = appTheme;
@@ -20,7 +20,7 @@ class UserPreference {
 
     AppThemeData appTheme;
 
-    switch (prefs.getString(ThemeNameKey)) {
+    switch (prefs.getString(themeNameKey)) {
       case 'light':
         appTheme = AppThemeData.light;
         break;

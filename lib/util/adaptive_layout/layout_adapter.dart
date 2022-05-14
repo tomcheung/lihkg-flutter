@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
 enum LayoutSize {
-  Large, Compact
+  large, compact
 }
 
 LayoutSize getLayoutSize(BoxConstraints constraints) {
-  return constraints.maxWidth > 600 ? LayoutSize.Large : LayoutSize.Compact;
+  return constraints.maxWidth > 600 ? LayoutSize.large : LayoutSize.compact;
 }
 
 class AdaptiveLayoutNotifier extends StatefulWidget {

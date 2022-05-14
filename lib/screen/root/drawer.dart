@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';

@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../page_state/default_page_state.dart';
 import '../page_state/page_state.dart';
 import '../../../screen/root/dummy_page.dart';
 import '../../../util/adaptive_layout/layout_adapter.dart';
@@ -9,7 +8,7 @@ import '../../app_theme.dart';
 
 abstract class AppNavigator<NavigatorProvider extends AppNavigatorProvider>
     extends StatefulWidget {
-  AppNavigator({Key? key}) : super(key: key);
+  const AppNavigator({Key? key}) : super(key: key);
 
   @override
   State<StatefulWidget> createState() => _NavigatorState<NavigatorProvider>();
@@ -81,7 +80,7 @@ class NavigatorRouterDelegate extends RouterDelegate<PageState>
     with ChangeNotifier, PopNavigatorRouterDelegateMixin<PageState> {
   @override
   final GlobalKey<NavigatorState> navigatorKey = GlobalKey();
-  LayoutSize _layoutSize = LayoutSize.Large;
+  LayoutSize _layoutSize = LayoutSize.large;
   List<PageState> _pageState = [];
   final PageState initialPageState;
 

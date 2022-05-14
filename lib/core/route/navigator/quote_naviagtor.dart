@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:lihkg_flutter/core/route/page_state/default_page_state.dart';
-import 'package:lihkg_flutter/model/quote.dart';
-import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/quote/quote_page.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'app_navigator.dart';
 
 class QuoteNavigator extends AppNavigator<QuoteNavigatorProvider> {
-  Post initialPost;
+  final Post initialPost;
 
-  QuoteNavigator({Key? key, required this.initialPost}) : super(key: key);
+  const QuoteNavigator({super.key, required this.initialPost});
 
   @override
   QuoteNavigatorProvider createProvider(BuildContext context) =>
