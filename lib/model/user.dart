@@ -12,7 +12,7 @@ class User {
   String level;
   Gender gender;
   String status;
-  int createTime;
+  int? createTime;
   // LevelName levelName;
   bool isFollowing;
   bool isBlocked;
@@ -25,7 +25,7 @@ class User {
     required this.level,
     required this.gender,
     required this.status,
-    required this.createTime,
+    this.createTime,
     // required this.levelName,
     required this.isFollowing,
     required this.isBlocked,

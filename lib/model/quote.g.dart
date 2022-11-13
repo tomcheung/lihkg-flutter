@@ -19,7 +19,7 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
       quotePostId: json['quote_post_id'] as String,
       threadId: json['thread_id'] as String,
       userNickname: json['user_nickname'] as String,
-      userGender: _$enumDecode(_$GenderEnumMap, json['user_gender']),
+      userGender: $enumDecode(_$GenderEnumMap, json['user_gender']),
       likeCount: json['like_count'] as String,
       dislikeCount: json['dislike_count'] as String,
       voteScore: json['vote_score'] as String,
@@ -38,32 +38,6 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
     )..quote = json['quote'] == null
         ? null
         : PostQuote.fromJson(json['quote'] as Map<String, dynamic>);
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
 
 const _$GenderEnumMap = {
   Gender.M: 'M',

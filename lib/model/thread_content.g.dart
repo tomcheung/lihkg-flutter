@@ -15,7 +15,7 @@ ThreadContentResponse _$ThreadContentResponseFromJson(
       title: json['title'] as String,
       userId: json['user_id'] as String,
       userNickname: json['user_nickname'] as String,
-      userGender: _$enumDecode(_$GenderEnumMap, json['user_gender']),
+      userGender: $enumDecode(_$GenderEnumMap, json['user_gender']),
       noOfReply: json['no_of_reply'] as String,
       noOfUniUserReply: json['no_of_uni_user_reply'] as String,
       likeCount: json['like_count'] as int,
@@ -44,32 +44,6 @@ ThreadContentResponse _$ThreadContentResponseFromJson(
           .map((e) => Post.fromJson(e as Map<String, dynamic>))
           .toList(),
     );
-
-K _$enumDecode<K, V>(
-  Map<K, V> enumValues,
-  Object? source, {
-  K? unknownValue,
-}) {
-  if (source == null) {
-    throw ArgumentError(
-      'A value must be provided. Supported values: '
-      '${enumValues.values.join(', ')}',
-    );
-  }
-
-  return enumValues.entries.singleWhere(
-    (e) => e.value == source,
-    orElse: () {
-      if (unknownValue == null) {
-        throw ArgumentError(
-          '`$source` is not one of the supported values: '
-          '${enumValues.values.join(', ')}',
-        );
-      }
-      return MapEntry(unknownValue, enumValues.values.first);
-    },
-  ).key;
-}
 
 const _$GenderEnumMap = {
   Gender.M: 'M',

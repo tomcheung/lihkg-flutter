@@ -73,7 +73,7 @@ class LihkgWebServices {
 
     if (kDebugMode) {
       dio.interceptors
-          .add(LogInterceptor(requestBody: true, responseBody: false));
+          .add(LogInterceptor(requestBody: true, responseBody: true));
     }
 
     _dio = dio;
