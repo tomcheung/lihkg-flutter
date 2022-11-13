@@ -202,13 +202,12 @@ class ThreadContentPageDrawer extends StatelessWidget {
 
     return Drawer(
       width: 120,
-      backgroundColor: theme.backgroundColor.withAlpha(80),
       child: ListView(
         children: List.generate(
           categoryItem.totalPage,
               (index) => ListTile(
             textColor: theme.textTheme.bodyMedium?.color,
-            title: Text('第${(index + 1)}頁', textAlign: TextAlign.center),
+            title: Text('第${index + 1}頁', textAlign: TextAlign.center),
             onTap: () {
               ThreadContentProvider provider = context.read();
               provider.loadThreadContent(categoryItem, initialPage: index + 1);
