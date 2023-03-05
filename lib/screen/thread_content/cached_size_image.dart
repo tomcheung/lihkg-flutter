@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
+import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
 import 'package:lihkg_flutter/screen/thread_content/image_size_cache_provider.dart';
+import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 
 class CachedSizeImage extends StatefulWidget {
@@ -65,52 +68,62 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
 
   @override
   Widget build(BuildContext context) {
-    final image = RawImage(
-      image: _imageInfo?.image,
-      scale: _imageInfo?.scale ?? 0,
-      width: 600,
+    final image = Hero(
+      tag: widget.imageProvider,
+      child: RawImage(
+        image: _imageInfo?.image,
+        scale: _imageInfo?.scale ?? 0,
+        width: 600,
+      ),
     );
 
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: LayoutBuilder(builder: (context, constraints) {
-        final imageInfo = _imageInfo;
-        Size? size;
+    return GestureDetector(
+      onTap: () {
+        context
+            .read<LihkgRootNavigatorProvider>()
+            .showFullscreenImage(widget.imageProvider);
+      },
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: LayoutBuilder(builder: (context, constraints) {
+          final imageInfo = _imageInfo;
+          Size? size;
 
-        if (imageInfo != null) {
-          size = Size(
-            imageInfo.image.width.toDouble(),
-            imageInfo.image.height.toDouble(),
+          if (imageInfo != null) {
+            size = Size(
+              imageInfo.image.width.toDouble(),
+              imageInfo.image.height.toDouble(),
+            );
+          } else {
+            final imageSizeProvider = context.read<ImageSizeCacheProvider>();
+            size = imageSizeProvider.getSize(widget.imageProvider.url);
+          }
+
+          if (size == null) {
+            return const Padding(
+              padding: EdgeInsets.all(16.0),
+              child: SizedBox(
+                width: 30,
+                height: 30,
+                child: CircularProgressIndicator(),
+              ),
+            );
+          }
+
+          if (size.width > constraints.maxWidth) {
+            size = Size(
+              constraints.maxWidth,
+              constraints.maxWidth / size.width * size.height,
+            );
+          }
+
+          return SizedBox(
+            width: size.width,
+            height: size.height,
+            child: image,
           );
-        } else {
-          final imageSizeProvider = context.read<ImageSizeCacheProvider>();
-          size = imageSizeProvider.getSize(widget.imageProvider.url);
-        }
-
-        if (size == null) {
-          return const Padding(
-            padding: EdgeInsets.all(16.0),
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator(),
-            ),
-          );
-        }
-
-        if (size.width > constraints.maxWidth) {
-          size = Size(
-            constraints.maxWidth,
-            constraints.maxWidth / size.width * size.height,
-          );
-        }
-
-        return SizedBox(
-          width: size.width,
-          height: size.height,
-          child: image,
-        );
-      }),
+        }),
+      ),
     );
   }
 }
