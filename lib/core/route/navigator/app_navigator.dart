@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:provider/provider.dart';
 import '../page_state/page_state.dart';
 import '../../../screen/root/dummy_page.dart';
@@ -7,11 +8,11 @@ import '../../../util/adaptive_layout/layout_adapter.dart';
 import '../../app_theme.dart';
 
 abstract class AppNavigator<NavigatorProvider extends AppNavigatorProvider>
-    extends StatefulWidget {
+    extends ConsumerStatefulWidget {
   const AppNavigator({Key? key}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => _NavigatorState<NavigatorProvider>();
+  ConsumerState<ConsumerStatefulWidget> createState() => _NavigatorState<NavigatorProvider>();
 
   NavigatorProvider createProvider(BuildContext context);
 }
@@ -51,7 +52,7 @@ class LihkgRouteInformationParser extends RouteInformationParser<PageState> {
 }
 
 class _NavigatorState<NavigatorProvider extends AppNavigatorProvider>
-    extends State<AppNavigator<NavigatorProvider>> {
+    extends ConsumerState<AppNavigator<NavigatorProvider>> {
   late LihkgRouteInformationParser _routeInformationParser;
   late NavigatorProvider _provider;
 
@@ -65,12 +66,15 @@ class _NavigatorState<NavigatorProvider extends AppNavigatorProvider>
 
   @override
   Widget build(BuildContext context) {
+    final appTheme = ref.watch(appThemeProvider);
+    AppThemeData appThemeData = appTheme.value ?? AppThemeData.light;
+
     return Provider.value(
       value: _provider,
       child: MaterialApp.router(
         routeInformationParser: _routeInformationParser,
         routerDelegate: _provider.routerDelegate,
-        theme: AppTheme.of(context).materialThemeData,
+        theme: appThemeData.materialThemeData,
       ),
     );
   }

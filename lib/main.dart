@@ -2,13 +2,13 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:lihkg_flutter/core/app_provider.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/splash_page.dart';
 import 'package:provider/provider.dart';
 
-import 'core/app_theme.dart';
 import 'screen/root/app_config_provider.dart';
 
 class LiHKGHttpOverrides extends HttpOverrides {
@@ -21,9 +21,10 @@ class LiHKGHttpOverrides extends HttpOverrides {
 
 void main() {
   HttpOverrides.global = LiHKGHttpOverrides();
-  runApp(const LiHKGAppLoader());
+  runApp(const ProviderScope(child: LiHKGAppLoader()));
 }
 
+@Deprecated('Remove after migrate to riverpod')
 class LiHKGAppLoader extends StatelessWidget {
 
   const LiHKGAppLoader({Key? key}): super(key: key);
@@ -32,13 +33,8 @@ class LiHKGAppLoader extends StatelessWidget {
   Widget build(BuildContext context) {
     return Provider(
       create: (context) {
-        if (kIsWeb) {
-          return AppProvider(
-              webServicesConfig: LihkgWebServicesConfig.localHost);
-        } else {
-          return AppProvider(
-              webServicesConfig: LihkgWebServicesConfig.defaultConfig);
-        }
+        return AppProvider(
+            webServicesConfig: LihkgWebServicesConfig.defaultConfig);
       },
       child: const LiHKGApp(),
     );
@@ -46,54 +42,21 @@ class LiHKGAppLoader extends StatelessWidget {
 }
 
 @immutable
-class LiHKGApp extends StatefulWidget {
+class LiHKGApp extends ConsumerStatefulWidget {
   @override
-  _LiHKGAppState createState() => _LiHKGAppState();
+  ConsumerState createState() => _LiHKGAppState();
 
   const LiHKGApp({Key? key}): super(key: key);
 }
 
-class _LiHKGAppState extends State<LiHKGApp> {
-  // final AppRouterDelegate _routerDelegate = AppRouterDelegate();
-  late AppConfigProvider _appConfigProvider;
-  // final LihkgRouteInformationParser _routeInformationParser =
-  //     LihkgRouteInformationParser();
-
-  _updateTheme(AppThemeData newThemeData) {
-    setState(() {
-      _appConfigProvider.setTheme(newThemeData);
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _appConfigProvider = AppConfigProvider(context)..init();
-  }
-
-  @override
-  void dispose() {
-    _appConfigProvider.dispose();
-    super.dispose();
-  }
-
+class _LiHKGAppState extends ConsumerState<LiHKGApp> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: _appConfigProvider,
-      child: Consumer<AppConfigProvider>(
-        builder: (context, provider, child) {
-          if (provider.isInit) {
-            return AppTheme(
-              theme: provider.userPreference.appTheme,
-              onThemeUpdated: _updateTheme,
-              child: const LihkgRootNavigator(),
-            );
-          } else {
-            return const SplashScreen();
-          }
-        },
-      ),
-    );
+    final isInit = ref.watch(appInitialLoadedProvider);
+    if (isInit) {
+      return const LihkgRootNavigator();
+    } else {
+      return const SplashScreen();
+    }
   }
 }

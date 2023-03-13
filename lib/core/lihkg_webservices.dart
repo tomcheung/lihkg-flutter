@@ -3,11 +3,14 @@ import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:cookie_jar/cookie_jar.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../model/category.dart';
 import '../model/quote.dart';
 import '../model/system_property.dart';
 import '../model/thread_content.dart';
+
+part 'lihkg_webservices.g.dart';
 
 enum PostOrder { replyTime, score }
 
@@ -120,4 +123,9 @@ class LihkgWebServices {
         .get('$serverAPIRoot/thread/$threadId/$postId/quotes/page/$page');
     return QuoteResponse.fromJson(response.data['response']);
   }
+}
+
+@Riverpod(keepAlive: true)
+LihkgWebServices lihkgWebServices(LihkgWebServicesRef ref) {
+  return LihkgWebServices(LihkgWebServicesConfig.defaultConfig);
 }

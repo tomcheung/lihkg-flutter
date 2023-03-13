@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+part 'app_theme.g.dart';
 
 class AppThemeData {
   final String name;
@@ -82,40 +87,41 @@ class AppThemeData {
       ));
 }
 
-class AppTheme extends InheritedWidget {
-  final AppThemeData theme;
-  final Function(AppThemeData themeData) _onThemeUpdated;
-
-  const AppTheme({
-    Key? key,
-    required this.theme,
-    required Widget child,
-    required Function(AppThemeData themeData) onThemeUpdated,
-  })  : _onThemeUpdated = onThemeUpdated,
-        super(child: child, key: key);
-
-  void setTheme(AppThemeData appTheme) {
-    _onThemeUpdated(appTheme);
-  }
+@Riverpod(keepAlive: true)
+class AppTheme extends _$AppTheme {
+  static const _themeNameKey = "themeName";
 
   @override
-  bool updateShouldNotify(covariant InheritedWidget oldWidget) {
-    if (oldWidget is AppTheme) {
-      return oldWidget.theme.name != theme.name;
-    } else {
-      return false;
+  FutureOr<AppThemeData> build() async {
+    final theme = await _getSaveTheme();
+    return theme;
+  }
+
+  void setTheme(AppThemeData appTheme) {
+    _saveTheme(appTheme);
+    state = AsyncValue.data(appTheme);
+    // _onThemeUpdated(appTheme);
+  }
+
+  void _saveTheme(AppThemeData appTheme) async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString(_themeNameKey, appTheme.name);
+  }
+
+  Future<AppThemeData> _getSaveTheme() async {
+    final prefs = await SharedPreferences.getInstance();
+
+    switch (prefs.getString(_themeNameKey)) {
+      case 'light':
+        return AppThemeData.light;
+      case 'dark':
+        return AppThemeData.dark;
+      default:
+        return AppThemeData.light;
     }
   }
 
-  static updateTheme(AppThemeData theme, BuildContext context) {
-    final result = context.dependOnInheritedWidgetOfExactType<AppTheme>();
-    assert(result != null, 'No AppTheme found in context');
-    result?._onThemeUpdated(theme);
-  }
-
-  static AppThemeData of(BuildContext context) {
-    final result = context.dependOnInheritedWidgetOfExactType<AppTheme>();
-    assert(result != null, 'No AppTheme found in context');
-    return result!.theme;
+  void _saveStringPref(String key, String value) {
+    SharedPreferences.getInstance().then((pref) => pref.setString(key, value));
   }
 }

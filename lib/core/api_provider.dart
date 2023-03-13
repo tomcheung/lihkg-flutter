@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../../core/lihkg_webservices.dart';
 import './app_provider.dart';
 
+@Deprecated("migrate to riverpod")
 abstract class ApiProvider extends ChangeNotifier {
   final LihkgWebServices webServices;
 

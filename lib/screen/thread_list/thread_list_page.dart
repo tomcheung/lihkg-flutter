@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide ChangeNotifierProvider;
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
@@ -42,14 +43,13 @@ class LihkgDrawerIconButton extends StatelessWidget {
   }
 }
 
-class ThreadListPage extends StatelessWidget {
+class ThreadListPage extends ConsumerWidget {
   const ThreadListPage({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final backgroundColor = Theme.of(context).cardColor;
-    final selectedCategory =
-        context.watch<AppConfigProvider>().selectedCategory;
+    final selectedCategory = ref.watch(selectedCategoryStateProvider);
 
     return Scaffold(
       appBar: AppBar(
@@ -74,7 +74,7 @@ class ThreadListPageContent extends StatefulWidget {
   const ThreadListPageContent({super.key, required this.category});
 
   @override
-  _ThreadListPageContentState createState() => _ThreadListPageContentState();
+  State createState() => _ThreadListPageContentState();
 }
 
 class _ThreadListPageContentState extends State<ThreadListPageContent> {

@@ -1,51 +1,32 @@
-import 'package:flutter/widgets.dart';
-import 'package:lihkg_flutter/core/api_provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
-import 'package:lihkg_flutter/screen/root/user_preference.dart';
+import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import '../../model/category.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class AppConfigProvider extends ApiProvider {
-  List<Category> categories = [];
-  Category? _selectedCategory;
-  UserPreference _userPreference = UserPreference(appTheme: AppThemeData.light);
-  UserPreference get userPreference => _userPreference;
+import '../../model/system_property.dart';
 
-  bool _isInit = false;
-  bool get isInit => _isInit;
+part 'app_config_provider.g.dart';
 
-  Category? get selectedCategory => _selectedCategory;
-  set selectedCategory(Category? category) {
-    _selectedCategory = category;
-    notifyListeners();
-  }
-
-  AppConfigProvider(BuildContext context) : super(context);
-
-  init() async {
-    await getSystemProperty();
-    await loadUserPreference();
-    _isInit = true;
-
-    if (categories.isNotEmpty) {
-      final firstCategory = categories.first;
-      _selectedCategory = firstCategory;
-    }
-
-    notifyListeners();
-  }
-
-  Future<void> getSystemProperty() async {
+@Riverpod(keepAlive: true)
+class AppSystemProperty extends _$AppSystemProperty {
+  @override
+  FutureOr<SystemProperty> build() async {
+    final webServices = ref.watch(lihkgWebServicesProvider);
     final response = await webServices.getSystemProperty();
-    categories = response.categoryList;
-    notifyListeners();
-  }
-
-  loadUserPreference() async {
-    _userPreference = await UserPreference.loadFromSharedPreferences();
-    notifyListeners();
-  }
-
-  setTheme(AppThemeData appTheme) {
-    _userPreference.appTheme = appTheme;
+    return response;
   }
 }
+
+final threadCategoriesProvider = Provider<List<Category>>((ref) {
+  final systemPropertyProvider = ref.watch(appSystemPropertyProvider);
+  return systemPropertyProvider.value?.categoryList ?? [];
+});
+
+final appInitialLoadedProvider = Provider<bool>((ref) {
+  final systemProperty = ref.watch(appSystemPropertyProvider);
+  final appTheme = ref.watch(appThemeProvider);
+  return systemProperty.hasValue && appTheme.hasValue;
+});
+
+final selectedCategoryStateProvider = StateProvider<Category?>((ref) => null);
