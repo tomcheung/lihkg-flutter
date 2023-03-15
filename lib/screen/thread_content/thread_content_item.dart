@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_html/style.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
 import 'package:provider/provider.dart';
@@ -192,12 +193,12 @@ class ThreadContentPageIndicator extends StatelessWidget {
   }
 }
 
-class ThreadContentPageDrawer extends StatelessWidget {
+class ThreadContentPageDrawer extends ConsumerWidget {
   final ThreadCategoryItem categoryItem;
   const ThreadContentPageDrawer({Key? key, required this.categoryItem}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
 
     return Drawer(
@@ -209,8 +210,8 @@ class ThreadContentPageDrawer extends StatelessWidget {
             textColor: theme.textTheme.bodyMedium?.color,
             title: Text('第${index + 1}頁', textAlign: TextAlign.center),
             onTap: () {
-              ThreadContentProvider provider = context.read();
-              provider.loadThreadContent(categoryItem, initialPage: index + 1);
+              final threadContentNotifier = ref.read(threadContentProvider(categoryItem).notifier);
+              threadContentNotifier.fetchPage(index + 1);
               Scaffold.of(context).closeEndDrawer();
             },
           ),

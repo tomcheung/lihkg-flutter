@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' hide ChangeNotifierProvider;
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
-import '../../model/category.dart';
 import 'thread_list_item_skeleton.dart';
 import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
@@ -23,12 +22,12 @@ class LihkgDrawerIconButton extends StatelessWidget {
         alignment: Alignment.center,
         children: [
           Transform(
+            transform: Matrix4.translationValues(-35, 0, 0),
             child: const Align(
               alignment: Alignment.centerLeft,
               widthFactor: 0.5,
               child: Icon(Icons.menu),
             ),
-            transform: Matrix4.translationValues(-35, 0, 0),
           ),
           SvgPicture.asset(
             'assets/lihkg_logo.svg',
@@ -61,77 +60,45 @@ class ThreadListPage extends ConsumerWidget {
       body: Container(
         color: backgroundColor,
         child: selectedCategory != null
-            ? ThreadListPageContent(category: selectedCategory)
+            ? const ThreadListPageContent()
             : null,
       ),
     );
   }
 }
 
-class ThreadListPageContent extends StatefulWidget {
-  final Category category;
-
-  const ThreadListPageContent({super.key, required this.category});
+class ThreadListPageContent extends ConsumerStatefulWidget {
+  const ThreadListPageContent({super.key});
 
   @override
-  State createState() => _ThreadListPageContentState();
+  ConsumerState createState() => _ThreadListPageContentState();
 }
 
-class _ThreadListPageContentState extends State<ThreadListPageContent> {
-  late ThreadListProvider _threadListProvider;
+class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
   final ScrollController _scrollController = ScrollController();
-
-  @override
-  void dispose() {
-    _threadListProvider.dispose();
-    super.dispose();
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    _threadListProvider = ThreadListProvider(context);
-    _threadListProvider.getThreadList(widget.category);
-  }
 
   Widget _buildSeparator(BuildContext context, int index) {
     return const Divider();
   }
 
   @override
-  void didUpdateWidget(ThreadListPageContent oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.category.catId != widget.category.catId) {
-      _threadListProvider.getThreadList(widget.category);
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final selectedCategory = widget.category;
+    final threadListState = ref.watch(threadListProvider);
 
-    return ChangeNotifierProvider.value(
-      value: _threadListProvider,
-      builder: (context, child) {
-        final provider = context.watch<ThreadListProvider>();
-        final categoryItems = provider.categoryItems;
-
-        if (provider.isLoading && categoryItems.isEmpty) {
-          return ListView.separated(
-            separatorBuilder: _buildSeparator,
-            itemBuilder: (context, index) => const ThreadListItemSkeleton(),
-            itemCount: 40,
-          );
-        }
-
+    return threadListState.when(
+      data: (threadListState) {
+        final categoryItems = threadListState.items;
         return ListView.separated(
           controller: _scrollController,
-          key: ObjectKey(selectedCategory.catId),
+          key: ObjectKey(threadListState.categoryId),
           itemBuilder: (context, index) {
             final item = categoryItems[index];
-            if (index == categoryItems.length - 1) {
-              _threadListProvider.loadMore();
-            }
+            Future.delayed(Duration(), () {
+              final threadListStateNotifier = ref.read(threadListProvider.notifier);
+              if (index == categoryItems.length - 1) {
+                threadListStateNotifier.loadMore();
+              }
+            });
             return TextButton(
                 child: ThreadListItem(
                   item: item,
@@ -147,6 +114,16 @@ class _ThreadListPageContentState extends State<ThreadListPageContent> {
           itemCount: categoryItems.length,
         );
       },
+      error: (error, stack) => ListView.separated(
+        separatorBuilder: _buildSeparator,
+        itemBuilder: (context, index) => const ThreadListItemSkeleton(),
+        itemCount: 40,
+      ), // TODO: Show error message
+      loading: () => ListView.separated(
+        separatorBuilder: _buildSeparator,
+        itemBuilder: (context, index) => const ThreadListItemSkeleton(),
+        itemCount: 40,
+      ),
     );
   }
 }

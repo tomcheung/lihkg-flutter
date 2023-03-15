@@ -1,53 +1,56 @@
 import 'package:flutter/widgets.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/core/api_provider.dart';
+import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/model/category.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/util/loading_status_mixin.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class ThreadListProvider extends ApiProvider with LoadingStatusMixin {
-  Category? _currentCategory;
-  int _lastPage = 0;
+import '../root/app_config_provider.dart';
 
-  List<ThreadCategoryItem> _categoryItems = [];
-  List<ThreadCategoryItem> get categoryItems => _categoryItems;
+part 'thread_list_provider.freezed.dart';
+part 'thread_list_provider.g.dart';
 
-  ThreadListProvider(BuildContext context) : super(context);
+@freezed
+class ThreadListState with _$ThreadListState {
+  factory ThreadListState({
+    required List<ThreadCategoryItem> items,
+    required String categoryId,
+    required int lastPage,
+  }) = _ThreadListState;
+}
 
-  _reset() {
-    _currentCategory = null;
-    _lastPage = 0;
-    _categoryItems = [];
-  }
+@riverpod
+class ThreadList extends _$ThreadList {
+  @override
+  Future<ThreadListState> build() async {
+    final webServices = ref.watch(lihkgWebServicesProvider);
+    final selectedCategory = ref.watch(selectedCategoryStateProvider);
 
-  Future<void> getThreadList(Category? category) async {
-    if (category == null) {
-      _reset();
-      notifyListeners();
-    } else if (category.catId != _currentCategory?.catId) {
-      _categoryItems = [];
-      fetchRequest(() async {
-        final response = await webServices.getThreadList(category, page: 1);
-        _lastPage = 1;
-        _categoryItems = response.items;
-        _currentCategory = category;
-      });
+    if (selectedCategory != null) {
+      final response = await webServices.getThreadList(
+          selectedCategory, page: 0);
+      return ThreadListState(items: response.items, categoryId: selectedCategory.catId, lastPage: 0);
+    } else {
+      return ThreadListState(items: [], categoryId: "", lastPage: 0);
     }
   }
 
-  loadMore() async {
-    final category = _currentCategory;
-    if (category == null) {
+  Future<void> loadMore() async {
+    final categoryState = state.value;
+    final selectedCategory = ref.read(selectedCategoryStateProvider);
+
+    if (categoryState == null || selectedCategory == null) {
       return;
     }
 
-    fetchRequest(() async {
-      final nextPage = _lastPage + 1;
-      final response = await webServices.getThreadList(category, page: nextPage);
-      _lastPage = nextPage;
-      _categoryItems.addAll(response.items);
-      notifyListeners();
-    });
+    final webServices = ref.read(lihkgWebServicesProvider);
+    final nextPage = categoryState.lastPage + 1;
+    final response = await webServices.getThreadList(selectedCategory, page: nextPage);
 
+    var newItems = List<ThreadCategoryItem>.from(categoryState.items);
+    newItems.addAll(response.items);
+    state = AsyncValue.data(ThreadListState(items: newItems, categoryId: categoryState.categoryId, lastPage: nextPage));
   }
-
 }

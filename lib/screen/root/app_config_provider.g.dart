@@ -6,7 +6,7 @@ part of 'app_config_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appSystemPropertyHash() => r'c1c007a3c8433adc55fb986b89ab06aecffc32b7';
+String _$appSystemPropertyHash() => r'94d3fe4f2523f86d42b80a6b3ae00ce010e75452';
 
 /// See also [AppSystemProperty].
 @ProviderFor(AppSystemProperty)

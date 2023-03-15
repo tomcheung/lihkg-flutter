@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
-import 'package:photo_view/photo_view.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
 import 'package:provider/provider.dart';
 
 import './thread_content_provider.dart';
@@ -11,45 +10,42 @@ import 'image_size_cache_provider.dart';
 import 'thread_content_item.dart';
 import 'thread_content_skeleton.dart';
 
-class ThreadContentPage extends StatefulWidget {
+class ThreadContentPage extends ConsumerStatefulWidget {
   final ThreadCategoryItem? categoryItem;
 
   const ThreadContentPage({super.key, this.categoryItem});
 
   @override
-  _ThreadContentPageState createState() => _ThreadContentPageState();
+  ConsumerState createState() => _ThreadContentPageState();
 }
 
-class _ThreadContentPageState extends State<ThreadContentPage> {
-  late ThreadContentProvider _threadContentProvider;
+class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
   final ScrollController _scrollController = ScrollController();
 
   @override
   void initState() {
     super.initState();
-    _threadContentProvider = ThreadContentProvider(context);
-    _loadContent();
+    _scrollController.addListener(_handleLoadMore);
   }
 
-  @override
-  void didUpdateWidget(covariant ThreadContentPage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.categoryItem?.threadId != widget.categoryItem?.threadId) {
-      _loadContent();
+  _handleLoadMore() {
+    if (_scrollController.position.extentAfter > 300) {
+      return;
     }
-  }
 
-  _loadContent() {
-    var categoryItem = widget.categoryItem;
-    if (categoryItem != null) {
-      _threadContentProvider.loadThreadContent(categoryItem);
+    final categoryItem = widget.categoryItem;
+    if (categoryItem == null) {
+      return;
     }
+
+    final notifier = ref.read(threadContentProvider(categoryItem).notifier);
+    notifier.fetchNextPage();
   }
 
   @override
   void dispose() {
     super.dispose();
-    _threadContentProvider.dispose();
+    _scrollController.dispose();
   }
 
   Widget _buildItem(BuildContext context, ThreadItem item) {
@@ -76,57 +72,60 @@ class _ThreadContentPageState extends State<ThreadContentPage> {
     return ThreadContentPageDrawer(categoryItem: categoryItem);
   }
 
+  Widget _buildSkeleton() {
+    return ListView(
+      children: List.filled(12, const ThreadContentSkeleton()),
+    );
+  }
+
+  Widget _buildContent(BuildContext context) {
+    final categoryItem = widget.categoryItem;
+    if (categoryItem == null) {
+      return _buildSkeleton();
+    }
+
+    final threadContent = ref.watch(threadContentProvider(categoryItem));
+
+    return threadContent.when(
+      data: (threadContentsState) {
+        final items = threadContentsState.items;
+        return ListView.builder(
+          controller: _scrollController,
+          itemCount: items.length,
+          itemBuilder: (context, index) => _buildItem(context, items[index]),
+        );
+      },
+      error: (err, stack) => _buildSkeleton(),
+      loading: _buildSkeleton,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final layoutSize = context.watch<LihkgRootNavigatorProvider>().layoutSize;
     final canPop = ModalRoute.of(context)?.canPop ?? false;
     final showBackButton = layoutSize == LayoutSize.compact && canPop;
 
-    return ChangeNotifierProvider.value(
-      value: _threadContentProvider,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(widget.categoryItem?.title ?? ''),
-          centerTitle: false,
-          leading: showBackButton ? const BackButton() : null,
-          actions: [
-            Builder(
-              builder: (context) => IconButton(
-                icon: const Icon(Icons.forward_5),
-                onPressed: () {
-                  Scaffold.of(context).openEndDrawer();
-                },
-              ),
-            )
-          ],
-        ),
-        endDrawer: _buildEndDrawer(context),
-        body: Provider(
-          create: (ctx) => ImageSizeCacheProvider(),
-          child: Consumer<ThreadContentProvider>(
-            builder: (context, provider, child) {
-              final items = provider.itemData;
-              if (provider.isLoading && items.isEmpty) {
-                return ListView(
-                  children: List.filled(12, const ThreadContentSkeleton()),
-                );
-              } else {
-                return ListView.builder(
-                  controller: _scrollController,
-                  itemBuilder: (context, index) {
-                    final items = provider.itemData;
-
-                    if (index + 2 >= items.length) {
-                      provider.loadNextPage();
-                    }
-                    return _buildItem(context, items[index]);
-                  },
-                  itemCount: items.length,
-                );
-              }
-            },
-          ),
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(widget.categoryItem?.title ?? ''),
+        centerTitle: false,
+        leading: showBackButton ? const BackButton() : null,
+        actions: [
+          Builder(
+            builder: (context) => IconButton(
+              icon: const Icon(Icons.forward_5),
+              onPressed: () {
+                Scaffold.of(context).openEndDrawer();
+              },
+            ),
+          )
+        ],
+      ),
+      endDrawer: _buildEndDrawer(context),
+      body: Provider(
+        create: (ctx) => ImageSizeCacheProvider(),
+        child: _buildContent(context),
       ),
     );
   }

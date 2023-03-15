@@ -14,6 +14,10 @@ class AppSystemProperty extends _$AppSystemProperty {
   FutureOr<SystemProperty> build() async {
     final webServices = ref.watch(lihkgWebServicesProvider);
     final response = await webServices.getSystemProperty();
+
+    // Load first category as default
+    final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
+    selectedCategoryNotifier.state = response.categoryList.first;
     return response;
   }
 }

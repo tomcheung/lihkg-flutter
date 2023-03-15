@@ -1,4 +1,5 @@
 
+@Deprecated("migrate to riverpod") // TODO: Remove
 abstract class LoadingStatusMixin {
   bool isLoading = false;
   notifyListeners();
