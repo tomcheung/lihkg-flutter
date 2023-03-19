@@ -1,21 +1,17 @@
-import 'package:flutter/widgets.dart';
-import 'package:lihkg_flutter/core/api_provider.dart';
+import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/model/quote.dart';
-import 'package:lihkg_flutter/util/loading_status_mixin.dart';
+import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-class QuoteProvider extends ApiProvider with LoadingStatusMixin {
-  List<Quote> quotes = [];
+part 'quote_provider.g.dart';
 
-  QuoteProvider(BuildContext context) : super(context);
+@riverpod
+Future<List<Quote>> quote(
+  QuoteRef ref, {
+  required String threadId,
+  required String postId,
+}) async {
+  final api = ref.watch(lihkgWebServicesProvider);
 
-  Future<void> loadQuote(String threadId, String postId) async {
-    await fetchRequest(() async {
-      final response = await webServices.getQuote(
-        threadId: threadId,
-        postId: postId,
-      );
-
-      quotes = response.itemData;
-    });
-  }
+  final quotes = await api.getQuote(threadId: threadId, postId: postId);
+  return quotes.itemData;
 }

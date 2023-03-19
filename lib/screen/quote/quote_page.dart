@@ -1,55 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/screen/quote/quote_provider.dart';
-import 'package:lihkg_flutter/screen/thread_content/image_size_cache_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_item.dart';
 import 'package:provider/provider.dart';
 
-class QuotePage extends StatefulWidget {
+class QuotePage extends StatelessWidget {
   final ThreadContentItemData targetQuote;
 
   const QuotePage({Key? key, required this.targetQuote}) : super(key: key);
 
-  @override
-  _QuotePageState createState() => _QuotePageState();
-}
-
-class _QuotePageState extends State<QuotePage> {
-  late QuoteProvider _provider;
-
-  @override
-  void initState() {
-    super.initState();
-    _provider = QuoteProvider(context);
-    _provider.loadQuote(widget.targetQuote.threadId, widget.targetQuote.postId);
-  }
-
-  _closeDialog() {
+  _closeDialog(BuildContext context) {
     context.read<QuoteNavigatorProvider>().dismiss();
   }
 
   @override
-  void didUpdateWidget(covariant QuotePage oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.targetQuote.threadId != widget.targetQuote.threadId) {
-      _provider.loadQuote(
-        widget.targetQuote.threadId,
-        widget.targetQuote.postId,
-      );
-    }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _provider.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -59,42 +26,69 @@ class _QuotePageState extends State<QuotePage> {
           actions: [
             IconButton(
               icon: const Icon(Icons.close),
-              onPressed: _closeDialog,
+              onPressed: () => _closeDialog(context),
             )
           ],
           elevation: 0.6,
         ),
-        body: ListenableProvider.value(
-          value: _provider,
-          builder: (context, child) {
-            final provider = context.watch<QuoteProvider>();
-            List<ThreadContentItemData> contents =
-                [widget.targetQuote] + provider.quotes;
+        body: QuoteContent(targetQuote: targetQuote),
+      ),
+    );
+  }
+}
 
-            return ListView.separated(
-              itemBuilder: (ctx, index) {
-                final content = contents[index];
-                return ThreadContentItem(
-                  data: content,
-                  index: index + 1,
-                );
-              },
-              separatorBuilder: (ctx, index) {
-                if (index == 0) {
-                  return Container(
-                    color: theme.dividerColor,
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    child: const Text('被引用回覆'),
-                  );
-                } else {
-                  return Divider(color: theme.dividerColor);
-                }
-              },
-              itemCount: contents.length,
+class QuoteContent extends ConsumerWidget {
+  final ThreadContentItemData targetQuote;
+
+  const QuoteContent({Key? key, required this.targetQuote}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final originalPostItem = ThreadContentItem(
+      data: targetQuote,
+      index: 1,
+    );
+    final theme = Theme.of(context);
+
+    final quoteList = ref.watch(quoteProvider(threadId: targetQuote.threadId, postId: targetQuote.postId));
+    return quoteList.when(
+      data: (quoteItem) {
+        List<ThreadContentItemData> contents = [targetQuote] + quoteItem;
+
+        return ListView.separated(
+          itemBuilder: (ctx, index) {
+            final content = contents[index];
+            return ThreadContentItem(
+              data: content,
+              index: index + 1,
             );
           },
-        ),
+          separatorBuilder: (ctx, index) {
+            if (index == 0) {
+              return Container(
+                color: theme.dividerColor,
+                alignment: Alignment.center,
+                padding: const EdgeInsets.symmetric(vertical: 12),
+                child: const Text('被引用回覆'),
+              );
+            } else {
+              return Divider(color: theme.dividerColor);
+            }
+          },
+          itemCount: contents.length,
+        );
+      },
+      error: (error, _) => ListView(
+        children: [
+          originalPostItem,
+          const Center(child: Text('無法載入回覆'))
+        ],
+      ),
+      loading: () => ListView(
+        children: [
+          originalPostItem,
+          const Center(child: CircularProgressIndicator())
+        ],
       ),
     );
   }

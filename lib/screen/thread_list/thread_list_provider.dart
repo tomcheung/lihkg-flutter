@@ -1,10 +1,6 @@
-import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:lihkg_flutter/core/api_provider.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
-import 'package:lihkg_flutter/model/category.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:lihkg_flutter/util/loading_status_mixin.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../root/app_config_provider.dart';
