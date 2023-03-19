@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
-import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
 import 'package:lihkg_flutter/screen/thread_content/image_size_cache_provider.dart';
-import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 
 class CachedSizeImage extends ConsumerStatefulWidget {

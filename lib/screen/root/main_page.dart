@@ -7,7 +7,7 @@ class MainPage extends StatefulWidget {
   const MainPage({Key? key, required this.child}) : super(key: key);
 
   @override
-  _MainPageState createState() => _MainPageState();
+  State createState() => _MainPageState();
 }
 
 class _MainPageState extends State<MainPage> {

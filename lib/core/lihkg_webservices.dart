@@ -55,7 +55,7 @@ class LihkgWebServices {
   late final Dio _dio;
 
   LihkgWebServices(this.config)
-      : serverAPIRoot = config.serverRoot + '/api_v2' {
+      : serverAPIRoot = '${config.serverRoot}/api_v2' {
     final header = {
       'User-Agent': 'LIHKG/3.10 iOS/14.5 iPhone/iPhone13,4',
       'X-LI-DEVICE': '38735b3df9084f658a4fe7d8ab70bd1567c41035',

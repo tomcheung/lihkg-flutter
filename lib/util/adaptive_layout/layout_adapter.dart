@@ -14,7 +14,7 @@ class AdaptiveLayoutNotifier extends StatefulWidget {
   const AdaptiveLayoutNotifier({Key? key, required this.child, required this.onSizeChange}) : super(key: key);
 
   @override
-  _AdaptiveLayoutNotifierState createState() => _AdaptiveLayoutNotifierState();
+  State createState() => _AdaptiveLayoutNotifierState();
 }
 
 class _AdaptiveLayoutNotifierState extends State<AdaptiveLayoutNotifier> {
@@ -50,7 +50,7 @@ class LayoutAdapter extends StatefulWidget {
   const LayoutAdapter({Key? key, required this.builder, this.child}) : super(key: key);
 
   @override
-  _LayoutAdapterState createState() => _LayoutAdapterState();
+  State createState() => _LayoutAdapterState();
 }
 
 class _LayoutAdapterState extends State<LayoutAdapter> {

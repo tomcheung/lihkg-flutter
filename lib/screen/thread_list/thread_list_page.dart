@@ -93,7 +93,7 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
           key: ObjectKey(threadListState.categoryId),
           itemBuilder: (context, index) {
             final item = categoryItems[index];
-            Future.delayed(Duration(), () {
+            Future.delayed(Duration.zero, () {
               final threadListStateNotifier = ref.read(threadListProvider.notifier);
               if (index == categoryItems.length - 1) {
                 threadListStateNotifier.loadMore();

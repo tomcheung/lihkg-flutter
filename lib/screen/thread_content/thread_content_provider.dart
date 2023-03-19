@@ -1,4 +1,3 @@
-import 'package:flutter/widgets.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/model/post.dart';
