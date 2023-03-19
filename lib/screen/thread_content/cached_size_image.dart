@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
 import 'package:lihkg_flutter/screen/thread_content/image_size_cache_provider.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:provider/provider.dart';
 
-class CachedSizeImage extends StatefulWidget {
+class CachedSizeImage extends ConsumerStatefulWidget {
   final NetworkImage imageProvider;
 
   const CachedSizeImage({Key? key, required this.imageProvider})
       : super(key: key);
 
   @override
-  _CachedSizeImageState createState() => _CachedSizeImageState();
+  ConsumerState createState() => _CachedSizeImageState();
 }
 
-class _CachedSizeImageState extends State<CachedSizeImage> {
+class _CachedSizeImageState extends ConsumerState<CachedSizeImage> {
   ImageStream? _imageStream;
   ImageInfo? _imageInfo;
 
@@ -44,10 +45,10 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
   }
 
   void _updateImage(ImageInfo imageInfo, bool synchronousCall) {
-    final imageSizeProvider = context.read<ImageSizeCacheProvider>();
+    final imageSizeNotifier = ref.read(imageSizeCacheProvider.notifier);
     final info = _imageInfo;
     if (info != null) {
-      imageSizeProvider.updateSize(
+      imageSizeNotifier.updateSize(
         widget.imageProvider.url,
         Size(info.image.width.toDouble(), info.image.height.toDouble()),
       );
@@ -66,8 +67,7 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
+  Widget _buildImageContent(BuildContext context) {
     final image = Hero(
       tag: widget.imageProvider,
       child: RawImage(
@@ -77,6 +77,44 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
       ),
     );
 
+    final imageInfo = _imageInfo;
+    Size? imageSize;
+
+    imageSize = ref.read(imageSizeCacheProvider
+        .select((sizeMap) => sizeMap[widget.imageProvider.url]));
+
+    if (imageSize == null && imageInfo != null) {
+      imageSize = Size(
+        imageInfo.image.width.toDouble(),
+        imageInfo.image.height.toDouble(),
+      );
+    }
+
+    if (imageSize == null) {
+      return const Padding(
+        padding: EdgeInsets.all(16.0),
+        child: SizedBox(
+          width: 30,
+          height: 30,
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: imageSize.height,
+        maxWidth: imageSize.width,
+      ),
+      child: AspectRatio(
+        aspectRatio: imageSize.width / imageSize.height,
+        child: image,
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
         context
@@ -85,44 +123,7 @@ class _CachedSizeImageState extends State<CachedSizeImage> {
       },
       child: Padding(
         padding: const EdgeInsets.all(8.0),
-        child: LayoutBuilder(builder: (context, constraints) {
-          final imageInfo = _imageInfo;
-          Size? size;
-
-          if (imageInfo != null) {
-            size = Size(
-              imageInfo.image.width.toDouble(),
-              imageInfo.image.height.toDouble(),
-            );
-          } else {
-            final imageSizeProvider = context.read<ImageSizeCacheProvider>();
-            size = imageSizeProvider.getSize(widget.imageProvider.url);
-          }
-
-          if (size == null) {
-            return const Padding(
-              padding: EdgeInsets.all(16.0),
-              child: SizedBox(
-                width: 30,
-                height: 30,
-                child: CircularProgressIndicator(),
-              ),
-            );
-          }
-
-          if (size.width > constraints.maxWidth) {
-            size = Size(
-              constraints.maxWidth,
-              constraints.maxWidth / size.width * size.height,
-            );
-          }
-
-          return SizedBox(
-            width: size.width,
-            height: size.height,
-            child: image,
-          );
-        }),
+        child: _buildImageContent(context),
       ),
     );
   }

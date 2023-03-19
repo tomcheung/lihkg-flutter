@@ -6,7 +6,6 @@ import './thread_content_provider.dart';
 import '../../core/route/navigator/lihkg_root_navigator.dart';
 import '../../model/thread_category.dart';
 import '../../util/adaptive_layout/layout_adapter.dart';
-import 'image_size_cache_provider.dart';
 import 'thread_content_item.dart';
 import 'thread_content_skeleton.dart';
 
@@ -123,10 +122,7 @@ class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
         ],
       ),
       endDrawer: _buildEndDrawer(context),
-      body: Provider(
-        create: (ctx) => ImageSizeCacheProvider(),
-        child: _buildContent(context),
-      ),
+      body:_buildContent(context),
     );
   }
 }
