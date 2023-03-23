@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart' hide Provider;
-import 'package:provider/provider.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import './thread_content_provider.dart';
 import '../../core/route/navigator/lihkg_root_navigator.dart';
@@ -122,7 +121,7 @@ class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
         ],
       ),
       endDrawer: _buildEndDrawer(context),
-      body:_buildContent(context),
+      body: _buildContent(context),
     );
   }
 }

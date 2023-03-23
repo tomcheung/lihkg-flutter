@@ -4,7 +4,6 @@ import 'package:flutter_svg/svg.dart';
 import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'thread_list_item_skeleton.dart';
-import 'package:provider/provider.dart';
 import 'thread_list_provider.dart';
 import 'thread_list_item.dart';
 

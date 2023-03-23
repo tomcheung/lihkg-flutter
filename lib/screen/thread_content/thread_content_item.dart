@@ -3,7 +3,6 @@ import 'package:flutter_html/style.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
-import 'package:provider/provider.dart';
 import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
