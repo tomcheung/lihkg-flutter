@@ -28,9 +28,9 @@ final threadCategoriesProvider = Provider<List<Category>>((ref) {
 });
 
 final appInitialLoadedProvider = Provider<bool>((ref) {
-  final systemProperty = ref.watch(appSystemPropertyProvider);
-  final appTheme = ref.watch(appThemeProvider);
-  return systemProperty.hasValue && appTheme.hasValue;
+  final systemPropertyLoaded = ref.watch(appSystemPropertyProvider.select((systemProperty) => systemProperty.hasValue));
+  final appThemeLoaded = ref.watch(appThemeProvider.select((appTheme) => appTheme.hasValue));
+  return systemPropertyLoaded && appThemeLoaded;
 });
 
 final selectedCategoryStateProvider = StateProvider<Category?>((ref) => null);

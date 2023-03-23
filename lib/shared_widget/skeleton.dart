@@ -10,7 +10,7 @@ class SkeletonBlock extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final skeletonColor = theme.textTheme.bodyText1?.color?.withOpacity(0.1);
+    final skeletonColor = theme.textTheme.bodyMedium?.color?.withOpacity(0.1);
 
     return Container(
       width: width,

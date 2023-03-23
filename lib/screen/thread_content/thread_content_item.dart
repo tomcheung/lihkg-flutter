@@ -34,7 +34,7 @@ class _ThreadContentItemHeader extends StatelessWidget {
           const SizedBox(width: 8),
           Text(data.userNickname, style: const TextStyle(color: Colors.blue)),
           const SizedBox(width: 8),
-          Text('• $dateString', style: theme.textTheme.subtitle2),
+          Text('• $dateString', style: theme.textTheme.titleSmall),
         ],
       ),
     );
@@ -126,7 +126,7 @@ class ThreadQuoteContent extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textColor =
-        theme.textTheme.bodyText1?.color?.withOpacity(0.5) ?? Colors.black45;
+        theme.textTheme.bodyMedium?.color?.withOpacity(0.5) ?? Colors.black45;
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: DecoratedBox(
@@ -157,6 +157,7 @@ class ThreadContentItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final defaultTextStyle = theme.textTheme.bodyMedium;
     final quote = data.quote;
     return Container(
       color: theme.cardColor,
@@ -167,7 +168,7 @@ class ThreadContentItem extends StatelessWidget {
         children: [
           _ThreadContentItemHeader(data, index: index),
           if (quote != null) ThreadQuoteContent(quote: quote),
-          ThreadHtmlContent(data.msg),
+          ThreadHtmlContent(data.msg, defaultTextStyle: Style(color: defaultTextStyle?.color)),
           const SizedBox(height: 8),
           _ThreadContentItemFooter(data)
         ],

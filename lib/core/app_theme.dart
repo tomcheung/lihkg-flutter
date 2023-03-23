@@ -20,8 +20,8 @@ class AppThemeData {
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
           primary: Colors.amber,
+          background: Color(0xFFECEDED),
         ),
-        backgroundColor: const Color(0xFFECEDED),
         cardColor: Colors.white,
         iconTheme: const IconThemeData(color: Colors.black54),
         primaryIconTheme: const IconThemeData(color: Colors.black),
@@ -34,13 +34,14 @@ class AppThemeData {
             color: Colors.black,
           ),
         ),
+        dividerColor: Colors.grey.shade200,
         textTheme: TextTheme(
-          subtitle2: TextStyle(
+          titleSmall: TextStyle(
               color: Colors.grey.shade400,
               fontSize: 11,
               fontWeight: FontWeight.w500),
+          bodyMedium: const TextStyle(color: Colors.black),
         ),
-        dividerColor: Colors.grey.shade200,
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             primary: Colors.black,
@@ -55,9 +56,9 @@ class AppThemeData {
         brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(
           primary: Colors.amber,
+          background: Colors.black
         ),
         primarySwatch: Colors.amber,
-        backgroundColor: Colors.black,
         scaffoldBackgroundColor: Colors.grey.shade900,
         cardColor: const Color(0x805C5C5C),
         iconTheme: const IconThemeData(color: Colors.white54),
@@ -73,11 +74,12 @@ class AppThemeData {
         ),
         dividerColor: const Color(0x80898787),
         textTheme: TextTheme(
-            subtitle2: TextStyle(
-                color: Colors.grey.shade400,
-                fontSize: 11,
-                fontWeight: FontWeight.w500),
-            bodyText1: const TextStyle(color: Colors.white10)),
+          titleSmall: TextStyle(
+              color: Colors.grey.shade400,
+              fontSize: 11,
+              fontWeight: FontWeight.w500),
+          bodyMedium: const TextStyle(color: Colors.white),
+        ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
             textStyle: const TextStyle(fontSize: 16),

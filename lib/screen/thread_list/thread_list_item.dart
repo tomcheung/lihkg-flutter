@@ -11,8 +11,8 @@ class ThreadListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final subtitleStyle = theme.textTheme.subtitle2;
-    final fontStyle = theme.textTheme.subtitle1;
+    final subtitleStyle = theme.textTheme.titleSmall;
+    final fontStyle = theme.textTheme.titleMedium;
     final netLikeCount = item.likeCount - item.dislikeCount;
     final likeIcon = netLikeCount > 0 ? Icons.thumb_up_alt : Icons.thumb_down;
 
