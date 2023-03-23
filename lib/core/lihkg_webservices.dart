@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
 import 'package:flutter/foundation.dart' hide Category;
 import 'package:lihkg_flutter/model/thread_category.dart';
-import 'package:cookie_jar/cookie_jar.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import '../model/category.dart';
@@ -70,9 +68,7 @@ class LihkgWebServices {
     }
 
     var dio = Dio();
-    var cookieJar = CookieJar();
     dio.interceptors.add(LihkgHeaderInterceptor(header));
-    dio.interceptors.add(CookieManager(cookieJar));
 
     if (kDebugMode) {
       dio.interceptors
