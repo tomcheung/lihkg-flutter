@@ -1,4 +1,4 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/model/user.dart';
 import 'package:lihkg_flutter/util/serialiser.dart';

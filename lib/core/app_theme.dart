@@ -44,7 +44,7 @@ class AppThemeData {
         ),
         textButtonTheme: TextButtonThemeData(
           style: TextButton.styleFrom(
-            primary: Colors.black,
+            foregroundColor: Colors.black,
             textStyle: const TextStyle(fontSize: 16),
           ),
         ),
@@ -55,9 +55,7 @@ class AppThemeData {
       materialThemeData: ThemeData(
         brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(
-          primary: Colors.amber,
-          background: Colors.black
-        ),
+            primary: Colors.amber, background: Colors.black),
         primarySwatch: Colors.amber,
         scaffoldBackgroundColor: Colors.grey.shade900,
         cardColor: const Color(0x805C5C5C),
@@ -101,7 +99,6 @@ class AppTheme extends _$AppTheme {
   void setTheme(AppThemeData appTheme) {
     _saveTheme(appTheme);
     state = AsyncValue.data(appTheme);
-    // _onThemeUpdated(appTheme);
   }
 
   void _saveTheme(AppThemeData appTheme) async {
@@ -120,9 +117,5 @@ class AppTheme extends _$AppTheme {
       default:
         return AppThemeData.light;
     }
-  }
-
-  void _saveStringPref(String key, String value) {
-    SharedPreferences.getInstance().then((pref) => pref.setString(key, value));
   }
 }

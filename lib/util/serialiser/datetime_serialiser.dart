@@ -1,5 +1,4 @@
-
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
 class DateTimeStringSerialiser implements JsonConverter<DateTime, int> {
   const DateTimeStringSerialiser();

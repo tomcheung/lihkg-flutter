@@ -1,5 +1,4 @@
-
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/model/user.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/util/serialiser/datetime_serialiser.dart';

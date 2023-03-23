@@ -23,6 +23,7 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
   Widget _buildZoomSlider(BuildContext context) {
     return SafeArea(
       child: Align(
+        alignment: Alignment.bottomCenter,
         child: SizedBox(
             width: 300,
             height: 50,
@@ -43,7 +44,6 @@ class _FullScreenImageViewState extends State<FullScreenImageView> {
                 );
               },
             )),
-        alignment: Alignment.bottomCenter,
       ),
     );
   }
