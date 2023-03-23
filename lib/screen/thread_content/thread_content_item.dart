@@ -50,7 +50,7 @@ class _ThreadContentItemFooter extends StatelessWidget {
   Future<void> _openQuote(
       BuildContext context, ThreadContentItemData data) async {
     if (context.findAncestorWidgetOfExactType<QuoteDialog>() != null) {
-      final quoteNavigator = context.read<QuoteNavigatorProvider>();
+      final quoteNavigator = QuoteNavigator.of(context);
       if (quoteNavigator.initialPost == data) {
         return;
       }

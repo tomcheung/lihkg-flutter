@@ -15,8 +15,7 @@ class LihkgRootPageState extends PageState {
   final String name;
 
   LihkgRootPageState(this.selectedCategoryItem)
-      : name =
-  "LihkgRoot ${selectedCategoryItem?.title ?? 'null'}";
+      : name = "LihkgRoot ${selectedCategoryItem?.title ?? 'null'}";
 
   @override
   bool handlePop(Route route) {

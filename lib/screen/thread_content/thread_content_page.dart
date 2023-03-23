@@ -101,7 +101,7 @@ class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final layoutSize = context.watch<LihkgRootNavigatorProvider>().layoutSize;
+    final layoutSize = LihkgRootNavigator.of(context).layoutSize;
     final canPop = ModalRoute.of(context)?.canPop ?? false;
     final showBackButton = layoutSize == LayoutSize.compact && canPop;
 

@@ -59,9 +59,7 @@ class ThreadListPage extends ConsumerWidget {
       ),
       body: Container(
         color: backgroundColor,
-        child: selectedCategory != null
-            ? const ThreadListPageContent()
-            : null,
+        child: selectedCategory != null ? const ThreadListPageContent() : null,
       ),
     );
   }
@@ -94,7 +92,8 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
           itemBuilder: (context, index) {
             final item = categoryItems[index];
             Future.delayed(Duration.zero, () {
-              final threadListStateNotifier = ref.read(threadListProvider.notifier);
+              final threadListStateNotifier =
+                  ref.read(threadListProvider.notifier);
               if (index == categoryItems.length - 1) {
                 threadListStateNotifier.loadMore();
               }
@@ -105,9 +104,7 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
                   key: ObjectKey(item.threadId),
                 ),
                 onPressed: () {
-                  context
-                      .read<LihkgRootNavigatorProvider>()
-                      .showThreadContent(item);
+                  LihkgRootNavigator.of(context).showThreadContent(item);
                 });
           },
           separatorBuilder: _buildSeparator,

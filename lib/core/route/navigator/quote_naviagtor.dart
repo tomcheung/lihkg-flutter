@@ -1,38 +1,47 @@
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/core/route/navigator/base_navigator.dart';
+import 'package:lihkg_flutter/core/route/navigator/navigation_stack_manager.dart';
 import 'package:lihkg_flutter/core/route/page_state/default_page_state.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/quote/quote_page.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
-import 'app_navigator.dart';
 
-class QuoteNavigator extends AppNavigator<QuoteNavigatorProvider> {
+class QuoteNavigator extends BaseNavigator<QuoteRouter> {
   final Post initialPost;
+  final BuildContext context;
 
-  const QuoteNavigator({super.key, required this.initialPost});
+  const QuoteNavigator({
+    super.key,
+    required this.initialPost,
+    required this.context,
+  });
 
   @override
-  QuoteNavigatorProvider createProvider(BuildContext context) =>
-      QuoteNavigatorProvider(initialPost, context);
+  getRouter() => QuoteRouter(initialPost: initialPost, context: context);
+
+  static QuoteRouter of(BuildContext context) =>
+      BaseNavigator.of<QuoteRouter>(context);
 }
 
-class QuoteNavigatorProvider extends AppNavigatorProvider {
-  final BuildContext _buildContext;
+class QuoteRouter extends BaseRouter {
   final Post initialPost;
+  final BuildContext context;
 
-  QuoteNavigatorProvider(this.initialPost, this._buildContext)
+  QuoteRouter({required this.initialPost, required this.context})
       : super(
-          initialPageState: DefaultPageState(
+            stackManager: NavigationStateManager(
+          DefaultPageState(
             name: 'quote_${initialPost.quotePostId}',
             content: QuotePage(targetQuote: initialPost),
           ),
-        );
+        ));
 
   void dismiss() {
-    Navigator.of(_buildContext).pop();
+    Navigator.of(context).pop();
   }
 
   void showQuote(ThreadContentItemData data) {
-    routerDelegate.push(DefaultPageState(
+    stackManager.push(DefaultPageState(
       name: 'quote_${data.threadId}_${data.postId}',
       content: QuotePage(targetQuote: data),
     ));

@@ -4,7 +4,6 @@ import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/screen/quote/quote_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_item.dart';
-import 'package:provider/provider.dart';
 
 class QuotePage extends StatelessWidget {
   final ThreadContentItemData targetQuote;
@@ -12,7 +11,7 @@ class QuotePage extends StatelessWidget {
   const QuotePage({Key? key, required this.targetQuote}) : super(key: key);
 
   _closeDialog(BuildContext context) {
-    context.read<QuoteNavigatorProvider>().dismiss();
+    QuoteNavigator.of(context).dismiss();
   }
 
   @override

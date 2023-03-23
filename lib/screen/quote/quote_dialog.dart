@@ -15,18 +15,18 @@ class QuoteDialog extends StatelessWidget {
         switch (size) {
           case LayoutSize.large:
             return Dialog(
+              clipBehavior: Clip.hardEdge,
               child: ConstrainedBox(
                 constraints: const BoxConstraints(maxWidth: 600, minWidth: 400),
                 child: child,
               ),
-              clipBehavior: Clip.hardEdge,
             );
 
           case LayoutSize.compact:
             return child ?? Container();
         }
       },
-      child: QuoteNavigator(initialPost: initialPost),
+      child: QuoteNavigator(initialPost: initialPost, context: context),
     );
   }
 }
