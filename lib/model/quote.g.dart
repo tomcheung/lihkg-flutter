@@ -20,8 +20,8 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
       threadId: json['thread_id'] as String,
       userNickname: json['user_nickname'] as String,
       userGender: $enumDecode(_$GenderEnumMap, json['user_gender']),
-      likeCount: json['like_count'] as String,
-      dislikeCount: json['dislike_count'] as String,
+      likeCount: json['like_count'] as int,
+      dislikeCount: json['dislike_count'] as int,
       voteScore: json['vote_score'] as String,
       noOfQuote:
           const StringToIntSerialiser().fromJson(json['no_of_quote'] as String),

@@ -20,29 +20,29 @@ part 'thread_content.g.dart';
 @JsonSerializable()
 class ThreadContentResponse {
   String threadId;
-  String catId;
-  String subCatId;
+  int catId;
+  int subCatId;
   String title;
   String userId;
   String userNickname;
   Gender userGender;
-  String noOfReply;
-  String noOfUniUserReply;
+  int noOfReply;
+  int noOfUniUserReply;
   int likeCount;
   int dislikeCount;
-  String replyLikeCount;
-  String replyDislikeCount;
-  String maxReplyLikeCount;
-  String maxReplyDislikeCount;
+  int replyLikeCount;
+  int replyDislikeCount;
+  int maxReplyLikeCount;
+  int maxReplyDislikeCount;
   int createTime;
   @DateTimeStringSerialiser()
   DateTime lastReplyTime;
   @DynamicStringSerialiser()
-  String? status;
+  int? status;
   bool isAdu;
   // ResponseRemark remark;
-  String lastReplyUserId;
-  String maxReply;
+  int lastReplyUserId;
+  int maxReply;
   int totalPage;
   bool? isHot;
   Category category;

@@ -42,7 +42,7 @@ class ThreadListItem extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               IconWithText(
-                text: item.noOfReply,
+                text: item.noOfReply.toString(),
                 iconData: Icons.chat_bubble,
                 textFirst: true,
               ),

@@ -9,9 +9,9 @@ part of 'user.dart';
 User _$UserFromJson(Map<String, dynamic> json) => User(
       userId: json['user_id'] as String,
       nickname: json['nickname'] as String,
-      level: json['level'] as String,
+      level: json['level'] as int,
       gender: $enumDecode(_$GenderEnumMap, json['gender']),
-      status: json['status'] as String,
+      status: json['status'] as int,
       createTime: json['create_time'] as int?,
       isFollowing: json['is_following'] as bool,
       isBlocked: json['is_blocked'] as bool,

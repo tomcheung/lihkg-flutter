@@ -3,7 +3,6 @@ import 'package:lihkg_flutter/model/user.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/util/serialiser/datetime_serialiser.dart';
 import 'package:lihkg_flutter/util/serialiser/dynamic_string_serialiser.dart';
-import 'package:lihkg_flutter/util/serialiser/string_to_int_serialiser.dart';
 
 import 'gender.dart';
 
@@ -20,20 +19,18 @@ class Post implements ThreadContentItemData {
   String userNickname;
   Gender userGender;
   @override
-  String likeCount;
+  int likeCount;
   @override
-  String dislikeCount;
-  String? voteScore;
+  int dislikeCount;
+  int? voteScore;
   @override
-  @StringToIntSerialiser()
   int noOfQuote;
   // dynamic remark;
-  @DynamicStringSerialiser()
-  String? status;
+  int? status;
   @override
   @DateTimeStringSerialiser()
   DateTime replyTime;
-  String msgNum;
+  int msgNum;
   @override
   String msg;
   bool? isMinimizedKeywords;
@@ -78,15 +75,15 @@ class PostQuote {
   String threadId;
   String userNickname;
   Gender userGender;
-  String likeCount;
-  String dislikeCount;
-  String voteScore;
-  String noOfQuote;
+  int likeCount;
+  int dislikeCount;
+  int voteScore;
+  int noOfQuote;
   // ThreadContentRemark? remark;
   @DynamicStringSerialiser()
-  String? status;
+  int? status;
   int replyTime;
-  String msgNum;
+  int msgNum;
   String msg;
   bool isMinimizedKeywords;
   int page;

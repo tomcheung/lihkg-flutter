@@ -34,9 +34,9 @@ class Quote implements ThreadContentItemData  {
   String userNickname;
   Gender userGender;
   @override
-  String likeCount;
+  int likeCount;
   @override
-  String dislikeCount;
+  int dislikeCount;
   String voteScore;
   @override
   @StringToIntSerialiser()

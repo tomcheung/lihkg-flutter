@@ -4,8 +4,8 @@ abstract class ThreadContentItemData {
   abstract String postId;
   abstract String threadId;
   abstract String msg;
-  abstract String likeCount;
-  abstract String dislikeCount;
+  abstract int likeCount;
+  abstract int dislikeCount;
   abstract int noOfQuote;
   abstract DateTime replyTime;
   abstract String userNickname;

@@ -49,7 +49,7 @@ class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
   Widget _buildItem(BuildContext context, ThreadItem item) {
     if (item is ThreadItemContent) {
       return ThreadContentItem(
-        index: int.parse(item.post.msgNum),
+        index: item.post.msgNum,
         data: item.post,
         key: ObjectKey(item.post.postId),
       );

@@ -8,9 +8,9 @@ part 'user.g.dart';
 class User {
   String userId;
   String nickname;
-  String level;
+  int level;
   Gender gender;
-  String status;
+  int status;
   int? createTime;
   // LevelName levelName;
   bool isFollowing;

@@ -58,7 +58,9 @@ class _CachedSizeImageState extends ConsumerState<CachedSizeImage> {
 
   @override
   void dispose() {
-    _imageStream?.removeListener(ImageStreamListener(_updateImage));
+    _imageStream?.removeListener(ImageStreamListener(_updateImage, onError: (ex, stack) {
+      print('Load image error $ex');
+    }));
     _imageInfo?.dispose();
     _imageInfo = null;
     super.dispose();

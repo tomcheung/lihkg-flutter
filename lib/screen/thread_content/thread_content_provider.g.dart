@@ -6,7 +6,7 @@ part of 'thread_content_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$threadContentHash() => r'705a31c2a39080885295f33c98691d1f103e9264';
+String _$threadContentHash() => r'c7e7d34e8e25cc2ad6c5a409f267ad0d20558178';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -123,4 +123,5 @@ class ThreadContentProvider extends AutoDisposeAsyncNotifierProviderImpl<
     );
   }
 }
-// ignore_for_file: unnecessary_raw_strings, subtype_of_sealed_class, invalid_use_of_internal_member, do_not_use_environment, prefer_const_constructors, public_member_api_docs, avoid_private_typedef_functions
+// ignore_for_file: type=lint
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
