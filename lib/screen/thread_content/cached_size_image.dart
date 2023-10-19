@@ -16,6 +16,7 @@ class CachedSizeImage extends ConsumerStatefulWidget {
 class _CachedSizeImageState extends ConsumerState<CachedSizeImage> {
   ImageStream? _imageStream;
   ImageInfo? _imageInfo;
+  ImageStreamListener? _lastListener;
 
   @override
   void didUpdateWidget(covariant CachedSizeImage oldWidget) {
@@ -35,9 +36,13 @@ class _CachedSizeImageState extends ConsumerState<CachedSizeImage> {
     final oldImageStream = _imageStream;
     _imageStream = widget.imageProvider.resolve(const ImageConfiguration());
     if (_imageStream?.key != oldImageStream?.key) {
+      final lastListener = _lastListener;
+      if (lastListener != null) {
+        _imageStream?.removeListener(lastListener);
+      }
       final listener = ImageStreamListener(_updateImage);
-      _imageStream?.removeListener(listener);
       _imageStream?.addListener(listener);
+      _lastListener = listener;
     }
   }
 
@@ -58,9 +63,10 @@ class _CachedSizeImageState extends ConsumerState<CachedSizeImage> {
 
   @override
   void dispose() {
-    _imageStream?.removeListener(ImageStreamListener(_updateImage, onError: (ex, stack) {
-      print('Load image error $ex');
-    }));
+    final lastListener = _lastListener;
+    if (lastListener != null) {
+      _imageStream?.removeListener(lastListener);
+    }
     _imageInfo?.dispose();
     _imageInfo = null;
     super.dispose();
