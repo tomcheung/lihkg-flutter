@@ -3,8 +3,6 @@ import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/model/user.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/util/serialiser/datetime_serialiser.dart';
-import 'package:lihkg_flutter/util/serialiser/dynamic_string_serialiser.dart';
-import 'package:lihkg_flutter/util/serialiser/string_to_int_serialiser.dart';
 import 'gender.dart';
 
 part 'quote.g.dart';
@@ -37,18 +35,15 @@ class Quote implements ThreadContentItemData  {
   int likeCount;
   @override
   int dislikeCount;
-  String voteScore;
+  int voteScore;
   @override
-  @StringToIntSerialiser()
   int noOfQuote;
 
-  // dynamic remark;
-  @DynamicStringSerialiser()
-  String status;
+  int status;
   @override
   @DateTimeStringSerialiser()
   DateTime replyTime;
-  String msgNum;
+  int msgNum;
   @override
   String msg;
   bool isMinimizedKeywords;

@@ -1,9 +1,12 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
 import 'package:lihkg_flutter/screen/quote/quote_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_item.dart';
+
+import '../../shared_widget/error_message.dart';
 
 class QuotePage extends StatelessWidget {
   final ThreadContentItemData targetQuote;
@@ -80,7 +83,9 @@ class QuoteContent extends ConsumerWidget {
       error: (error, _) => ListView(
         children: [
           originalPostItem,
-          const Center(child: Text('無法載入回覆'))
+          const Center(child: Text('無法載入回覆')),
+          if (kDebugMode && error is Error)
+            Center(child: ErrorMessage(error: error))
         ],
       ),
       loading: () => ListView(

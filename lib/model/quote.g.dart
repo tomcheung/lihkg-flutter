@@ -22,13 +22,12 @@ Quote _$QuoteFromJson(Map<String, dynamic> json) => Quote(
       userGender: $enumDecode(_$GenderEnumMap, json['user_gender']),
       likeCount: json['like_count'] as int,
       dislikeCount: json['dislike_count'] as int,
-      voteScore: json['vote_score'] as String,
-      noOfQuote:
-          const StringToIntSerialiser().fromJson(json['no_of_quote'] as String),
-      status: json['status'] as String,
+      voteScore: json['vote_score'] as int,
+      noOfQuote: json['no_of_quote'] as int,
+      status: json['status'] as int,
       replyTime:
           const DateTimeStringSerialiser().fromJson(json['reply_time'] as int),
-      msgNum: json['msg_num'] as String,
+      msgNum: json['msg_num'] as int,
       msg: json['msg'] as String,
       isMinimizedKeywords: json['is_minimized_keywords'] as bool,
       page: json['page'] as int,
