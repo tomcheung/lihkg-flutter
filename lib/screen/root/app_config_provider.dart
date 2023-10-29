@@ -15,6 +15,7 @@ class AppSystemProperty extends _$AppSystemProperty {
     try {
       final webServices = ref.watch(lihkgWebServicesProvider);
       final response = await webServices.getSystemProperty();
+      //print('response: $response');
 
       // Load first category as default
       final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
@@ -22,7 +23,7 @@ class AppSystemProperty extends _$AppSystemProperty {
       return response;
     } catch (error, stackTrace) {
       print('Error in AppSystemProperty build: $error');
-      print(stackTrace);
+      print('stackTrace:  $stackTrace');
       rethrow;
     }
   }
