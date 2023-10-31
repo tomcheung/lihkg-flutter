@@ -93,11 +93,11 @@ class AppDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return const SizedBox(
       width: 250,
       child: Drawer(
         child: Row(
-          children: const [
+          children: [
             _AppDrawerSideBar(),
             Expanded(
               child: Padding(

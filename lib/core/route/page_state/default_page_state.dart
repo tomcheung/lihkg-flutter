@@ -6,12 +6,13 @@ class DefaultPageState extends PageState {
   @override
   final String name;
   final Widget content;
+  final bool fullscreenDialog;
 
-  DefaultPageState({required this.name, required this.content});
+  DefaultPageState({required this.name, required this.content, this.fullscreenDialog = false});
 
   @override
   List<Page> buildPage(LayoutSize size) {
-    return [MaterialPage(child: content)];
+    return [MaterialPage(child: content, fullscreenDialog: fullscreenDialog)];
   }
 
   @override

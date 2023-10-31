@@ -26,7 +26,7 @@ class QuoteDialog extends StatelessWidget {
             return child ?? Container();
         }
       },
-      child: QuoteNavigator(initialPost: initialPost, context: context),
+      child: QuoteNavigator(initialPost: initialPost),
     );
   }
 }

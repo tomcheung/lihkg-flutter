@@ -8,20 +8,20 @@ class ThreadListItemSkeleton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-      child: Column(
+      child: const Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            children: const [
+            children: [
               SkeletonBlock(width: 80, height: 16),
               Spacer(),
               SkeletonBlock(width: 110, height: 16),
             ],
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: 16),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: const [
+            children: [
               SkeletonBlock(height: 22),
               SizedBox(height: 8),
               FractionallySizedBox(

@@ -58,6 +58,16 @@ class _LayoutAdapterState extends State<LayoutAdapter> {
   Widget lastWidget = Container();
 
   @override
+  void didUpdateWidget(covariant LayoutAdapter oldWidget) {
+    final lastSize = this.lastSize;
+    if (lastSize != null) {
+      // Update the cached widget if size is change
+      lastWidget = widget.builder(context, lastSize, widget.child);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) {
       final newSize = getLayoutSize(constraints);

@@ -29,6 +29,7 @@ class LihkgRootPageState extends PageState {
 
   @override
   List<Page> buildPage(LayoutSize size) {
+    final threadListKey = ObjectKey(selectedCategoryItem);
     switch (size) {
       case LayoutSize.large:
         return [
@@ -36,7 +37,7 @@ class LihkgRootPageState extends PageState {
             child: MainPage(
               child: SplitLayout(
                 left: const ThreadListPage(),
-                right: ThreadContentPage(categoryItem: selectedCategoryItem),
+                right: ThreadContentPage(key: threadListKey, categoryItem: selectedCategoryItem),
               ),
             ),
           )
@@ -52,7 +53,7 @@ class LihkgRootPageState extends PageState {
           if (selectedCategoryItem != null)
             MaterialPage(
               child: Scaffold(
-                body: ThreadContentPage(categoryItem: selectedCategoryItem),
+                body: ThreadContentPage(key: threadListKey, categoryItem: selectedCategoryItem),
               ),
             ),
         ];

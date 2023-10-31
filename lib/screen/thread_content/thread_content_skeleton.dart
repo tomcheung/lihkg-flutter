@@ -15,8 +15,8 @@ class ThreadContentSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: const [
+          const Row(
+            children: [
               SkeletonBlock(width: 20, height: 16),
               SkeletonBlock(width: 60, height: 16),
               SkeletonBlock(width: 40, height: 12)
@@ -25,9 +25,9 @@ class ThreadContentSkeleton extends StatelessWidget {
           const SizedBox(height: 16),
           ConstrainedBox(
             constraints: const BoxConstraints(maxWidth: 350),
-            child: Column(
+            child: const Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 SkeletonBlock(height: 16),
                 SizedBox(height: 8),
                 SkeletonBlock(height: 16),

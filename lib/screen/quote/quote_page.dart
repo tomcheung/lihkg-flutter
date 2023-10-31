@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
+import 'package:lihkg_flutter/core/route/navigator/quote_navigation_provider.dart';
 import 'package:lihkg_flutter/screen/quote/quote_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_item.dart';
 
 import '../../shared_widget/error_message.dart';
 
-class QuotePage extends StatelessWidget {
+class QuotePage extends ConsumerWidget {
   final ThreadContentItemData targetQuote;
 
   const QuotePage({Key? key, required this.targetQuote}) : super(key: key);
 
-  _closeDialog(BuildContext context) {
-    QuoteNavigator.of(context).dismiss();
+  _closeDialog(BuildContext context, WidgetRef ref) {
+    ref.read(quoteNavigationStateProvider.notifier).dismiss();
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return MediaQuery.removePadding(
       context: context,
       removeTop: true,
@@ -28,7 +28,7 @@ class QuotePage extends StatelessWidget {
           actions: [
             IconButton(
               icon: const Icon(Icons.close),
-              onPressed: () => _closeDialog(context),
+              onPressed: () => _closeDialog(context, ref),
             )
           ],
           elevation: 0.6,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:lihkg_flutter/core/route/navigator/lihkg_root_navigator.dart';
+import 'package:lihkg_flutter/core/route/navigator/lihkg_navigation_provider.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'thread_list_item_skeleton.dart';
 import 'thread_list_provider.dart';
@@ -103,7 +103,7 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
                   key: ObjectKey(item.threadId),
                 ),
                 onPressed: () {
-                  LihkgRootNavigator.of(context).showThreadContent(item);
+                  ref.read(lihkgNavigationStateProvider.notifier).showThreadContent(item);
                 });
           },
           separatorBuilder: _buildSeparator,

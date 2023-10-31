@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lihkg_flutter/util/adaptive_layout/screen_info.dart';
 
 import './thread_content_provider.dart';
-import '../../core/route/navigator/lihkg_root_navigator.dart';
 import '../../model/thread_category.dart';
 import '../../util/adaptive_layout/layout_adapter.dart';
 import 'thread_content_item.dart';
@@ -100,7 +100,7 @@ class _ThreadContentPageState extends ConsumerState<ThreadContentPage> {
 
   @override
   Widget build(BuildContext context) {
-    final layoutSize = LihkgRootNavigator.of(context).layoutSize;
+    final layoutSize = ScreenInfo.of(context).layoutSize;
     final canPop = ModalRoute.of(context)?.canPop ?? false;
     final showBackButton = layoutSize == LayoutSize.compact && canPop;
 
