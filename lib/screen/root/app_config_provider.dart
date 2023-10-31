@@ -12,16 +12,22 @@ part 'app_config_provider.g.dart';
 class AppSystemProperty extends _$AppSystemProperty {
   @override
   FutureOr<SystemProperty> build() async {
-    final webServices = ref.watch(lihkgWebServicesProvider);
-    final response = await webServices.getSystemProperty();
+    try {
+      final webServices = ref.watch(lihkgWebServicesProvider);
+      final response = await webServices.getSystemProperty();
+      //print('response: $response');
 
-    // Load first category as default
-    final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
-    selectedCategoryNotifier.state = response.categoryList.first;
-    return response;
+      // Load first category as default
+      final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
+      selectedCategoryNotifier.state = response.categoryList.first;
+      return response;
+    } catch (error, stackTrace) {
+      print('Error in AppSystemProperty build: $error');
+      print('stackTrace:  $stackTrace');
+      rethrow;
+    }
   }
 }
-
 final threadCategoriesProvider = Provider<List<Category>>((ref) {
   final systemPropertyProvider = ref.watch(appSystemPropertyProvider);
   return systemPropertyProvider.value?.categoryList ?? [];

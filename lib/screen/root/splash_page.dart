@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lihkg_flutter/shared_widget/rotating_progress_indicator.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -16,10 +17,9 @@ class SplashScreen extends StatelessWidget {
             height: 100,
           ),
           const SizedBox(height: 32),
-          const SizedBox(
-            width: 32,
-            height: 32,
-            child: CircularProgressIndicator(strokeWidth: 2),
+          const RotatingProgressIndicator(
+            size: 48.0,
+            color: Colors.blue,
           )
         ],
       ),

@@ -22,3 +22,6 @@ flutter config --enable-macos-desktop
 ## Web support
 
 Due to CORS restriction in LIHKG api, currently the app didn't support running in Web browser because it cannot connect the api
+
+Reference: 
+https://stackoverflow.com/questions/67253808/xmlhttprequest-error-while-using-http-post-flutter-web
