@@ -17,13 +17,9 @@ class SplashScreen extends StatelessWidget {
             height: 100,
           ),
           const SizedBox(height: 32),
-          const SizedBox(
-            width: 32,
-            height: 32,
-            child: RotatingProgressIndicator(
-              size: 48.0,
-              color: Colors.blue,
-            ),
+          const RotatingProgressIndicator(
+            size: 48.0,
+            color: Colors.blue,
           )
         ],
       ),
