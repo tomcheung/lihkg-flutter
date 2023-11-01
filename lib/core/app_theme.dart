@@ -91,14 +91,27 @@ class AppTheme extends _$AppTheme {
   static const _themeNameKey = "themeName";
 
   @override
-  FutureOr<AppThemeData> build() async {
+  AppThemeData build() {
+    return AppThemeData.light;
+  }
+
+  Future<AppThemeData> fetchSavedTheme() async {
     final theme = await _getSaveTheme();
+    state = theme;
     return theme;
   }
 
   void setTheme(AppThemeData appTheme) {
     _saveTheme(appTheme);
-    state = AsyncValue.data(appTheme);
+    state = appTheme;
+  }
+
+  void toggleTheme() {
+    if (state.name == AppThemeData.light.name) {
+      setTheme(AppThemeData.dark);
+    } else {
+      setTheme(AppThemeData.light);
+    }
   }
 
   void _saveTheme(AppThemeData appTheme) async {

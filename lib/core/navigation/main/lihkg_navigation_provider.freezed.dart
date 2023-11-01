@@ -19,6 +19,7 @@ mixin _$LihkgNavigationStateData {
   ThreadCategoryItem? get selectedCategoryItem =>
       throw _privateConstructorUsedError;
   List<MainNavigatorPage> get pages => throw _privateConstructorUsedError;
+  bool get isInit => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LihkgNavigationStateDataCopyWith<LihkgNavigationStateData> get copyWith =>
@@ -33,7 +34,8 @@ abstract class $LihkgNavigationStateDataCopyWith<$Res> {
   @useResult
   $Res call(
       {ThreadCategoryItem? selectedCategoryItem,
-      List<MainNavigatorPage> pages});
+      List<MainNavigatorPage> pages,
+      bool isInit});
 }
 
 /// @nodoc
@@ -52,6 +54,7 @@ class _$LihkgNavigationStateDataCopyWithImpl<$Res,
   $Res call({
     Object? selectedCategoryItem = freezed,
     Object? pages = null,
+    Object? isInit = null,
   }) {
     return _then(_value.copyWith(
       selectedCategoryItem: freezed == selectedCategoryItem
@@ -62,6 +65,10 @@ class _$LihkgNavigationStateDataCopyWithImpl<$Res,
           ? _value.pages
           : pages // ignore: cast_nullable_to_non_nullable
               as List<MainNavigatorPage>,
+      isInit: null == isInit
+          ? _value.isInit
+          : isInit // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -77,7 +84,8 @@ abstract class _$$_LihkgNavigationStateDataCopyWith<$Res>
   @useResult
   $Res call(
       {ThreadCategoryItem? selectedCategoryItem,
-      List<MainNavigatorPage> pages});
+      List<MainNavigatorPage> pages,
+      bool isInit});
 }
 
 /// @nodoc
@@ -94,6 +102,7 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
   $Res call({
     Object? selectedCategoryItem = freezed,
     Object? pages = null,
+    Object? isInit = null,
   }) {
     return _then(_$_LihkgNavigationStateData(
       selectedCategoryItem: freezed == selectedCategoryItem
@@ -104,6 +113,10 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
           ? _value._pages
           : pages // ignore: cast_nullable_to_non_nullable
               as List<MainNavigatorPage>,
+      isInit: null == isInit
+          ? _value.isInit
+          : isInit // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -113,7 +126,8 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
 class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
   _$_LihkgNavigationStateData(
       {this.selectedCategoryItem,
-      final List<MainNavigatorPage> pages = const []})
+      final List<MainNavigatorPage> pages = const [],
+      this.isInit = true})
       : _pages = pages;
 
   @override
@@ -128,8 +142,12 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
   }
 
   @override
+  @JsonKey()
+  final bool isInit;
+
+  @override
   String toString() {
-    return 'LihkgNavigationStateData(selectedCategoryItem: $selectedCategoryItem, pages: $pages)';
+    return 'LihkgNavigationStateData(selectedCategoryItem: $selectedCategoryItem, pages: $pages, isInit: $isInit)';
   }
 
   @override
@@ -139,12 +157,13 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
             other is _$_LihkgNavigationStateData &&
             (identical(other.selectedCategoryItem, selectedCategoryItem) ||
                 other.selectedCategoryItem == selectedCategoryItem) &&
-            const DeepCollectionEquality().equals(other._pages, _pages));
+            const DeepCollectionEquality().equals(other._pages, _pages) &&
+            (identical(other.isInit, isInit) || other.isInit == isInit));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, selectedCategoryItem,
-      const DeepCollectionEquality().hash(_pages));
+      const DeepCollectionEquality().hash(_pages), isInit);
 
   @JsonKey(ignore: true)
   @override
@@ -157,12 +176,15 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
 abstract class _LihkgNavigationStateData implements LihkgNavigationStateData {
   factory _LihkgNavigationStateData(
       {final ThreadCategoryItem? selectedCategoryItem,
-      final List<MainNavigatorPage> pages}) = _$_LihkgNavigationStateData;
+      final List<MainNavigatorPage> pages,
+      final bool isInit}) = _$_LihkgNavigationStateData;
 
   @override
   ThreadCategoryItem? get selectedCategoryItem;
   @override
   List<MainNavigatorPage> get pages;
+  @override
+  bool get isInit;
   @override
   @JsonKey(ignore: true)
   _$$_LihkgNavigationStateDataCopyWith<_$_LihkgNavigationStateData>

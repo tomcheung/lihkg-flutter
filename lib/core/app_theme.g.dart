@@ -6,11 +6,11 @@ part of 'app_theme.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appThemeHash() => r'f106ef6f350fb4ebdbd8f09ec431afb0c7db6a12';
+String _$appThemeHash() => r'0ec7b84af5d2d8de9868da3b8835c4429ffc668b';
 
 /// See also [AppTheme].
 @ProviderFor(AppTheme)
-final appThemeProvider = AsyncNotifierProvider<AppTheme, AppThemeData>.internal(
+final appThemeProvider = NotifierProvider<AppTheme, AppThemeData>.internal(
   AppTheme.new,
   name: r'appThemeProvider',
   debugGetCreateSourceHash:
@@ -19,6 +19,6 @@ final appThemeProvider = AsyncNotifierProvider<AppTheme, AppThemeData>.internal(
   allTransitiveDependencies: null,
 );
 
-typedef _$AppTheme = AsyncNotifier<AppThemeData>;
+typedef _$AppTheme = Notifier<AppThemeData>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member

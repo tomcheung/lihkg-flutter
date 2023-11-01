@@ -7,7 +7,7 @@ part of 'lihkg_navigation_provider.dart';
 // **************************************************************************
 
 String _$lihkgNavigationStateHash() =>
-    r'a1cd6f1ead6e9109a91583924dc818af41186670';
+    r'017ced9d3cbcdef8bb200e5368dd04c9b702d277';
 
 /// See also [LihkgNavigationState].
 @ProviderFor(LihkgNavigationState)

@@ -94,7 +94,7 @@ class _QuoteNavigatorState extends ConsumerState<QuoteNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    final appThemeData = ref.watch(appThemeProvider).value ?? AppThemeData.light;
+    final appThemeData = ref.watch(appThemeProvider);
 
     return MaterialApp.router(
       theme: appThemeData.materialThemeData,

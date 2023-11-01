@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
+import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 import 'navigator_page.dart';
@@ -12,16 +13,19 @@ part 'lihkg_navigation_provider.g.dart';
 
 @freezed
 class LihkgNavigationStateData with _$LihkgNavigationStateData {
-  factory LihkgNavigationStateData(
-      {ThreadCategoryItem? selectedCategoryItem,
-      @Default([]) List<MainNavigatorPage> pages}) = _LihkgNavigationStateData;
+  factory LihkgNavigationStateData({
+    ThreadCategoryItem? selectedCategoryItem,
+    @Default([]) List<MainNavigatorPage> pages,
+    @Default(true) bool isInit,
+  }) = _LihkgNavigationStateData;
 }
 
 @Riverpod(keepAlive: true)
 class LihkgNavigationState extends _$LihkgNavigationState {
   @override
   LihkgNavigationStateData build() {
-    return LihkgNavigationStateData();
+    final isInit = ref.watch(appInitializedProvider).hasValue;
+    return LihkgNavigationStateData(isInit: isInit);
   }
 
   void showThreadContent(ThreadCategoryItem categoryItem) {

@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
@@ -15,10 +16,10 @@ class AppSystemProperty extends _$AppSystemProperty {
     try {
       final webServices = ref.watch(lihkgWebServicesProvider);
       final response = await webServices.getSystemProperty();
-      //print('response: $response');
 
       // Load first category as default
-      final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
+      final selectedCategoryNotifier = ref.read(
+          selectedCategoryStateProvider.notifier);
       selectedCategoryNotifier.state = response.categoryList.first;
       return response;
     } catch (error, stackTrace) {
@@ -28,15 +29,23 @@ class AppSystemProperty extends _$AppSystemProperty {
     }
   }
 }
+
 final threadCategoriesProvider = Provider<List<Category>>((ref) {
   final systemPropertyProvider = ref.watch(appSystemPropertyProvider);
   return systemPropertyProvider.value?.categoryList ?? [];
 });
 
-final appInitialLoadedProvider = Provider<bool>((ref) {
-  final systemPropertyLoaded = ref.watch(appSystemPropertyProvider.select((systemProperty) => systemProperty.hasValue));
-  final appThemeLoaded = ref.watch(appThemeProvider.select((appTheme) => appTheme.hasValue));
-  return systemPropertyLoaded && appThemeLoaded;
-});
+@Riverpod(keepAlive: true)
+Future<bool> appInitialized(AppInitializedRef ref) async {
+  try {
+    await ref.watch(appSystemPropertyProvider.future);
+    await ref.watch(appThemeProvider.notifier).fetchSavedTheme();
+
+    return true;
+  } catch (error) {
+    developer.log('fetch data error', error: error);
+    return false;
+  }
+}
 
 final selectedCategoryStateProvider = StateProvider<Category?>((ref) => null);

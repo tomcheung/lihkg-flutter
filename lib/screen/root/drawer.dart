@@ -11,43 +11,27 @@ class _ThemeToggle extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final iconColor = theme.iconTheme.color;
-    final themeProvider = ref.watch(appThemeProvider.notifier);
+    final appTheme = ref.watch(appThemeProvider);
 
-    return FutureBuilder<AppThemeData>(
-        future: themeProvider.future, builder: (context, snapshot) {
-      if (snapshot.hasData) {
-        return IconButton(
-            color: iconColor,
-            icon: Icon(
-              snapshot.data?.name == AppThemeData.light.name
-                  ? Icons.wb_sunny
-                  : Icons.nights_stay,
-              size: AppDrawer._iconSize,
-            ),
-            onPressed: () {
-              _toggleTheme(context, ref);
-            });
-      } else {
-        return IconButton(
-          color: iconColor,
-          icon: const Icon(Icons.ac_unit, size: AppDrawer._iconSize,),
-          onPressed: null,
-        );
-      }
-    });
+    return IconButton(
+      color: iconColor,
+      icon: Icon(
+        appTheme.name == AppThemeData.light.name
+            ? Icons.wb_sunny
+            : Icons.nights_stay,
+        size: AppDrawer._iconSize,
+      ),
+      onPressed: () {
+        _toggleTheme(context, ref);
+      },
+    );
   }
 
   _toggleTheme(BuildContext context, WidgetRef ref) async {
-    final themeProvider = ref.read(appThemeProvider.notifier);
-    final appTheme = await themeProvider.future;
-    if (appTheme.name == AppThemeData.light.name) {
-      themeProvider.setTheme(AppThemeData.dark);
-    } else {
-      themeProvider.setTheme(AppThemeData.light);
-    }
+    final appThemeNotifier = ref.read(appThemeProvider.notifier);
+    appThemeNotifier.toggleTheme();
   }
 }
-
 
 class _AppDrawerSideBar extends StatelessWidget {
   const _AppDrawerSideBar({Key? key}) : super(key: key);
@@ -72,11 +56,7 @@ class _AppDrawerSideBar extends StatelessWidget {
               const Spacer(),
               const _ThemeToggle(),
               const SizedBox(height: AppDrawer._iconPadding),
-              Icon(
-                Icons.settings,
-                size: AppDrawer._iconSize,
-                color: iconColor
-              ),
+              Icon(Icons.settings, size: AppDrawer._iconSize, color: iconColor),
             ],
           ),
         ),
@@ -127,7 +107,8 @@ class _CategoriesList extends ConsumerWidget {
       itemCount: categories.length,
       itemBuilder: (context, index) => TextButton(
         onPressed: () {
-          final selectedCategoryNotifier = ref.read(selectedCategoryStateProvider.notifier);
+          final selectedCategoryNotifier =
+              ref.read(selectedCategoryStateProvider.notifier);
           selectedCategoryNotifier.state = categories[index];
           Navigator.pop(context);
         },

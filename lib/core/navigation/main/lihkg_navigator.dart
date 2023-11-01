@@ -4,6 +4,7 @@ import 'package:lihkg_flutter/core/navigation/main/dialog_page.dart';
 import 'package:lihkg_flutter/core/navigation/main/lihkg_navigation_provider.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
+import 'package:lihkg_flutter/screen/root/splash_page.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import '../../../util/adaptive_layout/screen_info.dart';
 import '../quote/quote_navigation_provider.dart';
@@ -15,7 +16,7 @@ class LihkgNavigationRouteDelegate
         ChangeNotifier,
         PopNavigatorRouterDelegateMixin<LihkgNavigationStateData> {
   WidgetRef widgetRef;
-  LihkgNavigationStateData navigationState = LihkgNavigationStateData();
+  LihkgNavigationStateData navigationState = LihkgNavigationStateData(isInit: false);
   QuoteNavigationStateData quoteState = QuoteNavigationStateData();
   final List<ProviderSubscription> _subscriptions = [];
 
@@ -45,6 +46,10 @@ class LihkgNavigationRouteDelegate
 
   @override
   Widget build(BuildContext context) {
+    if (!navigationState.isInit) {
+      return const SplashScreen();
+    }
+
     return LayoutAdapter(
         builder: (BuildContext context, LayoutSize size, Widget? child) {
       return ScreenInfo(

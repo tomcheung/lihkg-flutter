@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
 import 'package:lihkg_flutter/core/navigation/main/lihkg_navigator.dart';
-import 'package:lihkg_flutter/screen/root/splash_page.dart';
 
 import 'screen/root/app_config_provider.dart';
 
@@ -18,25 +17,6 @@ class LiHKGApp extends ConsumerStatefulWidget {
 }
 
 class _LiHKGAppState extends ConsumerState<LiHKGApp> {
-  @override
-  Widget build(BuildContext context) {
-    final isInit = ref.watch(appInitialLoadedProvider);
-    if (isInit) {
-      return const LihkgAppRoot();
-    } else {
-      return const SplashScreen();
-    }
-  }
-}
-
-class LihkgAppRoot extends ConsumerStatefulWidget {
-  const LihkgAppRoot({super.key});
-
-  @override
-  ConsumerState<LihkgAppRoot> createState() => _LihkgAppRootState();
-}
-
-class _LihkgAppRootState extends ConsumerState<LihkgAppRoot> {
   late LihkgNavigationRouteDelegate _routeDelegate;
 
   @override
@@ -47,11 +27,12 @@ class _LihkgAppRootState extends ConsumerState<LihkgAppRoot> {
 
   @override
   Widget build(BuildContext context) {
-    final appThemeData = ref.watch(appThemeProvider).value ?? AppThemeData.light;
+    ref.watch(appInitializedProvider);
+    final appThemeData = ref.watch(appThemeProvider);
 
     return MaterialApp.router(
-        theme: appThemeData.materialThemeData,
-        routerDelegate: _routeDelegate,
+      theme: appThemeData.materialThemeData,
+      routerDelegate: _routeDelegate,
     );
   }
 }
