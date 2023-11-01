@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/route/navigator/quote_navigation_provider.dart';
+import 'package:lihkg_flutter/core/navigation/quote/quote_navigation_provider.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/quote/quote_page.dart';
 
@@ -55,7 +55,6 @@ class _QuoteRouteDelegate extends RouterDelegate<QuoteNavigationStateData>
   }
 
   bool pop(Route route, result) {
-    print('pop');
     if (!route.didPop(result)) {
       return false;
     }

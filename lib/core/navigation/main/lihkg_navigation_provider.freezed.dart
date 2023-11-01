@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$LihkgNavigationStateData {
   ThreadCategoryItem? get selectedCategoryItem =>
       throw _privateConstructorUsedError;
-  List<PageState> get pages => throw _privateConstructorUsedError;
+  List<MainNavigatorPage> get pages => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $LihkgNavigationStateDataCopyWith<LihkgNavigationStateData> get copyWith =>
@@ -31,7 +31,9 @@ abstract class $LihkgNavigationStateDataCopyWith<$Res> {
           $Res Function(LihkgNavigationStateData) then) =
       _$LihkgNavigationStateDataCopyWithImpl<$Res, LihkgNavigationStateData>;
   @useResult
-  $Res call({ThreadCategoryItem? selectedCategoryItem, List<PageState> pages});
+  $Res call(
+      {ThreadCategoryItem? selectedCategoryItem,
+      List<MainNavigatorPage> pages});
 }
 
 /// @nodoc
@@ -59,7 +61,7 @@ class _$LihkgNavigationStateDataCopyWithImpl<$Res,
       pages: null == pages
           ? _value.pages
           : pages // ignore: cast_nullable_to_non_nullable
-              as List<PageState>,
+              as List<MainNavigatorPage>,
     ) as $Val);
   }
 }
@@ -73,7 +75,9 @@ abstract class _$$_LihkgNavigationStateDataCopyWith<$Res>
       __$$_LihkgNavigationStateDataCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({ThreadCategoryItem? selectedCategoryItem, List<PageState> pages});
+  $Res call(
+      {ThreadCategoryItem? selectedCategoryItem,
+      List<MainNavigatorPage> pages});
 }
 
 /// @nodoc
@@ -99,7 +103,7 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
       pages: null == pages
           ? _value._pages
           : pages // ignore: cast_nullable_to_non_nullable
-              as List<PageState>,
+              as List<MainNavigatorPage>,
     ));
   }
 }
@@ -108,15 +112,16 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
 
 class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
   _$_LihkgNavigationStateData(
-      {this.selectedCategoryItem, final List<PageState> pages = const []})
+      {this.selectedCategoryItem,
+      final List<MainNavigatorPage> pages = const []})
       : _pages = pages;
 
   @override
   final ThreadCategoryItem? selectedCategoryItem;
-  final List<PageState> _pages;
+  final List<MainNavigatorPage> _pages;
   @override
   @JsonKey()
-  List<PageState> get pages {
+  List<MainNavigatorPage> get pages {
     if (_pages is EqualUnmodifiableListView) return _pages;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_pages);
@@ -152,12 +157,12 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
 abstract class _LihkgNavigationStateData implements LihkgNavigationStateData {
   factory _LihkgNavigationStateData(
       {final ThreadCategoryItem? selectedCategoryItem,
-      final List<PageState> pages}) = _$_LihkgNavigationStateData;
+      final List<MainNavigatorPage> pages}) = _$_LihkgNavigationStateData;
 
   @override
   ThreadCategoryItem? get selectedCategoryItem;
   @override
-  List<PageState> get pages;
+  List<MainNavigatorPage> get pages;
   @override
   @JsonKey(ignore: true)
   _$$_LihkgNavigationStateDataCopyWith<_$_LihkgNavigationStateData>

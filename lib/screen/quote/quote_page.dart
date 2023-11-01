@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/route/navigator/quote_navigation_provider.dart';
+import 'package:lihkg_flutter/core/navigation/quote/quote_navigation_provider.dart';
 import 'package:lihkg_flutter/screen/quote/quote_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_item.dart';

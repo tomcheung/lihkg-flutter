@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/route/navigator/lihkg_navigation_provider.dart';
+import 'package:lihkg_flutter/core/navigation/main/lihkg_navigation_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/image_size_cache_provider.dart';
 
 class CachedSizeImage extends ConsumerStatefulWidget {

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/route/dialog_page.dart';
-import 'package:lihkg_flutter/core/route/navigator/lihkg_navigation_provider.dart';
-import 'package:lihkg_flutter/core/route/navigator/quote_navigation_provider.dart';
+import 'package:lihkg_flutter/core/navigation/main/dialog_page.dart';
+import 'package:lihkg_flutter/core/navigation/main/lihkg_navigation_provider.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/quote/quote_dialog.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import '../../../util/adaptive_layout/screen_info.dart';
-import '../page_state/page_state.dart';
+import '../quote/quote_navigation_provider.dart';
+import 'navigator_page.dart';
 
 class LihkgNavigationRouteDelegate
     extends RouterDelegate<LihkgNavigationStateData>
@@ -79,11 +79,17 @@ class LihkgNavigationRouteDelegate
   }
 
   List<Page> _buildPage(LayoutSize layoutSize) {
-    var pages = LihkgRootPageState(navigationState.selectedCategoryItem)
+    var pages = RootSplitViewNavigatorPage(navigationState.selectedCategoryItem)
         .buildPage(layoutSize);
 
-    pages.addAll(
-        navigationState.pages.expand((page) => page.buildPage(layoutSize)));
+    for (final page in navigationState.pages) {
+      switch (page) {
+        case final RootSplitViewNavigatorPage splitPage:
+          pages.addAll(splitPage.buildPage(layoutSize));
+        case final DefaultNavigatorPage defaultPage:
+          pages.add(defaultPage.buildPage(layoutSize));
+      }
+    }
 
     if (quoteState.quoteStack.isNotEmpty) {
       final rootItem = quoteState.quoteStack.first;

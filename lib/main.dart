@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/app_theme.dart';
-import 'package:lihkg_flutter/core/route/navigator/lihkg_navigator.dart';
+import 'package:lihkg_flutter/core/navigation/main/lihkg_navigator.dart';
 import 'package:lihkg_flutter/screen/root/splash_page.dart';
 
 import 'screen/root/app_config_provider.dart';

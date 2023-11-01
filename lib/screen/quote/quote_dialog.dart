@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:lihkg_flutter/core/route/navigator/quote_naviagtor.dart';
+import 'package:lihkg_flutter/core/navigation/quote/quote_naviagtor.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 

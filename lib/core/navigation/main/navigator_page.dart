@@ -6,15 +6,38 @@ import 'package:lihkg_flutter/screen/thread_list/thread_list_page.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/split_layout.dart';
 
-import 'page_state.dart';
+sealed class MainNavigatorPage {
+  String get name;
+  bool handlePop(Route route);
+}
 
-class LihkgRootPageState extends PageState {
+class DefaultNavigatorPage extends MainNavigatorPage {
+  @override
+  final String name;
+  final Widget content;
+  final bool fullscreenDialog;
+
+  DefaultNavigatorPage(
+      {required this.name, required this.content, this.fullscreenDialog = false});
+
+  Page buildPage(LayoutSize size) {
+    return MaterialPage(child: content, fullscreenDialog: fullscreenDialog);
+  }
+
+  @override
+  bool handlePop(Route route) {
+    return false;
+  }
+}
+
+
+class RootSplitViewNavigatorPage extends MainNavigatorPage {
   ThreadCategoryItem? selectedCategoryItem;
 
   @override
   final String name;
 
-  LihkgRootPageState(this.selectedCategoryItem)
+  RootSplitViewNavigatorPage(this.selectedCategoryItem)
       : name = "LihkgRoot ${selectedCategoryItem?.title ?? 'null'}";
 
   @override
@@ -27,7 +50,6 @@ class LihkgRootPageState extends PageState {
     }
   }
 
-  @override
   List<Page> buildPage(LayoutSize size) {
     final threadListKey = ObjectKey(selectedCategoryItem);
     switch (size) {

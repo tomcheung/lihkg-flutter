@@ -4,7 +4,7 @@ import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
-import '../page_state/page_state.dart';
+import 'navigator_page.dart';
 
 part 'lihkg_navigation_provider.freezed.dart';
 
@@ -14,7 +14,7 @@ part 'lihkg_navigation_provider.g.dart';
 class LihkgNavigationStateData with _$LihkgNavigationStateData {
   factory LihkgNavigationStateData(
       {ThreadCategoryItem? selectedCategoryItem,
-      @Default([]) List<PageState> pages}) = _LihkgNavigationStateData;
+      @Default([]) List<MainNavigatorPage> pages}) = _LihkgNavigationStateData;
 }
 
 @Riverpod(keepAlive: true)
@@ -29,7 +29,7 @@ class LihkgNavigationState extends _$LihkgNavigationState {
   }
 
   void showFullscreenImage(ImageProvider<Object> imageProvider) {
-    _pushPage(DefaultPageState(
+    _pushPage(DefaultNavigatorPage(
       content: FullScreenImageView(imageProvider: imageProvider),
       name: 'image_view',
       fullscreenDialog: true,
@@ -48,7 +48,7 @@ class LihkgNavigationState extends _$LihkgNavigationState {
     return true;
   }
 
-  void _pushPage(PageState pageState) {
+  void _pushPage(MainNavigatorPage pageState) {
     var page = List.of(state.pages);
     page.add(pageState);
     state = state.copyWith(pages: page);
