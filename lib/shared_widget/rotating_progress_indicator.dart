@@ -5,12 +5,13 @@ class RotatingProgressIndicator extends StatefulWidget {
   final Color color;
 
   const RotatingProgressIndicator({
+    super.key,
     this.size = 24.0,
     this.color = Colors.blue,
   });
 
   @override
-  _RotatingProgressIndicatorState createState() =>
+  State<RotatingProgressIndicator> createState() =>
       _RotatingProgressIndicatorState();
 }
 
@@ -22,7 +23,7 @@ class _RotatingProgressIndicatorState extends State<RotatingProgressIndicator>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       vsync: this,
     )..repeat();
   }

@@ -1,3 +1,4 @@
+import 'dart:developer' as developer;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
 import 'package:lihkg_flutter/model/post.dart';
@@ -66,7 +67,7 @@ class ThreadContent extends _$ThreadContent {
     final itemData = await _fetchContent(webServices, nextPage);
 
     if (nextPage != _fetchingPage) {
-      print(
+      developer.log(
           'invalid state: fetching page not match: fetch page: $nextPage, expected fetch page in provider state: $_fetchingPage');
       return;
     }

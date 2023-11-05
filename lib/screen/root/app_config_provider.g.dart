@@ -6,7 +6,7 @@ part of 'app_config_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appInitializedHash() => r'edacffc282f8212b8542eec9f301e3c76fcaeb6a';
+String _$appInitializedHash() => r'9548f85304e1bdb5e070dd93a5a6a2a9f273285d';
 
 /// See also [appInitialized].
 @ProviderFor(appInitialized)
@@ -21,7 +21,7 @@ final appInitializedProvider = FutureProvider<bool>.internal(
 );
 
 typedef AppInitializedRef = FutureProviderRef<bool>;
-String _$appSystemPropertyHash() => r'16661eb9c5c4543d9497ae5304f55bbc0e40a686';
+String _$appSystemPropertyHash() => r'7ec15cfd8a6f9abf0d7284ec54a74d2ffe5c2c76';
 
 /// See also [AppSystemProperty].
 @ProviderFor(AppSystemProperty)

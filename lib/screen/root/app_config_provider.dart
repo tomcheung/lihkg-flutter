@@ -23,8 +23,7 @@ class AppSystemProperty extends _$AppSystemProperty {
       selectedCategoryNotifier.state = response.categoryList.first;
       return response;
     } catch (error, stackTrace) {
-      print('Error in AppSystemProperty build: $error');
-      print('stackTrace:  $stackTrace');
+      developer.log('Cannot fetch AppSystemProperty', error: error, stackTrace: stackTrace);
       rethrow;
     }
   }
@@ -42,8 +41,8 @@ Future<bool> appInitialized(AppInitializedRef ref) async {
     await ref.watch(appThemeProvider.notifier).fetchSavedTheme();
 
     return true;
-  } catch (error) {
-    developer.log('fetch data error', error: error);
+  } catch (error, stackTrace) {
+    developer.log('fetch data error', error: error, stackTrace: stackTrace);
     return false;
   }
 }
