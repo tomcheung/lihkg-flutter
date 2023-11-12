@@ -82,7 +82,7 @@ class AppDrawer extends StatelessWidget {
             Expanded(
               child: Padding(
                 padding: EdgeInsets.symmetric(vertical: _iconPadding),
-                child: _CategoriesList(),
+                child: CategoriesList(),
               ),
             ),
           ],
@@ -92,8 +92,8 @@ class AppDrawer extends StatelessWidget {
   }
 }
 
-class _CategoriesList extends ConsumerWidget {
-  const _CategoriesList({Key? key}) : super(key: key);
+class CategoriesList extends ConsumerWidget {
+  const CategoriesList({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

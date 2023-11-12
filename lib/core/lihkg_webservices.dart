@@ -52,8 +52,20 @@ class LihkgWebServices {
 
   late final Dio _dio;
 
+  LihkgWebServices.mock(this.config, Dio dio)
+      : serverAPIRoot = '${config.serverRoot}/api_v2',
+        _dio = dio {
+    _config();
+  }
+
   LihkgWebServices(this.config)
       : serverAPIRoot = '${config.serverRoot}/api_v2' {
+
+    _dio = Dio();
+    _config();
+  }
+
+  _config() {
     final header = {
       'User-Agent': 'LIHKG/3.10 iOS/14.5 iPhone/iPhone13,4',
       'X-LI-DEVICE': '38735b3df9084f658a4fe7d8ab70bd1567c41035',
@@ -62,20 +74,12 @@ class LihkgWebServices {
       'Host': 'lihkg.com'
     };
 
-    if (kIsWeb) {
-      header.remove('User-Agent');
-      header.remove('Host');
-    }
-
-    var dio = Dio();
-    dio.interceptors.add(LihkgHeaderInterceptor(header));
+    _dio.interceptors.add(LihkgHeaderInterceptor(header));
 
     if (kDebugMode) {
-      dio.interceptors
+      _dio.interceptors
           .add(LogInterceptor(requestBody: true, responseBody: true));
     }
-
-    _dio = dio;
   }
 
   Future<SystemProperty> getSystemProperty() async {
