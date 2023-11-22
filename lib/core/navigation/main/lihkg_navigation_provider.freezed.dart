@@ -74,12 +74,12 @@ class _$LihkgNavigationStateDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_LihkgNavigationStateDataCopyWith<$Res>
+abstract class _$$LihkgNavigationStateDataImplCopyWith<$Res>
     implements $LihkgNavigationStateDataCopyWith<$Res> {
-  factory _$$_LihkgNavigationStateDataCopyWith(
-          _$_LihkgNavigationStateData value,
-          $Res Function(_$_LihkgNavigationStateData) then) =
-      __$$_LihkgNavigationStateDataCopyWithImpl<$Res>;
+  factory _$$LihkgNavigationStateDataImplCopyWith(
+          _$LihkgNavigationStateDataImpl value,
+          $Res Function(_$LihkgNavigationStateDataImpl) then) =
+      __$$LihkgNavigationStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -89,12 +89,13 @@ abstract class _$$_LihkgNavigationStateDataCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
+class __$$LihkgNavigationStateDataImplCopyWithImpl<$Res>
     extends _$LihkgNavigationStateDataCopyWithImpl<$Res,
-        _$_LihkgNavigationStateData>
-    implements _$$_LihkgNavigationStateDataCopyWith<$Res> {
-  __$$_LihkgNavigationStateDataCopyWithImpl(_$_LihkgNavigationStateData _value,
-      $Res Function(_$_LihkgNavigationStateData) _then)
+        _$LihkgNavigationStateDataImpl>
+    implements _$$LihkgNavigationStateDataImplCopyWith<$Res> {
+  __$$LihkgNavigationStateDataImplCopyWithImpl(
+      _$LihkgNavigationStateDataImpl _value,
+      $Res Function(_$LihkgNavigationStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -104,7 +105,7 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
     Object? pages = null,
     Object? isInit = null,
   }) {
-    return _then(_$_LihkgNavigationStateData(
+    return _then(_$LihkgNavigationStateDataImpl(
       selectedCategoryItem: freezed == selectedCategoryItem
           ? _value.selectedCategoryItem
           : selectedCategoryItem // ignore: cast_nullable_to_non_nullable
@@ -123,8 +124,8 @@ class __$$_LihkgNavigationStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
-  _$_LihkgNavigationStateData(
+class _$LihkgNavigationStateDataImpl implements _LihkgNavigationStateData {
+  _$LihkgNavigationStateDataImpl(
       {this.selectedCategoryItem,
       final List<MainNavigatorPage> pages = const [],
       this.isInit = true})
@@ -154,7 +155,7 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_LihkgNavigationStateData &&
+            other is _$LihkgNavigationStateDataImpl &&
             (identical(other.selectedCategoryItem, selectedCategoryItem) ||
                 other.selectedCategoryItem == selectedCategoryItem) &&
             const DeepCollectionEquality().equals(other._pages, _pages) &&
@@ -168,16 +169,16 @@ class _$_LihkgNavigationStateData implements _LihkgNavigationStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_LihkgNavigationStateDataCopyWith<_$_LihkgNavigationStateData>
-      get copyWith => __$$_LihkgNavigationStateDataCopyWithImpl<
-          _$_LihkgNavigationStateData>(this, _$identity);
+  _$$LihkgNavigationStateDataImplCopyWith<_$LihkgNavigationStateDataImpl>
+      get copyWith => __$$LihkgNavigationStateDataImplCopyWithImpl<
+          _$LihkgNavigationStateDataImpl>(this, _$identity);
 }
 
 abstract class _LihkgNavigationStateData implements LihkgNavigationStateData {
   factory _LihkgNavigationStateData(
       {final ThreadCategoryItem? selectedCategoryItem,
       final List<MainNavigatorPage> pages,
-      final bool isInit}) = _$_LihkgNavigationStateData;
+      final bool isInit}) = _$LihkgNavigationStateDataImpl;
 
   @override
   ThreadCategoryItem? get selectedCategoryItem;
@@ -187,6 +188,6 @@ abstract class _LihkgNavigationStateData implements LihkgNavigationStateData {
   bool get isInit;
   @override
   @JsonKey(ignore: true)
-  _$$_LihkgNavigationStateDataCopyWith<_$_LihkgNavigationStateData>
+  _$$LihkgNavigationStateDataImplCopyWith<_$LihkgNavigationStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }

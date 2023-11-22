@@ -2,7 +2,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'category.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Category {
   String catId;
   String name;

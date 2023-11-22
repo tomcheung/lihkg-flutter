@@ -17,7 +17,7 @@ part 'thread_content.g.dart';
 //   factory ThreadContentRemark.fromJson(Map<String, dynamic> json) => _$ThreadContentRemarkFromJson(json);
 // }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ThreadContentResponse {
   String threadId;
   int catId;

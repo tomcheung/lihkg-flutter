@@ -93,6 +93,8 @@ class LihkgNavigationRouteDelegate
           pages.addAll(splitPage.buildPage(layoutSize));
         case final DefaultNavigatorPage defaultPage:
           pages.add(defaultPage.buildPage(layoutSize));
+        case final DialogNavigatorPage dialogPage:
+          pages.add(dialogPage.buildPage());
       }
     }
 

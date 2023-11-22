@@ -4,7 +4,7 @@ import 'gender.dart';
 
 part 'user.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class User {
   String userId;
   String nickname;

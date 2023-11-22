@@ -69,22 +69,22 @@ class _$ThreadListStateCopyWithImpl<$Res, $Val extends ThreadListState>
 }
 
 /// @nodoc
-abstract class _$$_ThreadListStateCopyWith<$Res>
+abstract class _$$ThreadListStateImplCopyWith<$Res>
     implements $ThreadListStateCopyWith<$Res> {
-  factory _$$_ThreadListStateCopyWith(
-          _$_ThreadListState value, $Res Function(_$_ThreadListState) then) =
-      __$$_ThreadListStateCopyWithImpl<$Res>;
+  factory _$$ThreadListStateImplCopyWith(_$ThreadListStateImpl value,
+          $Res Function(_$ThreadListStateImpl) then) =
+      __$$ThreadListStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<ThreadCategoryItem> items, String categoryId, int lastPage});
 }
 
 /// @nodoc
-class __$$_ThreadListStateCopyWithImpl<$Res>
-    extends _$ThreadListStateCopyWithImpl<$Res, _$_ThreadListState>
-    implements _$$_ThreadListStateCopyWith<$Res> {
-  __$$_ThreadListStateCopyWithImpl(
-      _$_ThreadListState _value, $Res Function(_$_ThreadListState) _then)
+class __$$ThreadListStateImplCopyWithImpl<$Res>
+    extends _$ThreadListStateCopyWithImpl<$Res, _$ThreadListStateImpl>
+    implements _$$ThreadListStateImplCopyWith<$Res> {
+  __$$ThreadListStateImplCopyWithImpl(
+      _$ThreadListStateImpl _value, $Res Function(_$ThreadListStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -94,7 +94,7 @@ class __$$_ThreadListStateCopyWithImpl<$Res>
     Object? categoryId = null,
     Object? lastPage = null,
   }) {
-    return _then(_$_ThreadListState(
+    return _then(_$ThreadListStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -113,8 +113,8 @@ class __$$_ThreadListStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ThreadListState implements _ThreadListState {
-  _$_ThreadListState(
+class _$ThreadListStateImpl implements _ThreadListState {
+  _$ThreadListStateImpl(
       {required final List<ThreadCategoryItem> items,
       required this.categoryId,
       required this.lastPage})
@@ -142,7 +142,7 @@ class _$_ThreadListState implements _ThreadListState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ThreadListState &&
+            other is _$ThreadListStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.categoryId, categoryId) ||
                 other.categoryId == categoryId) &&
@@ -157,15 +157,16 @@ class _$_ThreadListState implements _ThreadListState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ThreadListStateCopyWith<_$_ThreadListState> get copyWith =>
-      __$$_ThreadListStateCopyWithImpl<_$_ThreadListState>(this, _$identity);
+  _$$ThreadListStateImplCopyWith<_$ThreadListStateImpl> get copyWith =>
+      __$$ThreadListStateImplCopyWithImpl<_$ThreadListStateImpl>(
+          this, _$identity);
 }
 
 abstract class _ThreadListState implements ThreadListState {
   factory _ThreadListState(
       {required final List<ThreadCategoryItem> items,
       required final String categoryId,
-      required final int lastPage}) = _$_ThreadListState;
+      required final int lastPage}) = _$ThreadListStateImpl;
 
   @override
   List<ThreadCategoryItem> get items;
@@ -175,6 +176,6 @@ abstract class _ThreadListState implements ThreadListState {
   int get lastPage;
   @override
   @JsonKey(ignore: true)
-  _$$_ThreadListStateCopyWith<_$_ThreadListState> get copyWith =>
+  _$$ThreadListStateImplCopyWith<_$ThreadListStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

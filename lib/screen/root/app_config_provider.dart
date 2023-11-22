@@ -1,7 +1,7 @@
 import 'dart:developer' as developer;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:lihkg_flutter/core/app_theme.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
+import 'package:lihkg_flutter/core/settings/settings.dart';
 import '../../model/category.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -38,7 +38,7 @@ final threadCategoriesProvider = Provider<List<Category>>((ref) {
 Future<bool> appInitialized(AppInitializedRef ref) async {
   try {
     await ref.watch(appSystemPropertyProvider.future);
-    await ref.watch(appThemeProvider.notifier).fetchSavedTheme();
+    await ref.watch(userSettingProvider.notifier).loadSavedSettings();
 
     return true;
   } catch (error, stackTrace) {

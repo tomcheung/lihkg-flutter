@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart' hide Consumer;
 import 'package:lihkg_flutter/core/app_theme.dart';
+import 'package:lihkg_flutter/core/navigation/main/lihkg_navigation_provider.dart';
+import 'package:lihkg_flutter/core/settings/settings.dart';
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
@@ -28,8 +30,26 @@ class _ThemeToggle extends ConsumerWidget {
   }
 
   _toggleTheme(BuildContext context, WidgetRef ref) async {
-    final appThemeNotifier = ref.read(appThemeProvider.notifier);
+    final appThemeNotifier = ref.read(userSettingProvider.notifier);
     appThemeNotifier.toggleTheme();
+  }
+}
+
+class _SettingButton extends ConsumerWidget {
+  const _SettingButton({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final theme = Theme.of(context);
+    final iconColor = theme.iconTheme.color;
+
+    return IconButton(
+      color: iconColor,
+      icon: const Icon(Icons.settings, size: AppDrawer._iconSize),
+      onPressed: () {
+        ref.read(lihkgNavigationStateProvider.notifier).showSetting();
+      },
+    );
   }
 }
 
@@ -38,8 +58,6 @@ class _AppDrawerSideBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
     return SafeArea(
       child: Container(
         width: 50,
@@ -56,7 +74,7 @@ class _AppDrawerSideBar extends StatelessWidget {
               const Spacer(),
               const _ThemeToggle(),
               const SizedBox(height: AppDrawer._iconPadding),
-              Icon(Icons.settings, size: AppDrawer._iconSize, color: iconColor),
+              const _SettingButton(),
             ],
           ),
         ),

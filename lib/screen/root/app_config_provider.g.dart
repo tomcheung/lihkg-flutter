@@ -6,7 +6,7 @@ part of 'app_config_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$appInitializedHash() => r'9548f85304e1bdb5e070dd93a5a6a2a9f273285d';
+String _$appInitializedHash() => r'afb44448a1d47b0261817381449ad63939cb1ff5';
 
 /// See also [appInitialized].
 @ProviderFor(appInitialized)
@@ -38,4 +38,4 @@ final appSystemPropertyProvider =
 
 typedef _$AppSystemProperty = AsyncNotifier<SystemProperty>;
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

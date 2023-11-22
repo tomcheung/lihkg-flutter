@@ -8,7 +8,7 @@ import 'gender.dart';
 
 part 'post.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Post implements ThreadContentItemData {
   @override
   String postId;
@@ -68,7 +68,7 @@ class Post implements ThreadContentItemData {
       _$PostFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class PostQuote {
   String postId;
   // QuotePostId quotePostId;

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:lihkg_flutter/core/navigation/main/dialog_page.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/screen/root/main_page.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_page.dart';
@@ -7,12 +8,10 @@ import 'package:lihkg_flutter/util/adaptive_layout/layout_adapter.dart';
 import 'package:lihkg_flutter/util/adaptive_layout/split_layout.dart';
 
 sealed class MainNavigatorPage {
-  String get name;
   bool handlePop(Route route);
 }
 
 class DefaultNavigatorPage extends MainNavigatorPage {
-  @override
   final String name;
   final Widget content;
   final bool fullscreenDialog;
@@ -81,4 +80,23 @@ class RootSplitViewNavigatorPage extends MainNavigatorPage {
         ];
     }
   }
+}
+
+class DialogNavigatorPage extends MainNavigatorPage {
+  String? name;
+
+  final Widget content;
+
+  DialogNavigatorPage({required this.content, this.name});
+
+
+  @override
+  bool handlePop(Route route) {
+    return false;
+  }
+
+  Page buildPage() {
+    return DialogPage(builder: (context) => content);
+  }
+
 }

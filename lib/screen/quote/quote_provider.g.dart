@@ -29,8 +29,6 @@ class _SystemHash {
   }
 }
 
-typedef QuoteRef = AutoDisposeFutureProviderRef<List<Quote>>;
-
 /// See also [quote].
 @ProviderFor(quote)
 const quoteProvider = QuoteFamily();
@@ -80,11 +78,11 @@ class QuoteFamily extends Family<AsyncValue<List<Quote>>> {
 class QuoteProvider extends AutoDisposeFutureProvider<List<Quote>> {
   /// See also [quote].
   QuoteProvider({
-    required this.threadId,
-    required this.postId,
-  }) : super.internal(
+    required String threadId,
+    required String postId,
+  }) : this._internal(
           (ref) => quote(
-            ref,
+            ref as QuoteRef,
             threadId: threadId,
             postId: postId,
           ),
@@ -96,10 +94,47 @@ class QuoteProvider extends AutoDisposeFutureProvider<List<Quote>> {
                   : _$quoteHash,
           dependencies: QuoteFamily._dependencies,
           allTransitiveDependencies: QuoteFamily._allTransitiveDependencies,
+          threadId: threadId,
+          postId: postId,
         );
+
+  QuoteProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.threadId,
+    required this.postId,
+  }) : super.internal();
 
   final String threadId;
   final String postId;
+
+  @override
+  Override overrideWith(
+    FutureOr<List<Quote>> Function(QuoteRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: QuoteProvider._internal(
+        (ref) => create(ref as QuoteRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        threadId: threadId,
+        postId: postId,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<List<Quote>> createElement() {
+    return _QuoteProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -117,5 +152,23 @@ class QuoteProvider extends AutoDisposeFutureProvider<List<Quote>> {
     return _SystemHash.finish(hash);
   }
 }
+
+mixin QuoteRef on AutoDisposeFutureProviderRef<List<Quote>> {
+  /// The parameter `threadId` of this provider.
+  String get threadId;
+
+  /// The parameter `postId` of this provider.
+  String get postId;
+}
+
+class _QuoteProviderElement
+    extends AutoDisposeFutureProviderElement<List<Quote>> with QuoteRef {
+  _QuoteProviderElement(super.provider);
+
+  @override
+  String get threadId => (origin as QuoteProvider).threadId;
+  @override
+  String get postId => (origin as QuoteProvider).postId;
+}
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

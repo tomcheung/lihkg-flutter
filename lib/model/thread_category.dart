@@ -6,7 +6,7 @@ import 'category.dart';
 
 part 'thread_category.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ThreadCategory {
   bool isPagination;
   List<ThreadCategoryItem> items;
@@ -20,7 +20,7 @@ class ThreadCategory {
       _$ThreadCategoryFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class ThreadCategoryItem {
   String threadId;
   int catId;

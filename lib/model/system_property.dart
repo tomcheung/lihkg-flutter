@@ -4,7 +4,7 @@ import 'category.dart';
 
 part 'system_property.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class SubCategory {
   String catId;
   int subCatId;
@@ -27,7 +27,7 @@ class SubCategory {
       _$SubCategoryFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class SystemProperty {
   List<Category> categoryList;
 

@@ -79,11 +79,11 @@ class _$ThreadContentStateCopyWithImpl<$Res, $Val extends ThreadContentState>
 }
 
 /// @nodoc
-abstract class _$$_ThreadContentStateCopyWith<$Res>
+abstract class _$$ThreadContentStateImplCopyWith<$Res>
     implements $ThreadContentStateCopyWith<$Res> {
-  factory _$$_ThreadContentStateCopyWith(_$_ThreadContentState value,
-          $Res Function(_$_ThreadContentState) then) =
-      __$$_ThreadContentStateCopyWithImpl<$Res>;
+  factory _$$ThreadContentStateImplCopyWith(_$ThreadContentStateImpl value,
+          $Res Function(_$ThreadContentStateImpl) then) =
+      __$$ThreadContentStateImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call(
@@ -94,11 +94,11 @@ abstract class _$$_ThreadContentStateCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$_ThreadContentStateCopyWithImpl<$Res>
-    extends _$ThreadContentStateCopyWithImpl<$Res, _$_ThreadContentState>
-    implements _$$_ThreadContentStateCopyWith<$Res> {
-  __$$_ThreadContentStateCopyWithImpl(
-      _$_ThreadContentState _value, $Res Function(_$_ThreadContentState) _then)
+class __$$ThreadContentStateImplCopyWithImpl<$Res>
+    extends _$ThreadContentStateCopyWithImpl<$Res, _$ThreadContentStateImpl>
+    implements _$$ThreadContentStateImplCopyWith<$Res> {
+  __$$ThreadContentStateImplCopyWithImpl(_$ThreadContentStateImpl _value,
+      $Res Function(_$ThreadContentStateImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -109,7 +109,7 @@ class __$$_ThreadContentStateCopyWithImpl<$Res>
     Object? lastPage = null,
     Object? ended = null,
   }) {
-    return _then(_$_ThreadContentState(
+    return _then(_$ThreadContentStateImpl(
       items: null == items
           ? _value._items
           : items // ignore: cast_nullable_to_non_nullable
@@ -132,8 +132,8 @@ class __$$_ThreadContentStateCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_ThreadContentState implements _ThreadContentState {
-  _$_ThreadContentState(
+class _$ThreadContentStateImpl implements _ThreadContentState {
+  _$ThreadContentStateImpl(
       {required final List<ThreadItem> items,
       required this.categoryItem,
       required this.lastPage,
@@ -164,7 +164,7 @@ class _$_ThreadContentState implements _ThreadContentState {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_ThreadContentState &&
+            other is _$ThreadContentStateImpl &&
             const DeepCollectionEquality().equals(other._items, _items) &&
             (identical(other.categoryItem, categoryItem) ||
                 other.categoryItem == categoryItem) &&
@@ -184,8 +184,8 @@ class _$_ThreadContentState implements _ThreadContentState {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_ThreadContentStateCopyWith<_$_ThreadContentState> get copyWith =>
-      __$$_ThreadContentStateCopyWithImpl<_$_ThreadContentState>(
+  _$$ThreadContentStateImplCopyWith<_$ThreadContentStateImpl> get copyWith =>
+      __$$ThreadContentStateImplCopyWithImpl<_$ThreadContentStateImpl>(
           this, _$identity);
 }
 
@@ -194,7 +194,7 @@ abstract class _ThreadContentState implements ThreadContentState {
       {required final List<ThreadItem> items,
       required final ThreadCategoryItem categoryItem,
       required final int lastPage,
-      required final bool ended}) = _$_ThreadContentState;
+      required final bool ended}) = _$ThreadContentStateImpl;
 
   @override
   List<ThreadItem> get items;
@@ -206,6 +206,6 @@ abstract class _ThreadContentState implements ThreadContentState {
   bool get ended;
   @override
   @JsonKey(ignore: true)
-  _$$_ThreadContentStateCopyWith<_$_ThreadContentState> get copyWith =>
+  _$$ThreadContentStateImplCopyWith<_$ThreadContentStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }

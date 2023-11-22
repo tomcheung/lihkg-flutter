@@ -7,7 +7,7 @@ import 'gender.dart';
 
 part 'quote.g.dart';
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class QuoteResponse{
   String page;
   List<Quote> itemData;
@@ -21,7 +21,7 @@ class QuoteResponse{
       _$QuoteResponseFromJson(json);
 }
 
-@JsonSerializable()
+@JsonSerializable(createToJson: false)
 class Quote implements ThreadContentItemData  {
   @override
   String postId;

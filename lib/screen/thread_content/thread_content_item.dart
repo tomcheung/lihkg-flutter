@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/navigation/quote/quote_navigation_provider.dart';
+import 'package:lihkg_flutter/core/settings/settings.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
@@ -47,8 +48,7 @@ class _ThreadContentItemFooter extends ConsumerWidget {
 
   Future<void> _openQuote(
       BuildContext context, ThreadContentItemData data, WidgetRef ref) async {
-
-      ref.read(quoteNavigationStateProvider.notifier).showQuote(data);
+    ref.read(quoteNavigationStateProvider.notifier).showQuote(data);
   }
 
   @override
@@ -157,7 +157,16 @@ class ThreadContentItem extends StatelessWidget {
         children: [
           _ThreadContentItemHeader(data, index: index),
           if (quote != null) ThreadQuoteContent(quote: quote),
-          ThreadHtmlContent(data.msg, defaultTextStyle: Style(color: defaultTextStyle?.color)),
+          Consumer(builder: (context, ref, child) {
+            final fontSize = ref.watch(threadContentSizeProvider);
+            return ThreadHtmlContent(
+              data.msg,
+              defaultTextStyle: Style(
+                color: defaultTextStyle?.color,
+                fontSize: FontSize(fontSize.toDouble()),
+              ),
+            );
+          }),
           const SizedBox(height: 8),
           _ThreadContentItemFooter(data)
         ],
@@ -174,7 +183,7 @@ class ThreadContentPageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24,  bottom: 12),
+      padding: const EdgeInsets.only(top: 24, bottom: 12),
       child: Center(
         child: Text('第$page頁'),
       ),
@@ -184,7 +193,9 @@ class ThreadContentPageIndicator extends StatelessWidget {
 
 class ThreadContentPageDrawer extends ConsumerWidget {
   final ThreadCategoryItem categoryItem;
-  const ThreadContentPageDrawer({Key? key, required this.categoryItem}) : super(key: key);
+
+  const ThreadContentPageDrawer({Key? key, required this.categoryItem})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -195,11 +206,12 @@ class ThreadContentPageDrawer extends ConsumerWidget {
       child: ListView(
         children: List.generate(
           categoryItem.totalPage,
-              (index) => ListTile(
+          (index) => ListTile(
             textColor: theme.textTheme.bodyMedium?.color,
             title: Text('第${index + 1}頁', textAlign: TextAlign.center),
             onTap: () {
-              final threadContentNotifier = ref.read(threadContentProvider(categoryItem).notifier);
+              final threadContentNotifier =
+                  ref.read(threadContentProvider(categoryItem).notifier);
               threadContentNotifier.fetchPage(index + 1);
               Scaffold.of(context).closeEndDrawer();
             },

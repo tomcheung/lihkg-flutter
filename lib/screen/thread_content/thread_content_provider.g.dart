@@ -6,6 +6,21 @@ part of 'thread_content_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
+String _$threadContentSizeHash() => r'6203d7d464fe13aa69d4c5a0ba70192bee582fe0';
+
+/// See also [threadContentSize].
+@ProviderFor(threadContentSize)
+final threadContentSizeProvider = AutoDisposeProvider<int>.internal(
+  threadContentSize,
+  name: r'threadContentSizeProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$threadContentSizeHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef ThreadContentSizeRef = AutoDisposeProviderRef<int>;
 String _$threadContentHash() => r'2202f1b2f28d443b1a5ec837b0152fb0ed093f91';
 
 /// Copied from Dart SDK
@@ -33,7 +48,7 @@ abstract class _$ThreadContent
     extends BuildlessAutoDisposeAsyncNotifier<ThreadContentState> {
   late final ThreadCategoryItem categoryItem;
 
-  Future<ThreadContentState> build(
+  FutureOr<ThreadContentState> build(
     ThreadCategoryItem categoryItem,
   );
 }
@@ -85,8 +100,8 @@ class ThreadContentProvider extends AutoDisposeAsyncNotifierProviderImpl<
     ThreadContent, ThreadContentState> {
   /// See also [ThreadContent].
   ThreadContentProvider(
-    this.categoryItem,
-  ) : super.internal(
+    ThreadCategoryItem categoryItem,
+  ) : this._internal(
           () => ThreadContent()..categoryItem = categoryItem,
           from: threadContentProvider,
           name: r'threadContentProvider',
@@ -97,9 +112,51 @@ class ThreadContentProvider extends AutoDisposeAsyncNotifierProviderImpl<
           dependencies: ThreadContentFamily._dependencies,
           allTransitiveDependencies:
               ThreadContentFamily._allTransitiveDependencies,
+          categoryItem: categoryItem,
         );
 
+  ThreadContentProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.categoryItem,
+  }) : super.internal();
+
   final ThreadCategoryItem categoryItem;
+
+  @override
+  FutureOr<ThreadContentState> runNotifierBuild(
+    covariant ThreadContent notifier,
+  ) {
+    return notifier.build(
+      categoryItem,
+    );
+  }
+
+  @override
+  Override overrideWith(ThreadContent Function() create) {
+    return ProviderOverride(
+      origin: this,
+      override: ThreadContentProvider._internal(
+        () => create()..categoryItem = categoryItem,
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        categoryItem: categoryItem,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeAsyncNotifierProviderElement<ThreadContent, ThreadContentState>
+      createElement() {
+    return _ThreadContentProviderElement(this);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -113,15 +170,22 @@ class ThreadContentProvider extends AutoDisposeAsyncNotifierProviderImpl<
 
     return _SystemHash.finish(hash);
   }
+}
+
+mixin ThreadContentRef
+    on AutoDisposeAsyncNotifierProviderRef<ThreadContentState> {
+  /// The parameter `categoryItem` of this provider.
+  ThreadCategoryItem get categoryItem;
+}
+
+class _ThreadContentProviderElement
+    extends AutoDisposeAsyncNotifierProviderElement<ThreadContent,
+        ThreadContentState> with ThreadContentRef {
+  _ThreadContentProviderElement(super.provider);
 
   @override
-  Future<ThreadContentState> runNotifierBuild(
-    covariant ThreadContent notifier,
-  ) {
-    return notifier.build(
-      categoryItem,
-    );
-  }
+  ThreadCategoryItem get categoryItem =>
+      (origin as ThreadContentProvider).categoryItem;
 }
 // ignore_for_file: type=lint
-// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member
+// ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

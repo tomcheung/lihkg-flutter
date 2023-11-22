@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lihkg_flutter/core/settings/settings.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 part 'app_theme.g.dart';
 
@@ -17,6 +17,7 @@ class AppThemeData {
   static final AppThemeData light = AppThemeData(
       name: 'light',
       materialThemeData: ThemeData(
+        segmentedButtonTheme: SegmentedButtonThemeData(style: ElevatedButton.styleFrom(backgroundColor: Colors.amber.shade100)),
         brightness: Brightness.light,
         colorScheme: const ColorScheme.light(
           primary: Colors.amber,
@@ -28,6 +29,7 @@ class AppThemeData {
         appBarTheme: const AppBarTheme(
           foregroundColor: Colors.black,
           backgroundColor: Colors.white,
+          elevation: 2,
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.normal,
             fontSize: 18,
@@ -53,6 +55,7 @@ class AppThemeData {
   static final AppThemeData dark = AppThemeData(
       name: 'dark',
       materialThemeData: ThemeData(
+        segmentedButtonTheme: SegmentedButtonThemeData(style: ElevatedButton.styleFrom(backgroundColor: Colors.amber.shade400)),
         brightness: Brightness.dark,
         colorScheme: const ColorScheme.dark(
             primary: Colors.amber, background: Colors.black),
@@ -63,6 +66,7 @@ class AppThemeData {
         primaryIconTheme: const IconThemeData(color: Colors.white70),
         appBarTheme: const AppBarTheme(
           systemOverlayStyle: SystemUiOverlayStyle.light,
+          elevation: 2,
           backgroundColor: Colors.white10,
           titleTextStyle: TextStyle(
             fontWeight: FontWeight.normal,
@@ -86,49 +90,9 @@ class AppThemeData {
       ));
 }
 
-@Riverpod(keepAlive: true)
-class AppTheme extends _$AppTheme {
-  static const _themeNameKey = "themeName";
-
-  @override
-  AppThemeData build() {
-    return AppThemeData.light;
-  }
-
-  Future<AppThemeData> fetchSavedTheme() async {
-    final theme = await _getSaveTheme();
-    state = theme;
-    return theme;
-  }
-
-  void setTheme(AppThemeData appTheme) {
-    _saveTheme(appTheme);
-    state = appTheme;
-  }
-
-  void toggleTheme() {
-    if (state.name == AppThemeData.light.name) {
-      setTheme(AppThemeData.dark);
-    } else {
-      setTheme(AppThemeData.light);
-    }
-  }
-
-  void _saveTheme(AppThemeData appTheme) async {
-    final prefs = await SharedPreferences.getInstance();
-    prefs.setString(_themeNameKey, appTheme.name);
-  }
-
-  Future<AppThemeData> _getSaveTheme() async {
-    final prefs = await SharedPreferences.getInstance();
-
-    switch (prefs.getString(_themeNameKey)) {
-      case 'light':
-        return AppThemeData.light;
-      case 'dark':
-        return AppThemeData.dark;
-      default:
-        return AppThemeData.light;
-    }
-  }
+@riverpod
+AppThemeData appTheme(AppThemeRef ref) {
+  final themeName = ref.watch(userSettingProvider.select((settings) => settings.appThemeName));
+  return [AppThemeData.light, AppThemeData.dark]
+      .firstWhere((t) => t.name == themeName, orElse: () => AppThemeData.light);
 }

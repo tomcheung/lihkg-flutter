@@ -1,6 +1,7 @@
 import 'dart:developer' as developer;
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:lihkg_flutter/core/lihkg_webservices.dart';
+import 'package:lihkg_flutter/core/settings/settings.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -33,6 +34,12 @@ class ThreadContentState with _$ThreadContentState {
     required int lastPage,
     required bool ended,
   }) = _ThreadContentState;
+}
+
+@riverpod
+int threadContentSize(ThreadContentSizeRef ref) {
+  final fontSize = ref.watch(userSettingProvider.select((s) => s.contentFontSize));
+  return fontSize;
 }
 
 @riverpod

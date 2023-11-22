@@ -59,24 +59,25 @@ class _$QuoteNavigationStateDataCopyWithImpl<$Res,
 }
 
 /// @nodoc
-abstract class _$$_QuoteNavigationStateDataCopyWith<$Res>
+abstract class _$$QuoteNavigationStateDataImplCopyWith<$Res>
     implements $QuoteNavigationStateDataCopyWith<$Res> {
-  factory _$$_QuoteNavigationStateDataCopyWith(
-          _$_QuoteNavigationStateData value,
-          $Res Function(_$_QuoteNavigationStateData) then) =
-      __$$_QuoteNavigationStateDataCopyWithImpl<$Res>;
+  factory _$$QuoteNavigationStateDataImplCopyWith(
+          _$QuoteNavigationStateDataImpl value,
+          $Res Function(_$QuoteNavigationStateDataImpl) then) =
+      __$$QuoteNavigationStateDataImplCopyWithImpl<$Res>;
   @override
   @useResult
   $Res call({List<ThreadContentItemData> quoteStack});
 }
 
 /// @nodoc
-class __$$_QuoteNavigationStateDataCopyWithImpl<$Res>
+class __$$QuoteNavigationStateDataImplCopyWithImpl<$Res>
     extends _$QuoteNavigationStateDataCopyWithImpl<$Res,
-        _$_QuoteNavigationStateData>
-    implements _$$_QuoteNavigationStateDataCopyWith<$Res> {
-  __$$_QuoteNavigationStateDataCopyWithImpl(_$_QuoteNavigationStateData _value,
-      $Res Function(_$_QuoteNavigationStateData) _then)
+        _$QuoteNavigationStateDataImpl>
+    implements _$$QuoteNavigationStateDataImplCopyWith<$Res> {
+  __$$QuoteNavigationStateDataImplCopyWithImpl(
+      _$QuoteNavigationStateDataImpl _value,
+      $Res Function(_$QuoteNavigationStateDataImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -84,7 +85,7 @@ class __$$_QuoteNavigationStateDataCopyWithImpl<$Res>
   $Res call({
     Object? quoteStack = null,
   }) {
-    return _then(_$_QuoteNavigationStateData(
+    return _then(_$QuoteNavigationStateDataImpl(
       quoteStack: null == quoteStack
           ? _value._quoteStack
           : quoteStack // ignore: cast_nullable_to_non_nullable
@@ -95,8 +96,8 @@ class __$$_QuoteNavigationStateDataCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$_QuoteNavigationStateData implements _QuoteNavigationStateData {
-  _$_QuoteNavigationStateData(
+class _$QuoteNavigationStateDataImpl implements _QuoteNavigationStateData {
+  _$QuoteNavigationStateDataImpl(
       {final List<ThreadContentItemData> quoteStack = const []})
       : _quoteStack = quoteStack;
 
@@ -118,7 +119,7 @@ class _$_QuoteNavigationStateData implements _QuoteNavigationStateData {
   bool operator ==(dynamic other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$_QuoteNavigationStateData &&
+            other is _$QuoteNavigationStateDataImpl &&
             const DeepCollectionEquality()
                 .equals(other._quoteStack, _quoteStack));
   }
@@ -130,20 +131,20 @@ class _$_QuoteNavigationStateData implements _QuoteNavigationStateData {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$_QuoteNavigationStateDataCopyWith<_$_QuoteNavigationStateData>
-      get copyWith => __$$_QuoteNavigationStateDataCopyWithImpl<
-          _$_QuoteNavigationStateData>(this, _$identity);
+  _$$QuoteNavigationStateDataImplCopyWith<_$QuoteNavigationStateDataImpl>
+      get copyWith => __$$QuoteNavigationStateDataImplCopyWithImpl<
+          _$QuoteNavigationStateDataImpl>(this, _$identity);
 }
 
 abstract class _QuoteNavigationStateData implements QuoteNavigationStateData {
   factory _QuoteNavigationStateData(
           {final List<ThreadContentItemData> quoteStack}) =
-      _$_QuoteNavigationStateData;
+      _$QuoteNavigationStateDataImpl;
 
   @override
   List<ThreadContentItemData> get quoteStack;
   @override
   @JsonKey(ignore: true)
-  _$$_QuoteNavigationStateDataCopyWith<_$_QuoteNavigationStateData>
+  _$$QuoteNavigationStateDataImplCopyWith<_$QuoteNavigationStateDataImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
