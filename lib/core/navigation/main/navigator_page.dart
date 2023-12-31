@@ -100,3 +100,12 @@ class DialogNavigatorPage extends MainNavigatorPage {
   }
 
 }
+
+class QuoteNavigatorPage extends MainNavigatorPage {
+  QuoteNavigatorPage();
+
+  @override
+  bool handlePop(Route route) {
+    return false;
+  }
+}

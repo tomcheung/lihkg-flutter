@@ -95,14 +95,14 @@ class LihkgNavigationRouteDelegate
           pages.add(defaultPage.buildPage(layoutSize));
         case final DialogNavigatorPage dialogPage:
           pages.add(dialogPage.buildPage());
+        case QuoteNavigatorPage quotePage:
+          if (quoteState.quoteStack.isNotEmpty) {
+            final rootItem = quoteState.quoteStack.first;
+            pages.add(
+              DialogPage<QuoteNavigationStateData>(builder: (context) => QuoteDialog(initialPost: rootItem as Post)),
+            );
+          }
       }
-    }
-
-    if (quoteState.quoteStack.isNotEmpty) {
-      final rootItem = quoteState.quoteStack.first;
-      pages.add(
-        DialogPage<QuoteNavigationStateData>(builder: (context) => QuoteDialog(initialPost: rootItem as Post)),
-      );
     }
 
     return pages;

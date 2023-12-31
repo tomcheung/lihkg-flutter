@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:lihkg_flutter/core/navigation/main/lihkg_navigation_provider.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,6 +22,9 @@ class QuoteNavigationState extends _$QuoteNavigationState {
   }
 
   void showQuote(ThreadContentItemData item) {
+    final rootNavigationProvider = ref.read(lihkgNavigationStateProvider.notifier);
+    rootNavigationProvider.createQuoteRootDialog();
+
     var quotes = List.of(state.quoteStack);
     quotes.add(item);
     state = state.copyWith(quoteStack: quotes);

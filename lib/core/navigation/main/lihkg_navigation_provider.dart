@@ -5,6 +5,7 @@ import 'package:lihkg_flutter/screen/fullscreen_image_view/fullscreen_image_view
 import 'package:lihkg_flutter/screen/root/app_config_provider.dart';
 import 'package:lihkg_flutter/screen/setting/setting_page.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:collection/collection.dart';
 
 import 'navigator_page.dart';
 
@@ -43,6 +44,12 @@ class LihkgNavigationState extends _$LihkgNavigationState {
 
   void showSetting() {
     _pushPage(DialogNavigatorPage(content: const SettingPage()));
+  }
+
+  void createQuoteRootDialog() {
+    if (state.pages.firstWhereOrNull((page) => page is QuoteNavigatorPage) == null) {
+      _pushPage(QuoteNavigatorPage());
+    }
   }
 
   bool pop() {
