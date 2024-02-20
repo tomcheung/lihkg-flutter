@@ -17,7 +17,7 @@ class IconWithText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final subtitleStyle = theme.textTheme.titleSmall;
+    final subtitleStyle = TextStyle(fontSize: 11, color: theme.colorScheme.onSurfaceVariant.withOpacity(0.8));
     final color = this.color ?? theme.colorScheme.onSurface.withOpacity(0.3);
 
     var items = [

@@ -13,7 +13,7 @@ class LiHKGApp extends ConsumerStatefulWidget {
   @override
   ConsumerState createState() => _LiHKGAppState();
 
-  const LiHKGApp({Key? key}): super(key: key);
+  const LiHKGApp({Key? key}) : super(key: key);
 }
 
 class _LiHKGAppState extends ConsumerState<LiHKGApp> {

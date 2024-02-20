@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lihkg_flutter/core/navigation/quote/quote_navigation_provider.dart';
-import 'package:lihkg_flutter/core/settings/settings.dart';
 import 'package:lihkg_flutter/model/thread_category.dart';
 import 'package:lihkg_flutter/model/post.dart';
 import 'package:lihkg_flutter/screen/thread_content/thread_content_data.dart';
@@ -54,21 +53,17 @@ class _ThreadContentItemFooter extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
-    final backgroundColor = theme.colorScheme.onSurface.withOpacity(0.05);
-    final decoration = BoxDecoration(
-      color: backgroundColor,
-      border: Border.all(color: backgroundColor.withOpacity(0.1)),
-      borderRadius: BorderRadius.circular(4),
+    final border = RoundedRectangleBorder(
+      side: BorderSide(color: theme.colorScheme.surfaceVariant),
+      borderRadius: const BorderRadius.all(Radius.circular(12)),
     );
 
     return Row(
       children: [
-        Container(
-          height: 34,
-          decoration: decoration,
-          padding: const EdgeInsets.symmetric(horizontal: 12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
+        Chip(
+          shape: border,
+          backgroundColor: theme.colorScheme.surfaceVariant.withOpacity(0.15),
+          label: Row(
             children: [
               IconWithText(
                 text: data.likeCount.toString(),
@@ -79,26 +74,20 @@ class _ThreadContentItemFooter extends ConsumerWidget {
                 text: data.dislikeCount.toString(),
                 iconData: Icons.thumb_down,
               ),
-              const SizedBox(width: 4),
             ],
           ),
         ),
+        const SizedBox(width: 8),
         if (data.noOfQuote > 0)
-          Container(
-            decoration: decoration,
-            height: 34,
-            margin: const EdgeInsets.only(left: 8),
-            child: TextButton(
-              style: TextButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  minimumSize: const Size(50, 34)),
-              onPressed: () {
-                _openQuote(context, data, ref);
-              },
-              child: IconWithText(
-                text: data.noOfQuote.toString(),
-                iconData: Icons.chat_bubble_rounded,
-              ),
+          ActionChip(
+            shape: border,
+            backgroundColor: theme.colorScheme.surfaceVariant.withOpacity(0.15),
+            onPressed: () {
+              _openQuote(context, data, ref);
+            },
+            label: IconWithText(
+              text: data.noOfQuote.toString(),
+              iconData: Icons.chat_bubble_rounded,
             ),
           )
       ],
@@ -148,28 +137,30 @@ class ThreadContentItem extends StatelessWidget {
     final theme = Theme.of(context);
     final defaultTextStyle = theme.textTheme.bodyMedium;
     final quote = data.quote;
-    return Container(
+    return Card(
       color: theme.cardColor,
-      margin: const EdgeInsets.only(bottom: 12),
-      padding: const EdgeInsets.all(12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _ThreadContentItemHeader(data, index: index),
-          if (quote != null) ThreadQuoteContent(quote: quote),
-          Consumer(builder: (context, ref, child) {
-            final fontSize = ref.watch(threadContentSizeProvider);
-            return ThreadHtmlContent(
-              data.msg,
-              defaultTextStyle: Style(
-                color: defaultTextStyle?.color,
-                fontSize: FontSize(fontSize.toDouble()),
-              ),
-            );
-          }),
-          const SizedBox(height: 8),
-          _ThreadContentItemFooter(data)
-        ],
+      margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+      child: Padding(
+        padding: const EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _ThreadContentItemHeader(data, index: index),
+            if (quote != null) ThreadQuoteContent(quote: quote),
+            Consumer(builder: (context, ref, child) {
+              final fontSize = ref.watch(threadContentSizeProvider);
+              return ThreadHtmlContent(
+                data.msg,
+                defaultTextStyle: Style(
+                  color: defaultTextStyle?.color,
+                  fontSize: FontSize(fontSize.toDouble()),
+                ),
+              );
+            }),
+            const SizedBox(height: 8),
+            _ThreadContentItemFooter(data)
+          ],
+        ),
       ),
     );
   }

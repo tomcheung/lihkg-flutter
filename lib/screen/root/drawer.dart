@@ -11,12 +11,9 @@ class _ThemeToggle extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
     final appTheme = ref.watch(appThemeProvider);
 
     return IconButton(
-      color: iconColor,
       icon: Icon(
         appTheme.name == AppThemeData.light.name
             ? Icons.wb_sunny
@@ -40,11 +37,7 @@ class _SettingButton extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final theme = Theme.of(context);
-    final iconColor = theme.iconTheme.color;
-
     return IconButton(
-      color: iconColor,
       icon: const Icon(Icons.settings, size: AppDrawer._iconSize),
       onPressed: () {
         ref.read(lihkgNavigationStateProvider.notifier).showSetting();
@@ -124,6 +117,7 @@ class CategoriesList extends ConsumerWidget {
       ),
       itemCount: categories.length,
       itemBuilder: (context, index) => TextButton(
+        key: ObjectKey(categories[index].catId),
         onPressed: () {
           final selectedCategoryNotifier =
               ref.read(selectedCategoryStateProvider.notifier);

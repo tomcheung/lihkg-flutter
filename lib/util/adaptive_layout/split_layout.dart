@@ -11,17 +11,12 @@ class SplitLayout extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Row(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         SizedBox(
           width: 300,
           child: left,
-        ),
-        Container(
-          width: 1,
-          color: theme.dividerColor,
         ),
         Expanded(
           child: ClipRect(child: right),

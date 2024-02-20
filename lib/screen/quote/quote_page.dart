@@ -57,25 +57,29 @@ class QuoteContent extends ConsumerWidget {
       data: (quoteItem) {
         List<ThreadContentItemData> contents = [targetQuote] + quoteItem;
 
-        return ListView.separated(
+        return ListView.builder(
           itemBuilder: (ctx, index) {
             final content = contents[index];
+
+            if (index == 0) {
+              return Column(
+                children: [
+                  ThreadContentItem(
+                    data: content,
+                    index: index + 1,
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(vertical: 12),
+                    child: Text('被引用回覆'),
+                  ),
+                ],
+              );
+            }
+
             return ThreadContentItem(
               data: content,
               index: index + 1,
             );
-          },
-          separatorBuilder: (ctx, index) {
-            if (index == 0) {
-              return Container(
-                color: theme.dividerColor,
-                alignment: Alignment.center,
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                child: const Text('被引用回覆'),
-              );
-            } else {
-              return Divider(color: theme.dividerColor);
-            }
           },
           itemCount: contents.length,
         );

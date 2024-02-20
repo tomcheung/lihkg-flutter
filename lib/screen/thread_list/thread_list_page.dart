@@ -16,7 +16,6 @@ class LihkgDrawerIconButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return IconButton(
-      color: theme.primaryIconTheme.color,
       icon: Stack(
         alignment: Alignment.center,
         children: [
@@ -74,10 +73,6 @@ class ThreadListPageContent extends ConsumerStatefulWidget {
 class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
   final ScrollController _scrollController = ScrollController();
 
-  Widget _buildSeparator(BuildContext context, int index) {
-    return const Divider();
-  }
-
   @override
   Widget build(BuildContext context) {
     final threadListState = ref.watch(threadListProvider);
@@ -85,7 +80,7 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
     return threadListState.when(
       data: (threadListState) {
         final categoryItems = threadListState.items;
-        return ListView.separated(
+        return ListView.builder(
           controller: _scrollController,
           key: ObjectKey(threadListState.categoryId),
           itemBuilder: (context, index) {
@@ -97,26 +92,28 @@ class _ThreadListPageContentState extends ConsumerState<ThreadListPageContent> {
                 threadListStateNotifier.loadMore();
               }
             });
-            return TextButton(
-                child: ThreadListItem(
-                  item: item,
-                  key: ObjectKey(item.threadId),
-                ),
-                onPressed: () {
-                  ref.read(lihkgNavigationStateProvider.notifier).showThreadContent(item);
+            return ThreadListItem(
+                item: item,
+                key: ObjectKey(item.threadId),
+                onTap: () {
+                  ref
+                      .read(lihkgNavigationStateProvider.notifier)
+                      .showThreadContent(item);
                 });
           },
-          separatorBuilder: _buildSeparator,
           itemCount: categoryItems.length,
         );
       },
-      error: (error, stack) => ListView.separated(
-        separatorBuilder: _buildSeparator,
-        itemBuilder: (context, index) => const ThreadListItemSkeleton(),
-        itemCount: 40,
-      ), // TODO: Show error message
-      loading: () => ListView.separated(
-        separatorBuilder: _buildSeparator,
+      error: (error, stack) => const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.broken_image),
+            Text('線已斷'),
+          ],
+        ),
+      ),
+      loading: () => ListView.builder(
         itemBuilder: (context, index) => const ThreadListItemSkeleton(),
         itemCount: 40,
       ),
