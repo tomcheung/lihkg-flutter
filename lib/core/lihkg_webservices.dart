@@ -42,8 +42,8 @@ class LihkgWebServicesConfig {
 
   static const defaultConfig =
       LihkgWebServicesConfig(serverRoot: 'https://lihkg.com');
-  static const localHost =
-      LihkgWebServicesConfig(serverRoot: 'http://localhost:8080');
+  static const proxyConfig =
+      LihkgWebServicesConfig(serverRoot: 'https://lihkg.www.vanportdev.com:8092');
 }
 
 class LihkgWebServices {
@@ -127,5 +127,9 @@ class LihkgWebServices {
 
 @Riverpod(keepAlive: true)
 LihkgWebServices lihkgWebServices(LihkgWebServicesRef ref) {
-  return LihkgWebServices(LihkgWebServicesConfig.defaultConfig);
+  if (kIsWeb) {
+    return LihkgWebServices(LihkgWebServicesConfig.proxyConfig);
+  } else {
+    return LihkgWebServices(LihkgWebServicesConfig.defaultConfig);
+  }
 }
